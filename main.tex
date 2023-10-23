@@ -1,0 +1,486 @@
+\documentclass[FM,Proj]{tulthesis}
+
+% 1) odhad stavů 2) odhad náročnosti 3) rešerše stávajících systémů -> klíčové fce
+
+
+% tento dokument používá balíky specifické pro XeLaTeX a lze jej přeložit
+% jen XeLaTeXem, nemáte-li instalována použitá (komerční) písma, změňte
+% nebo vymažte příkazy \set...font na následujících řádcích
+
+% Autor šablony: Pavel Satrapa: http://www.nti.tul.cz/~satrapa/vyuka/latex-tul/
+
+% Autor komentářů, jejich překladů do EN, nastavení BibLaTeXu a aplikace ČSN ISO 690: Jan Koprnický
+% http://www.fm.tul.cz/personal/jan.koprnicky
+
+% ENGLISH EXPLANATION
+% \documentclass[FM,Dis,EN,fonts,bw]{tulthesis} % black and white typing, dissertation thesis at FM, written in English with using of TUL Mono font
+% this document uses packages specific for XeLaTeX and it is possible to 
+% compile it by XeLaTeX only, if you haven't installed used (commercial) fonts
+% change them or erase commands \set...font in following rows
+% settings: FM (faculty: FS, FT, FP, EF, FA, FM, FZS a CXI), Dis (type of thesis: BP, DP, Teze, Autoref, Hab, SP, Proj), EN (written in English language), fonts (activation of TUL fonts), bw (black and white)
+
+% Autor of the template tulthesis: Pavel Satrapa: http://www.nti.tul.cz/~satrapa/vyuka/latex-tul/
+
+% Autor of several comments and their translation into English, BibLaTeX settings and CSN ISO 960 citation standard setting: Jan Koprnický
+% http://www.fm.tul.cz/personal/jan.koprnicky
+
+% poslední změna / last modification 12. 5. 2023
+
+\newcommand{\verze}{2.0}
+
+\usepackage{polyglossia}
+\setdefaultlanguage{czech} % comment when English is preferred
+%\setdefaultlanguage{english} % comment when Czech is preferred
+
+
+\usepackage{makeidx}
+\makeindex
+
+\usepackage{xunicode}
+\usepackage{xltxtra}
+\usepackage{tikz}
+\usepackage{graphicx}
+\graphicspath{ {./img} }
+
+% příkazy specifické pro tento dokument / specific commands for this document
+\newcommand{\argument}[1]{{\ttfamily\color{\tulcolor}#1}}
+\newcommand{\argumentindex}[1]{\argument{#1}\index{#1}}
+\newcommand{\prostredi}[1]{\argumentindex{#1}}
+\newcommand{\prikazneindex}[1]{\argument{\textbackslash #1}}
+\newcommand{\prikaz}[1]{\prikazneindex{#1}\index{#1@\textbackslash #1}}
+\newenvironment{myquote}{\begin{list}{}{\setlength\leftmargin\parindent}\item[]}{\end{list}}
+\newenvironment{listing}{\begin{myquote}\color{\tulcolor}}{\end{myquote}}
+\sloppy
+
+% deklarace pro titulní stránku / title page declaration
+\TULtitle{Návrh a analýza procesu modernizace školního informačního systému pro střední školu}{}
+\TULauthor{Daniel Adámek}
+
+% pro bakalářské, diplomové a disertační práce / for bachelor, master theses and dissertation
+\TULprogramme{B0613A140005}{Informační technologie}{Information technology}
+\TULbranch{}{Aplikovaná informatika}{Applied Informatics}
+%\TULbranch{1802T008}{Nějaký jiný obor}{Some other branch}
+\TULsupervisor{Ing. Lenka Kosková-Třísková Ph.D.}
+\TULyear{2024}
+
+% pro habilitační práce / habilitation thesis
+%\TULbranch{}{Technická kybernetika}{Technical cybernetics}
+%\TULyear{2022}
+
+% Použití bibLateXu, pracuje s ISO stylem
+% BibLaTeX settings, works with ISO style
+\usepackage[ 
+    backend=biber
+    % ,style=iso-authoryear % styl vyžaduje FZS TUL , místo příkazu \cite{} je potřeba využít \parencite{} (sazba kulatých závorek) / style required by FZS TUL use \parencite{} instead of \cite{}
+    ,style=iso-numeric
+    %,style=numeric
+    %,sortlocale=cs_CZ
+    ,autolang=other
+    ,bibencoding=UTF8
+    %,urldate=edtf
+    ,maxcitenames=2 %maximum v textu citovaných jmen
+    ,maxbibnames=3 %maximum v seznamu vyjmenovaných autorů
+    ]{biblatex}
+
+\addbibresource{refs.bib}% vložení seznamu literárních zdrojů v bib formátu / input of references in bib format
+
+% Úprava iso-numeric.bbx v souladu s požadavky TUL hranaté závorky v číslovaném seznamu / Modification of iso-numeric.bbx in accordance with TUL requirements of square brackets in a numbered list
+\DeclareFieldFormat{labelnumberwidth}{\mkbibbrackets{#1}}
+
+% Formátování podle pokynů FZS, při využití stylu iso-authoryear, čárka mezi jmény a poslední jméno se spojkou a / special requirements of FZS TUL 
+\DeclareDelimFormat{multinamedelim}{\addcomma\space}
+
+\DeclareDelimFormat{finalnamedelim}{%
+  \ifnumgreater{\value{liststop}}{2}{\finalandcomma}{}%
+  \addspace\bibstring{and}\space}
+
+\DeclareNameAlias{author}{family-given/given-family} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{csquotes} %užití biblatexu hlasí warnings, důvodem může být použití českých uvozovek v citacích! / solving of problems with Czech quotations
+\urlstyle{same} %sazba url odkazů stejným fontem jako ostatní text, řešení problémů v zalamování hypertextových odkazů v citacích / url in references setting into the same form as text 
+
+
+\begin{document}
+
+\ThesisStart{female}
+%\ThesisStart{zadani-a-prohlaseni.pdf}
+
+\begin{abstractCZ}
+Cílem této práce analýza současného informačního systému střední průmyslové školy, včetně popisu jeho provozu, databázového modelu, client-side scripting, server-side scripting, funkcí API a uživatelského rozhraní. Následuje analýza a porovnání komerčních a open source řešení dostupných na trhu, včetně zhodnocení výhod a nevýhod in-house vývoje informačního systému. Práce dále zahrnuje identifikaci a analýzu potřeb koncových uživatelů - zaměstnanců školy i žáků, kteří budou systém používat pro zápis známek a další agendu.
+
+Na základě získaných informací a provedených analýz bude formulován návrh informačního systému, včetně procesu modernizace, který bude reflektovat identifikované potřeby uživatelů a moderní trendy v IT. Práce tak přispěje k lepšímu pochopení a řešení problémů současného informačního systému ve školství a poskytne návrhy na jeho zlepšení a modernizaci.
+\end{abstractCZ}
+
+\begin{keywordsCZ}
+informační systém, analýza, in-house vývoj, školství
+\end{keywordsCZ}
+
+\vspace{2cm}
+
+\begin{abstractEN}
+The aim of this thesis is to analyze the current information system of a secondary industrial school, including a description of its operation, database model, client-side scripting, server-side scripting, API functions and user interface. This is followed by an analysis and comparison of commercial and open source solutions available on the market, including an evaluation of the advantages and disadvantages of in-house information system development. The work also includes the identification and analysis of the needs of the end users - school staff and students who will use the system to record grades and other agendas.
+
+On the basis of the information obtained and the analyses carried out, a proposal for the information system will be formulated, including the modernisation process, which will reflect the identified needs of the users and modern trends in IT. The work will thus contribute to a better understanding and solution of the problems of the current information system in education and provide suggestions for its improvement and modernization.
+\end{abstractEN}
+
+\begin{keywordsEN}
+information system, analysis, in-house development, education
+\end{keywordsEN}
+
+\clearpage
+
+\begin{acknowledgement}
+Prvně bych rád vyjádřil svou nejhlubší vděčnost Střední průmyslové
+škole elektrotechnické, Praha 2, Ječná 30, kterou zastupuje 
+ředitel Ing. Bc. et Bc. Ondřej Mandík ING-PAED IGIP. Bez 
+jeho laskavosti a podpory by toto dílo nebylo možné realizovat. 
+Škola mi poskytla nezbytné informace, umožnila mi analyzovat svůj 
+informační systém a vytvořit nový návrh. Tato zkušenost byla pro mě 
+nesmírně cenná a pomohla mi v mnoha studijních i pedagogických aspektech.
+
+Zvláštní poděkování patří všem zaměstnancům školy a mým kolegům 
+pedagogům, kteří mi pomohli kritickým pohledem na stávající 
+systém a při hledání nových, lepších řešení. Jejich nápady a 
+zpětná vazba byly jedním z klíčových aspektů pro vytvoření nového 
+informačního systému, který je nejen efektivní, ale také nabízí 
+vynikající uživatelský zážitek. Děkuji za vaši tvořivost, 
+trpělivost a neocenitelnou spolupráci.
+
+Dále bych chtěl poděkovat všem členům mého vedení, rodině a 
+přátelům, kteří mi poskytli cennou pomoc a podporu během procesu 
+vytváření tohoto bakalářského projektu. Jejich trpělivost, 
+porozumění a povzbuzování bylo pro mě během celého procesu klíčové.
+
+Nakonec bych chtěl vyjádřit svou vděčnost všem, kteří se na tomto 
+díle podíleli, ať už přímo nebo nepřímo. Bez jejich kolektivního 
+úsilí a podpory by tento projekt nebyl možný. Vaše práce a podpora
+byla nesmírně cenná a jsem vám za to hluboce vděčný.
+
+Děkuji všem.
+\end{acknowledgement}
+
+\tableofcontents
+
+\clearpage
+
+\begin{abbrList}
+\textbf{FM TUL} & Fakulta mechatroniky, informatiky a mezioborových studií
+Technické univerzity v~Liberci \\
+\textbf{SPŠE Ječná} & Střední průmyslová škola elektrotechnická, Praha 2, Ječná 30 \\
+\textbf{IS} & Informační systém \\
+\textbf{SŘBD} & Systém řízení báze dat \\
+\textbf{SSR} & Server side rendering \\
+\textbf{CSR} & Client side rendering \\
+\end{abbrList}
+
+\chapter{Uvedení do problematiky a stanovení cílů práce}
+\section{Představení tématu}
+
+Informační systémy (IS) hrají zásadní roli ve všech oblastech moderního
+života a jejich význam se neustále zvyšuje. Školství, jakožto oblast 
+s velkým množstvím různých typů informací potřebných ke správnému 
+fungování, je obzvláště závislé na efektivních řešení. Přestože školské 
+IS již mají dlouhou historii, jejich vývoj pokračuje a je ovlivněn nejen 
+novými technologiemi, ale také změnami v požadavcích uživatelů a zákonodárství.
+
+Tento bakalářský projekt se zaměřuje na problematiku modernizace současného 
+školního IS, který slouží ke správě široké školy aspektů vzdělávacího procesu. 
+Současný systém pokrývá různé oblasti, včetně: správy žáků, tříd, zaměstnanců, 
+známek, certifikací k maturitní zkoušce, tématických plánů a dalších klíčových 
+prvků školní administrativy. Přestože tento systém funguje a plní svou úlohu, 
+existuje potřeba jeho modernizace a zlepšení, aby odpovídal současným trendům 
+a potřebám, které se každoročně mění.
+
+Následující práce se bude zabývat podrobnou analýzou tohoto systému, 
+identifikací jeho slabých míst a možností zlepšení. Na základě této analýzy 
+bude formulován návrh modernizace systému, který zohlední jak technologické 
+možnosti, tak potřeby a preference uživatelů. Cílem práce je nejen teoretický 
+přínos v podobě podrobného zkoumání jednoho konkrétního systému, ale také 
+praktický přínos v podobě návrhu konkrétních krokl pro zlepšení systému a 
+tím kvality služeb poskytovaných školou.
+
+\section{Stanovení cílů a otázek práce}
+Cíle tohoto bakalářského projektu jsou pečlivě vybrány tak, aby co 
+nejkomplexněji pokrývaly klíčové aspekty analýzy, návrhu a modernizace školního 
+IS. Hlavním cílem je provést důkladnou analýzu stávajícího systému, včetně 
+jeho provozu, databázového modelu, klientové a serverové skriptování, funkcí 
+API a uživatelského rozhraní. Tato analýza poskytne hluboké porozumění současnému
+stavu a odhalí možné nedostatky a oblasti pro zlepšení.
+
+Dalším cílem je provést podrobný přezkum a srovnání komerčních a open source řešení
+dostupných na trhu, a posoudit výhody a nevýhody interního vývoje IS. Tato část 
+práce poskytne cenný vhled do dostupných možností a pomůže při formulaci 
+návrhu nového systému.
+
+Na základě stanovených cílů jsem vytyčil několik klíčových otázek, které 
+jsou základním kamenem pro pochopení tématu a slouží jako orientační body pro tento 
+projekt. Každá otázka je zaměřena na specifický aspekt problematiky a její 
+zodpovězení nám umožní dospět k uceleným závěrům a vyvodit praktické doporučení. 
+Detailní rozbor těchto otázek je následující:
+
+\begin{enumerate}
+\item \textit{Jak je strukturován a jak funguje současný školní informační systém?} 
+Cílem této otázky je získat komplexní porozumění fungování stávajícího systému, 
+jeho architektury, funkcí a procesů, které podporuje. To zahrnuje analýzu 
+databázového modelu, klientové a serverové skriptování, funkcí API a uživatelského rozhraní.
+
+\item \textit{Jaké jsou hlavní nedostatky současného systému z pohledu koncových uživatelů?}
+ Odpověď na tuto otázku nám umožní identifikovat slabé stránky současného systému a 
+ určit klíčové oblasti pro zlepšení. Zohlednění pohledu koncových uživatelů je 
+ klíčové pro návrh efektivního a uživatelsky přívětivého systému.
+
+\item \textit{Jaká komerční a open source řešení jsou dostupná a jak se porovnávají s 
+interním vývojem?} Tato otázka je zaměřena na průzkum trhu a srovnání různých dostupných 
+řešení. To nám poskytne přehled o tom, jaké možnosti máme k dispozici a umožní nám vybrat 
+nejvhodnější řešení pro naše potřeby.
+\end{enumerate}
+
+Tyto otázky jsou pevně zakotveny v mém výzkumném záměru a budou sloužit jako kompas 
+při průzkumu složitého terénu modernizace informačních systémů ve školství.
+Stanovením těchto cílů a otázek práce je položen pevný základ pro komplexní a 
+systematické zkoumání tématu, což vede k hodnotným závěrům a praktickým 
+doporučením pro budoucí vývoj a implementaci informačního systému.
+
+\section{Důvod a motivace k práci}
+Motivací k práci je naléhavá potřeba detailní analýzy současného informačního 
+systému (IS) a vytvoření návrhu nového, aby byla zajištěna co nejúspěšnější 
+modernizace školního IS. Současný systém, ačkoliv byl ve své době velmi pokrokový 
+a inovativní, je nyní téměř deset let starý a začíná prokazovat známky zastarávání.
+
+\subsection*{Stav současného systému}
+Když byl systém nasazen, představoval špičkové řešení, které zpřístupnilo řadu 
+moderních funkcí a nástrojů jak pro učitele, tak pro studenty. Bohužel, 
+technologický vývoj neustále pokračuje, a systém, který kdysi představoval 
+přední linii, nyní ztrácí krok s novými trendem v IT.
+
+\subsection*{Hodnocení nákladů}
+Nynější ředitel školy, který je původním architektem a vývojářem IS školy, avšak nově
+se do vývoje přidávám já, v pozici metodika ICT. Provedli jsme analýzu stávajícího systému
+a dospěli k závěru, že náklady na jeho další vývoj a údržbu by převyšovaly náklady na 
+návrh a realizaci zcela nového systému. Toto hodnocení nezahrnuje pouze finanční aspekt,
+ale také čas a lidské zdroje, které by byly potřebné pro přizpůsobení stávajícího systému
+ novým potřebám a standardům.
+
+\subsection*{Nové technologie a uživatelský zážitek}
+Moderní technologie přinášejí nejen efektivitu, ale také vylepšují celkový uživatelský zážitek.
+Nový systém by byl navržen tak, aby byla výpočetní náročnost minimalizována, což by značně 
+snížilo dobu odezvy serveru. To by mělo přímý dopad na uživatelský zážitek, protože 
+rychlejší odezvy znamenají plynulejší interakce a vyšší spokojenost uživatelů.
+
+\subsection*{Ekonomická efektivita}
+Snížení výpočetní náročnosti nejen zvyšuje efektivitu a uživatelskou spokojenost, ale 
+také vede k snížení nákladů na provoz serveru. Nový systém by byl optimalizován tak, 
+aby co nejvíce šetřil zdroje, čímž by se dosáhlo úspor nejen v oblasti hardwarových nákladů,
+ale také v energetické spotřebě.
+
+\subsection*{Závěr}
+Modernizace stávajícího IS na střední škole není jen otázkou technologického pokroku.
+Je to komplexní úkol, který vyžaduje pečlivé zvážení řady faktorů, včetně finančních, 
+technologických, uživatelských potřeb a dlouhodobé udržitelnosti. Tato práce se pokusí 
+poskytnout komplexní pohled na tyto aspekty a představit cestu, jak dosáhnout nejen 
+technologické excelence, ale také ekonomické efektivnosti a udržitelnosti v moderním 
+vzdělávacím prostředí.
+
+\chapter{Teoretický rámec}
+V této kapitole je kladen důraz na teoretické aspekty, které formulují základ práce 
+modernizace. Teoretický rámec pomáhá vytyčit parametry a omezení, ve kterých bude 
+práce působit, a také poskytuje základ pro analýzu a interpretaci shromážděných dat. 
+
+Nejdříve avšak je třeba se věnovat, pokud chceme podrobněji analyzovat IS ve vzdělávání 
+a jejich návrh, definici základních problémů samotné problematiky. Definicí 
+informačního systému je obecně:
+\\\\
+\textit{,,Informačním systémem obecně nazýváme organizaci údajů vhodnou pro systémové 
+zpracování dat: pro jejich sběr, uložení a uchování, zpracování, vyhledávání a vydávání 
+informací o nich, to vše pro rozhodování v běžné praxi."}\cite{Sarmanova2008ISaDS}
+\\\\
+Pro automatizované informační systémy:
+\\\\
+\textit{,,Informačním systémem automatizovaným (realizovaném na počítači) rozumíme programový 
+celek, řešící rozsáhlejší oblast aplikační, naprogramovaný obvykle v jednom SŘBD s 
+vhodně navrženými datovými strukturami tak, aby všechny aplikační úlohy k nim měly optimální 
+přístup. Řeší uložení, uchování, zpracování a vyhledávání informací a umožňuje jejich 
+formátování do uživatelsky přívětivého tvaru."}\cite{Sarmanova2008ISaDS}
+
+\section{Obecný přehled o informačních systémech v oblasti školství}
+V oblasti školství v České republice je v současné době v provozu několik školních 
+informačních systémů, které slouží k efektivnímu řízení a správě školních institucí. 
+Mezi nejrozšířenější informační systémy pro základní a střední školy patří:
+
+\begin{samepage}
+    \begin{itemize}
+        \item \textbf{Bakaláři:} Bakaláři je jeden z nejrozšířenějších školních informačních 
+        systémů v České republice. Tento systém je výsledkem dlouholetého vývoje a je určen pro 
+        základní a střední. Umožňuje komplexní správu školní agendy, od hodnocení žáků až po 
+        komunikaci s rodiči. Bakaláři také nabízí mobilní aplikaci pro snadnější přístup 
+        k informacím o výuce a hodnocení.
+
+        \item \textbf{Škola OnLine:} Škola OnLine je moderní školní informační systém, 
+        který umožňuje zpracovávat veškerou školní agendu při zachování vysokého uživatelského 
+        komfortu. Jedná se o webovou aplikaci, což znamená, že je dostupná 24 hodin denně 
+        prostřednictvím Internetu, a to při využití pouze běžného webového prohlížeče 
+        bez nutnosti jakékoliv další instalace.
+    
+        \item \textbf{iŠkola:} iŠkola je další z populárních školních informačních systémů 
+        v České republice. Tento systém se zaměřuje na komplexní správu školní agendy a je 
+        určen pro různé typy škol. Kromě základních funkcí, jako je správa studijních 
+        výsledků a komunikace s rodiči, nabízí iŠkola také řadu dalších modulů pro 
+        správu majetku školy a další specifické potřeby.
+    
+        \item \textbf{SAS:} SAS, ačkoli je známý především jako pokročilý analytický software, 
+        je také využíván v oblasti školství. Umožňuje školám analyzovat data o studentech 
+        a výsledcích, což může pomoci ve vývoji vzdělávacích strategií a zlepšení výsledků studentů.
+    
+    \end{itemize}
+\end{samepage}
+
+\section{Teorie a koncepty spojené s informačními systémy}
+Informační systémy jsou soubory lidí, procesů a technologií, které slouží k
+organizování, ukládání a analýze informací. V kontextu školství jsou
+informační systémy klíčové pro efektivní správu školní agendy, od záznamů o žácích, 
+známkách, absence a certifikace.
+
+Z teoretického hlediska je vývoj informačního systému ovlivněn několika klíčovými
+koncepty, jako jsou databázové modelování, client-server architektura, a návrh speciálního
+uživatelského rozhraní. Tyto koncepty se mohou promítat do různých funkcionalit, 
+které by moderní školní IS měl mít. K těmto funkcionalitám patří:
+
+\begin{itemize}
+    \item \textbf{Správa žákovské agendy:} Systém by měl umožňovat snadné přidávání, úpravu a vyhledávání záznamů o žácích.
+    
+    \item \textbf{Organizace přijímacího řízení:} Systém by měl umožňovat organizaci přijímacího řízení vše od 
+    žádosti o studium, přes přijímací zkoušky organizované společností \textbf{CERMAT - Centrum pro zjišťování 
+    výsledků vzdělávání}, po konečné zavedení žáka do systému.
+    
+    \item \textbf{Správa dokumentů vydávaných školou:} Každý dokument vydaný školou musí mít své tzv. Jednací číslo.
+    Ty generuje spisová služba dle 499/2004 Sb. Zákona o archivnictví a spisové službě. Do dokumentů, které musí mít
+    své jednací číslo spadá například vysvědčení, pochvala třídního učitele či ředitele školy.
+
+    \item \textbf{Správa známek a hodnocení:} Učitelé musí mít možnost snadno zadávat a upravovat známky, 
+    a žáci by je měli snadno nalézt.
+
+    \item \textbf{Správa SPU žáků:} Škola musí přizpůsobovat podmínky výuky všem žákům se specifickými poruchami učení
+    nebo chování (SPU). Tyto posudky a celou agendu žáků s SPU spravuje školní výchovný poradce či školní psycholog.
+    Informační systém by měl obsahovat posudky žáků z pedagogicko-psychologických poraden k nahlédnutí všem pedagogům, 
+    kteří žáka vyučují, pro správné přizpůsobení podmínek.
+
+    \item \textbf{Suplování:} Systém pro správu mimořádných akcí, které nejsou v řádném rozvhu třídy/skupiny/učitele.
+    
+    \item \textbf{Zamlouvání učeben:} Systém pro správu volných učeben pro mimoškolní akce, jako jsou kroužky, komerční
+    akce, či doučování.
+    
+    \item \textbf{Správa žákovských skupin:} Některé předměty, jako jsou ty jazykové nebo třeba odborné, se dělí na skupiny pro 
+    kontaktnější a názornější výuku.
+    
+    \item \textbf{Centrální evidence závad na škole:} Systém pro snadnou evidenci závad k vyřešení.
+
+    \item \textbf{Správa absencí:} Automatizovaný systém pro zaznamenávání absence žáků, s možností notifikace rodičů.
+    
+    \item \textbf{Dokumentový management:} Úložiště pro školní dokumenty, jako jsou rozvrhy, plány a interní materiály.
+    
+    \item \textbf{Certifikace a kvalifikace:} Sekce, kde lze evidovat různé certifikáty a kvalifikace, které žák získal.
+
+    \item \textbf{Elektronická třídnice:} Systém pro správu elektronické třídnice, kde se uchovávají například data 
+    o absenci žáků a probírané látce.
+    
+    \item \textbf{Offline režim:} Možnost pokračovat v práci i v případě, když je internetové připojení nedostupné.
+
+    \item \textbf{Matriční záznamy:} Systém pro správu a aktualizaci dat o studujících žácích s matričním úřadem.
+
+\end{itemize}
+
+Výběr těchto funkcionalit je založen na aktuálních potřebách školního prostředí a očekáváních koncových uživatelů,
+a je navržen tak, aby splňoval moderní standardy a technologické možnosti.
+
+\section{Přezkum a srovnání komerčních a open source řešení}
+
+
+\chapter{Metodologie}
+\section{Představení metod práce}
+V projektu byly postupy analýzy IS čerpány z učebního textu 
+\textit{INFORMAČNÍ SYSTÉMY A DATOVÉ SKLADY}\cite{Sarmanova2008ISaDS}. Tento zdroj poskytuje
+přehled o analýze IS a datových skladů. Tento zdroj nabízí ucelený pohled
+na analýzu IS a byl proto použit jako teoretický základ
+pro tento projekt.
+
+Metodologie uvedená v tomto textu byla upravena a přizpůsobena potřebám školního IS.
+Například, metody jako datová analýza nebo funkční analýza byly adaptovány podle
+specifik a potřeb konkrétního školního prostředí.
+
+\chapter{Analýza stávajícího systému}
+\section{Popis fungování současného systému}
+Současný IS se nachází na externí hostingové službě. Ač škola disponuje vlastními 
+servery, které nejsou používány pro výuku, pronajímá si jeden pro školní portál u soukromé firmy.
+
+Hlavním důvodem pro toto řešení je personál. V případě výpadku školního serveru 
+se musí vyčkat na příchod školního pověřence s IT, který server spustí a analyzuje 
+příčinu pádu serveru. Jiná situace je, pokud jen vypadne proud, to řeší pověřený 
+IT učitel, který má k serverům také přístup. Ve specializované firmě se nemusí 
+čekat na příchod zaměstnance, protože firma disponuje nepřetržitou službou, která výpadek 
+ihned a aktivně vyřeší s minimální šancí ztráty dat. 
+
+Nevýhodou samozřejmě jsou finanční náklady a vyšší dobou odezvy webového serveru 
+ve školní budově. Je důležité si ale uvědomit, že do školního IS se nepřipojuje 
+pouze ze školy, ale i z domova žáků, učitelů, práce rodičů, případně i ze státní správy.  
+
+\section{Databázový server a databázový model}
+Současná databáze IS využívá MySQL verze 8.0.32 a disponuje 76 entitami několika typů:
+
+
+\begin{table}[]
+\begin{tabular}{lcl}
+\hline
+\multicolumn{1}{|l|}{\textbf{Druh}}                  & \multicolumn{1}{c|}{\textbf{Počet}} & \multicolumn{1}{l|}{\textbf{Užití}}                                                                                                                                       \\ \hline
+\multicolumn{1}{|l|}{Žákovská správa}                & \multicolumn{1}{c|}{16}             & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Identifikační údaje, rodiče, absence,\\ třídy, skupiny, certifikace, zdravotní\\ záznamy, specifické potřeby\end{tabular}} \\ \hline
+\multicolumn{1}{|l|}{Zaměstnanecká správa}           & \multicolumn{1}{c|}{5}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Identifikační údaje, typ úvazku,\\ třídnictví, kabinet\end{tabular}}                                                       \\ \hline
+\multicolumn{1}{|l|}{Správa rozvrhů}                 & \multicolumn{1}{c|}{3}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Úvazky zaměstnanců, rozvrhy \\ učeben, rozvrhy tříd\end{tabular}}                                                          \\ \hline
+\multicolumn{1}{|l|}{Správa budovy}                  & \multicolumn{1}{c|}{2}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Kabinety, učebny, technické místnosti,\\ kanceláře, správa kanceláří\end{tabular}}                                         \\ \hline
+\multicolumn{1}{|l|}{Správa předmětů}                & \multicolumn{1}{c|}{5}              & \multicolumn{1}{l|}{Předměty, akreditace, tématické plány}                                                                                                                \\ \hline
+\multicolumn{1}{|l|}{Správa souborového systému}     & \multicolumn{1}{c|}{3}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Soubory k novinkám, certifikáty,\\ administrativní dokumenty\end{tabular}}                                                  \\ \hline
+\multicolumn{1}{|l|}{Správa informací pro veřejnost} & \multicolumn{1}{c|}{3}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Novinky, informace k přijímacímu \\ řízení, školní akce\end{tabular}}                                                      \\ \hline
+\multicolumn{1}{|l|}{Správa školních akcí}           & \multicolumn{1}{c|}{4}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Elektronické přihlašování na akce \\ pořádané školou\end{tabular}}                                                         \\ \hline
+\multicolumn{1}{|l|}{Správa maturitních zkoušek}     & \multicolumn{1}{c|}{8}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Data, účasti, místnosti, přepis \\ místností, maturitní projekty\end{tabular}}                                             \\ \hline
+\multicolumn{1}{|l|}{Správa přijímacího řízení}      & \multicolumn{1}{c|}{2}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Identifikační údaje, kola, ukončené\\ vzdělání, studijní výsledky\end{tabular}}                                            \\ \hline
+\multicolumn{1}{|l|}{Spolupráce s průmyslem}       & \multicolumn{1}{c|}{2}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Nabídky prací pro žáky, \\ spolupráce s průmyslem\end{tabular}}                                                            \\ \hline
+\multicolumn{1}{|l|}{Číselníky MŠMT a NUTS}                 & \multicolumn{1}{c|}{15}             & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Číselníky pro předávání \\ individuálních údajů ze školních\\ matrik státní správě, nomenklatura \\územních statistických jednotek\end{tabular}}                           \\ \hline
+\multicolumn{1}{|l|}{Ostatní}                        & \multicolumn{1}{c|}{6}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Číselné kódy zemí, anonymizační\\ číselníky, variabilní symboly bank \\bezpečnostní evidence\end{tabular}}                                         \\ \hline
+\multicolumn{1}{r}{\textbf{SUMA}}                    & 74                                  &                                                                                                                                                                          
+\end{tabular}
+\caption{Evidence druhů entit v relačním modelu databáze}
+\label{analysis:db-model}
+\end{table}
+
+Jednou z nejdůležitějších částí databázového modelu jsou záznamy o žácích jako jsou třeba: základní informace, opatrovníci, specifické poruchy učení a chování, zdravotní záznamy, předchozí studia a výsledky, certifikace.
+
+\includegraphics[width=\textwidth-18pt]{student-er-model.png}
+
+\section{Client-side a server-side scripting}
+
+
+
+\section{Funkce API a uživatelské rozhraní}
+\section{Identifikace a analýza potřeb koncových uživatelů}
+\section{Hodnocení výhod a nevýhod in-house vývoje informačního systému}
+
+\chapter{Návrh nového systému}
+\section{Detaily nově navrženého systému}
+\section{Zapojení potřeb uživatelů a moderních trendů v IT}
+\section{Proces modernizace}
+
+\chapter{Diskuse}
+\section{Porovnání výsledků s původními hypotézami a otázkami výzkumu}
+\section{Interpretace výsledků}
+\section{Diskuze omezení výzkumu a možností dalšího vývoje}
+
+\chapter{Závěr}
+\section{Shrnutí klíčových zjištění}
+\section{Závěrečné úvahy a doporučení pro budoucí praxi a práce}
+
+\chapter{Reference}
+\printbibliography[heading=none]
+
+\chapter{Přílohy}
+
+
+\end{document}
