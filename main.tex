@@ -36,10 +36,13 @@
 \usepackage{makeidx}
 \makeindex
 
+\usepackage{plantuml}
 \usepackage{xunicode}
 \usepackage{xltxtra}
 \usepackage{tikz}
+\usepackage{bbding}
 \usepackage{graphicx}
+\usepackage{float}
 \graphicspath{ {./img} }
 
 % příkazy specifické pro tento dokument / specific commands for this document
@@ -60,7 +63,7 @@
 \TULprogramme{B0613A140005}{Informační technologie}{Information technology}
 \TULbranch{}{Aplikovaná informatika}{Applied Informatics}
 %\TULbranch{1802T008}{Nějaký jiný obor}{Some other branch}
-\TULsupervisor{Ing. Lenka Kosková-Třísková Ph.D.}
+\TULsupervisor{Ing. Lenka Kostková-Třísková Ph.D.}
 \TULyear{2024}
 
 % pro habilitační práce / habilitation thesis
@@ -169,9 +172,12 @@ Děkuji všem.
 Technické univerzity v~Liberci \\
 \textbf{SPŠE Ječná} & Střední průmyslová škola elektrotechnická, Praha 2, Ječná 30 \\
 \textbf{IS} & Informační systém \\
+\textbf{ŠIS} & Školní informační systém \\
 \textbf{SŘBD} & Systém řízení báze dat \\
 \textbf{SSR} & Server side rendering \\
 \textbf{CSR} & Client side rendering \\
+\textbf{LDAP} & Lightweight Directory Access Protocol \\
+\textbf{VPS} & Virtual Private Server \\
 \end{abbrList}
 
 \chapter{Uvedení do problematiky a stanovení cílů práce}
@@ -220,7 +226,7 @@ zodpovězení nám umožní dospět k uceleným závěrům a vyvodit praktické 
 Detailní rozbor těchto otázek je následující:
 
 \begin{enumerate}
-\item \textit{Jak je strukturován a jak funguje současný školní informační systém?} 
+\item \textit{Jak je strukturován a jak funguje současný ŠIS?} 
 Cílem této otázky je získat komplexní porozumění fungování stávajícího systému, 
 jeho architektury, funkcí a procesů, které podporuje. To zahrnuje analýzu 
 databázového modelu, klientové a serverové skriptování, funkcí API a uživatelského rozhraní.
@@ -250,7 +256,7 @@ a inovativní, je nyní téměř deset let starý a začíná prokazovat známky
 
 \subsection*{Stav současného systému}
 Když byl systém nasazen, představoval špičkové řešení, které zpřístupnilo řadu 
-moderních funkcí a nástrojů jak pro učitele, tak pro studenty. Bohužel, 
+moderních funkcí a nástrojů jak pro učitele, tak pro žáky. Bohužel, 
 technologický vývoj neustále pokračuje, a systém, který kdysi představoval 
 přední linii, nyní ztrácí krok s novými trendem v IT.
 
@@ -305,8 +311,8 @@ formátování do uživatelsky přívětivého tvaru."}\cite{Sarmanova2008ISaDS}
 
 \section{Obecný přehled o informačních systémech v oblasti školství}
 V oblasti školství v České republice je v současné době v provozu několik školních 
-informačních systémů, které slouží k efektivnímu řízení a správě školních institucí. 
-Mezi nejrozšířenější informační systémy pro základní a střední školy patří:
+IS, které slouží k efektivnímu řízení a správě školních institucí. 
+Mezi nejrozšířenější IS pro základní a střední školy patří:
 
 \begin{samepage}
     \begin{itemize}
@@ -316,32 +322,49 @@ Mezi nejrozšířenější informační systémy pro základní a střední ško
         komunikaci s rodiči. Bakaláři také nabízí mobilní aplikaci pro snadnější přístup 
         k informacím o výuce a hodnocení.
 
-        \item \textbf{Škola OnLine:} Škola OnLine je moderní školní informační systém, 
+        \item \textbf{Škola OnLine:} Škola OnLine je moderní ŠIS, 
         který umožňuje zpracovávat veškerou školní agendu při zachování vysokého uživatelského 
         komfortu. Jedná se o webovou aplikaci, což znamená, že je dostupná 24 hodin denně 
         prostřednictvím Internetu, a to při využití pouze běžného webového prohlížeče 
         bez nutnosti jakékoliv další instalace.
-    
-        \item \textbf{iŠkola:} iŠkola je další z populárních školních informačních systémů 
-        v České republice. Tento systém se zaměřuje na komplexní správu školní agendy a je 
-        určen pro různé typy škol. Kromě základních funkcí, jako je správa studijních 
-        výsledků a komunikace s rodiči, nabízí iŠkola také řadu dalších modulů pro 
-        správu majetku školy a další specifické potřeby.
-    
-        \item \textbf{SAS:} SAS, ačkoli je známý především jako pokročilý analytický software, 
-        je také využíván v oblasti školství. Umožňuje školám analyzovat data o studentech 
-        a výsledcích, což může pomoci ve vývoji vzdělávacích strategií a zlepšení výsledků studentů.
-    
+
+        \item \textbf{EduPage:} Další systém, který se proslavil s době postižené onemocněním 
+        COVID-19, kvůli kterému byla veškerá výuka převedena do offline formy. Tento software
+        všechny potřebné služby pro výuku zahrnul na jedno místo a nebylo třeba v komunikaci 
+        mezi žákem a školou potřeba využívat více služeb naráz.
+
     \end{itemize}
 \end{samepage}
+
+\section{Potřeby informačního systému}
+Jako první je klíčové specifikovat, proč je IS 
+v organizaci potřebný. V kontextu školního prostředí by měl systém 
+primárně poskytovat komplexní řešení pro správu školy. Toto zahrnuje, 
+ale není omezeno na, administrativní funkce, plánování rozvrhů, 
+finanční správu, a další logistické aspekty.
+
+Kromě administrativního řízení by měl IS nabízet 
+pokročilé funkce pro evidence vzdělávání a vzdělávací procesy. 
+Toto zahrnuje sledování žákovských výsledků, docházky, a dalších 
+relevantních metrik. Efektivní analýza těchto dat může pomoci školám 
+v přijímání informovaných rozhodnutí, která přispějí k celkovému 
+zlepšení kvality vzdělávání.
+
+Je rovněž důležité posoudit, co by se stalo v případě, že by nebyl 
+implementován kvalitní IS. V takovém scénáři by se 
+škola pravděpodobně potýkala s výzvami spojenými s neefektivní 
+komunikací, zdlouhavými administrativními procesy. Absence kvalitního 
+systému by mohla vést k zhoršenému rozhodování, nedostatečné 
+koordinaci mezi odděleními a potenciálně i k negativním dopadům 
+na vzdělávací výsledky či výchovné aspekty žáků.
 
 \section{Teorie a koncepty spojené s informačními systémy}
 Informační systémy jsou soubory lidí, procesů a technologií, které slouží k
 organizování, ukládání a analýze informací. V kontextu školství jsou
-informační systémy klíčové pro efektivní správu školní agendy, od záznamů o žácích, 
+IS klíčové pro efektivní správu školní agendy, od záznamů o žácích, 
 známkách, absence a certifikace.
 
-Z teoretického hlediska je vývoj informačního systému ovlivněn několika klíčovými
+Z teoretického hlediska je vývoj IS ovlivněn několika klíčovými
 koncepty, jako jsou databázové modelování, client-server architektura, a návrh speciálního
 uživatelského rozhraní. Tyto koncepty se mohou promítat do různých funkcionalit, 
 které by moderní školní IS měl mít. K těmto funkcionalitám patří:
@@ -373,7 +396,7 @@ které by moderní školní IS měl mít. K těmto funkcionalitám patří:
     \item \textbf{Správa žákovských skupin:} Některé předměty, jako jsou ty jazykové nebo třeba odborné, se dělí na skupiny pro 
     kontaktnější a názornější výuku.
     
-    \item \textbf{Centrální evidence závad na škole:} Systém pro snadnou evidenci závad k vyřešení.
+    \item \textbf{Centrální evidence závad:} Systém pro snadnou evidenci závad k vyřešení.
 
     \item \textbf{Správa absencí:} Automatizovaný systém pro zaznamenávání absence žáků, s možností notifikace rodičů.
     
@@ -381,20 +404,102 @@ které by moderní školní IS měl mít. K těmto funkcionalitám patří:
     
     \item \textbf{Certifikace a kvalifikace:} Sekce, kde lze evidovat různé certifikáty a kvalifikace, které žák získal.
 
-    \item \textbf{Elektronická třídnice:} Systém pro správu elektronické třídnice, kde se uchovávají například data 
+    \item \textbf{Elektronická třídní kniha:} Systém pro správu elektronické třídnice, kde se uchovávají například data 
     o absenci žáků a probírané látce.
+
+    \item \textbf{Správa tématických plánů:} Škola může disponovat konkrétní konkretizaci ŠVP, tedy tématických plánů,
+    které plánují jednotlivé hodiny.
     
     \item \textbf{Offline režim:} Možnost pokračovat v práci i v případě, když je internetové připojení nedostupné.
 
     \item \textbf{Matriční záznamy:} Systém pro správu a aktualizaci dat o studujících žácích s matričním úřadem.
+
+    \item \textbf{Responzivní design:} Vzhled webové aplikace přizpůsobený více druhům zařízení jako jsou laptopy,
+    tak i pro tablety, chytré telefony i televize, či hodinky.
+
+    \item \textbf{Mobilní aplikace:} Aplikace, která zobrazuje data z webové stránky přímo v telefonu. Často
+    disponuje funkcionalitami, které na webu nejsou možné, či velmi obtížně. Příkladem mohou být notifikace.
 
 \end{itemize}
 
 Výběr těchto funkcionalit je založen na aktuálních potřebách školního prostředí a očekáváních koncových uživatelů,
 a je navržen tak, aby splňoval moderní standardy a technologické možnosti.
 
-\section{Přezkum a srovnání komerčních a open source řešení}
+\section{Přezkum a srovnání funkcionalit}
 
+Pro efektivní srovnání funkcionalit různých ŠIS využiji tabulkovou formu. Tímto způsobem je možné jednoduše zjistit,
+které z dostupných systémů nabízí funkce, jež jsou pro danou školní instituci klíčové.
+
+\renewcommand{\arraystretch}{1.5}
+\begin{table}[h]
+    \begin{tabular}{lcccc}
+    \hline
+    \multicolumn{1}{|l|}{\textbf{FUNKCIONALITA/IS}}     & \multicolumn{1}{c|}{\textbf{Ječná IS}}                 & \multicolumn{1}{l|}{\textbf{Bakaláři}}        & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Škola\\ OnLine\end{tabular}}} & \multicolumn{1}{l|}{\textbf{EduPage}}                  \\ \hline
+    \multicolumn{1}{|l|}{Správa žákovské agendy}        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
+    \multicolumn{1}{|l|}{Organizace přijímacího řízení} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                               & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} \\ \hline
+    \multicolumn{1}{|l|}{Správa spisových dokumentů}    & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                               & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} \\ \hline
+    \multicolumn{1}{|l|}{Správa známek a hodnocení}     & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
+    \multicolumn{1}{|l|}{Správa SPU žáků}               & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
+    \multicolumn{1}{|l|}{Suplování}                     & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
+    \multicolumn{1}{|l|}{Zamlouvání učeben}             & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
+    \multicolumn{1}{|l|}{Správa žákovských skupin}      & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
+    \multicolumn{1}{|l|}{Centrální evidence závad}      & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
+    \multicolumn{1}{|l|}{Správa absencí}                & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
+    \multicolumn{1}{|l|}{Dokumentový management}        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
+    \multicolumn{1}{|l|}{Certifikace a kvalifikace}     & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
+    \multicolumn{1}{|l|}{Elektronická třídnice}         & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
+    \multicolumn{1}{|l|}{Správa tématických plánů}      & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
+    \multicolumn{1}{|l|}{Offline režim}                 & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
+    \multicolumn{1}{|l|}{Matriční záznamy}              & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
+    \multicolumn{1}{|l|}{Responzivní design}            & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
+    \multicolumn{1}{|l|}{Mobilní aplikace}              & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
+    \multicolumn{1}{r}{\textbf{SUMA}}                   & 10                                                     & \multicolumn{1}{l}{12}                                 & \multicolumn{1}{l}{10}                                                               & \multicolumn{1}{l}{8}                                  \\ \hline
+
+    \end{tabular}
+    \caption{Tabulkový soupis funcionalit jednodlivých ŠIS}
+    \label{analysis:funcionality}
+\end{table}
+
+\section{Hlavní poznatky tabulkového soupisu}
+V první řadě je z tabukolvého přehledu \ref{analysis:functionality} patrné, že IS Bakaláři
+vede v počtu funkcionalit, které jsou dostupné pro uživatele s počtem 12 a tím má náskok 2
+body. Na dalším, druhém, místě se vyskytují systémy Ječná IS a Škola OnLine každý s počtem 10. 
+Oproti tomu systém EduPage má pouze 8. Tento
+faktor může být obzvláště důležitý pro školy, které hledají co nejvíce rozsáhlý a komplexní systém.
+
+Pokud se zaměříme na konkrétní funkce, je možné vidět, že správa žákovské agendy a správa známek
+jsou základními funkcemi, které všechny zkoumané systémy nabízejí, tedy je můžeme definovat 
+jako nezbytné komponenty ŠIS. Na druhé straně, funkcionalita jako správa spisových dokumentů je k dispozici pouze v systému
+Bakaláři.
+
+Některé specifické funkce, jako je organizace přijímacího řízení nebo
+centrální evidence závad, jsou dostupné pouze v některých systémech, což by mohl
+být rozhodující faktor pro školy s určitými specializovanými potřebami.
+
+V dnešní době, kdy je přístup k informacím očekáván kdykoliv
+a odkudkoliv, nabývají na významu také funkce jako responzivní 
+design a mobilní aplikace. Jak je patrné z tabulky \ref{analysis:functionality},
+všechny zmiňované systémy kromě Ječná IS nabízejí responzivní design a mobilní
+aplikaci, což z nich činí více vhodné kandidáty pro školy, které chtějí
+být flexibilní ve výběru zařízení pro přístup k systému.
+Responzivní design zajišťuje, že webové rozhraní je přehledné
+a použitelné napříč různými typy zařízení, od počítačů po chytré telefony.
+Mobilní aplikace pak může nabízet různé specifické funkce, jako jsou
+notifikace, které webové rozhraní nemusí mít. Proto by školy měly zvážit,
+jakým způsobem a na jakých zařízeních bude systém využíván, a zda
+jsou tyto funkce pro ně důležité. 
+
+Je důležité nezapomínat, že velkým rozhodujícím faktorem při výběru
+ŠIS je také finanční stránka. Cena licence, náklady na implementaci, školení a průběžná
+podpora mohou výrazně ovlivnit konečné rozhodnutí. V případě systému Ječná IS je jednou
+z jeho výhod in-house vývoj, což umožňuje škole individuálně přizpůsobit systém svým
+potřebám. Avšak in-house vývoj je obecně nákladný. Naopak Bakaláři nabízí širokou paletu funkcionalit
+již v základním balíčku, ale cena za licenci a průběžná podpora jsou vyšší, než u alternativních ŠIS.
+Proto je důležité zvážit nejenom funkcionalitu, ale také celkové náklady
+na vlastnictví a provoz systému.
+
+Celkově lze říci, že každý systém má své silní a slabé stránky a výběr shodného ŠIS
+by měl reflektovat konkrétní potřeby a očekávání školy.
 
 \chapter{Metodologie}
 \section{Představení metod práce}
@@ -407,6 +512,16 @@ pro tento projekt.
 Metodologie uvedená v tomto textu byla upravena a přizpůsobena potřebám školního IS.
 Například, metody jako datová analýza nebo funkční analýza byly adaptovány podle
 specifik a potřeb konkrétního školního prostředí.
+
+Dále jsem v rámci práce využil některé aspekty analýzy
+IS, které jsou specifikovány a
+konkretizovány v knihy '' The Information System 
+Consultant's Handbook: Systems Analysis and Design''
+\cite{davis2019information}. Tento komplexní průvodce
+poskytuje podrobné informace o základních principech,
+specifické dokumentaci a metodologiích, 
+které jsou nezbytné pro efektivní analýzu a návrh
+IS.
 
 \chapter{Analýza stávajícího systému}
 \section{Popis fungování současného systému}
@@ -424,11 +539,141 @@ Nevýhodou samozřejmě jsou finanční náklady a vyšší dobou odezvy webové
 ve školní budově. Je důležité si ale uvědomit, že do školního IS se nepřipojuje 
 pouze ze školy, ale i z domova žáků, učitelů, práce rodičů, případně i ze státní správy.  
 
+Při rešerši papírové složky, do kterých je koncept a následný model současného systému dokumentován
+jsem vytvořil schéma \ref{fig:architecture-old} celkové architektury IS včetně znázornění 
+příslušných vazeb:
+\begin{itemize}
+    \item napojení LDAP \textit{(tj. napojení na školní Microsoft služby)}
+    \item napojení na školní žákovská VPS
+\end{itemize}
+
+%@startuml
+%node "Externí server" {
+%  database "MySQL Databáze" as MySQL
+%  cloud "PHP Server" as PHP {
+%    [Backend]
+%    [Frontend]
+%    [API]
+%    [Exporter]
+%  }
+%}
+%node "Školní část" {
+%  cloud "LDAP Server" as LDAP
+%  cloud "Moodle Server" as Moodle
+%  cloud "Žákovská VPS" as VPS
+%  cloud "Telefonní systém" as Telefony
+%  cloud "Z-Ware server" as ZWare
+%  cloud "Čipový server" as Cipy
+%}
+%cloud "Matriční úřad" as Matrika
+%cloud "Evidenční software" as Evidence
+%cloud "Účetní software" as Ucto
+%MySQL <--> [Backend] : Obousměrná výměna dat
+%[Backend] <--> [API]
+%[Backend] --> [Exporter]
+%[Frontend] <--> [Backend]
+%Telefony <--> API
+%[LDAP] --> Moodle : Synchronizační skripty
+%[API] --> LDAP : Přímé napojení
+%[API] --> ZWare
+%LDAP --> [Školní část] : Školní počítače & MS služby
+%[Exporter] --> Matrika
+%[Exporter] --> Evidence
+%[Exporter] --> Ucto
+%[API] <--> Cipy
+%@enduml
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{architektura-puvodni.png}
+    \caption{Stávající architektura IS}
+    \label{fig:architecture-old}
+\end{figure}
+
+% 
+
+Při pohledu na architekturu našeho ŠIS, vidím kombinaci vnějších a vnitřních služeb,
+které spolu komunikují synchronizace dat mezi všemi službami, které IS poskytuje pro studenty,
+rodiče, pedagogy i nepedagogické zaměstnance. Začněme tím, jak je konfigurován náš externí server.
+
+Na externím serveru se nalézá relační databáze \textit{MySQL}, která slouží k uložení všech  
+strukturovaných dat. Tato databáze je napojena na \textit{Backend} část, což je místo, kde probíhá
+většina zpracování a řízení dat mezi databází a uživatelským rozhraním. Na tomto serveru je také
+\textit{Frontend}, který je zodpovědný za vizuální prezentaci dat studentům, rodičům, pedagogickým i
+nepegogickým zaměstnancům prostřednictvím webového prohlížeče. Na posledním bodu, máme zde \textit{API},
+které slouží jako hlavní komunikační kanál mezi zmíněným backendem a dalšími službami,
+jako je Moodle nebo LDAP.
+
+Uvnitř školního areálu máme několik dalších klíčových služeb. \textit{LDAP Server}, který je
+zodpovědný za centralizovanou autentizaci a autorizaci všech našich uživatelů v rámci školní
+sítě a všech školních počítačů, na kterých běží operační systém Windows 10. Dále máme \textit{Moodle Server},
+naši hlavní e-learningovou platformu, a \textit{Žákovská VPS}, 
+virtuální privátní server pro studenty, na kterých se žáci učí operovat s Linuxovým prostředím,
+jako jsou třeba webové aplikace (tj. konfigurace webových serverů), nebo další služby.
+Linuxové VPS jsme zvolili na základě dat spolupráce s průmyslem. Naši školní partneři se vyjádřili,
+že všichni, až na výjimky v počtu několika jedinců, využívají Linuxové servery pro svůj firemní záměr. 
+
+Přehled o jednotlivých částí a jejich propojení jsem již zmínil. Nyní je třeba analýza jednitlivých rizik architektury.
+
+\subsection*{Problematika Single Point of Failure}
+
+Jedním z největších rizik v aktuální architektuře je \textit{Single Point of Failure (SPoF)} na straně PHP serveru. 
+Pokud by tento server selhal, způsobilo by to výpadek většiny služeb, což by mělo vážné důsledky v celé škále případů. 
+
+Dle architektury z diagramu \ref{fig:architecture-old} je viditelné, že v případě kdy by selhala celá externí část,
+školní část může zcela bez problému fungovat s omezeními. LDAP server má vlastní databázový model pro ukládání dat, tedy
+přihlášení na školních počítačích na síti nebude témeř vůbec ohroženo. Jediný případ, který mně napadá, je kdyby si uživatel
+na externí části změnil heslo/některé údaje a LDAP se nestihl synchronizovat před selháním. To samé platí i pro Moodle
+server, který si drží vlastní databázi uživatelů a dalších svých entit pro svou práci.
+Třetí entitou ve školní části jsou \textit{Žákovská VPS}, avšak ty nejsou nijak propojena s IS.
+
+Dalším dílem popisu jsou směry komunikace. Schéma znázorňuje, že mezi LDAP serverem a API je jednosměrné, tedy IS
+LDAP může úpravy pouze přijímat. Důvod je jednoduchý: jakýkoliv zásah uživatele je zásahem do kritické části 
+dat systému. K tomuto rozhodnutí - blokace obousměrné komunikace, vede bezpečnostní politika školy. Jakmile,
+by si žák, nebo zaměstnanec mohl upravit například své jméno, upravil by tím citlivý záznam, který se následně
+může propsat do matričních záznamů.
+
+Z celého odstavce tedy vyplývá, že architekura díky své diverzifikaci je částečně ubráněna proti Single Point of Failure
+a škola může i bez jedné či druhé části fungovat v omezeném režimu.
+
+\section{Bezpečnost ŠIS}
+Jak vyplývá z předchozí sekce, bezpečnostní politika školy je přísná. Má to své radionální důvody:
+% Reformulovat - přísná - nemám se o co opřít
+
+\subsection*{Jednosměrnost API \& matriční záznamy}  
+Centrální jednotkou IS je Externí část schématu a její databázový model. Změny ze strany jiných služeb by mohl
+být velice nebezpečný. IS 2x ročně (1x v říjnu a 1x v květnu) generuje svůj archivační model, který poskytuje
+na žádost matričního úřadu.
+Jakmile, by žák si například změnil své jméno v některém ze svých subsystémů, matriční úřad mohl přestat
+párovat žáka v jeho občanské databázi a přestat evidovat jeho studium. V tomto případě by to mělo spoustu 
+legislativních důsledků, jak lze vidět v schématu \ref{fig:dusledky-nestudia}
+%@startmindmap
+%* Žák nově nestuduje
+%** za žáka neplatí sociální pojištění stát
+%*** žák neplatí sociální pojištění <i>(pravděpodobně)</i>
+%**** ztráta nároku na důchodové pojištění
+%**** absence nároku na podporu v nezaměstnanosti
+%**** ... 
+%** za žáka neplatí zdravotní pojištění stát
+%*** žák neplatí zdravotní pojištění <i>(pravděpodobně)</i>
+%**** omezený přístup ke zdravotní péči
+%**** ...
+%** žák je nezaměstnaný a není evidován na úřadu práce
+%*** ...
+%** žák nemůže dostat maturitní vysvědšení
+%** žák nemá možnost účast na státních či EU programech
+%@endmindmap
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{dusledky-nestudia.png}
+    \caption{Důsledky zanechání studia v důsledku administrativní chyby}
+    \label{fig:dusledky-nestudia}
+\end{figure}
+
 \section{Databázový server a databázový model}
-Současná databáze IS využívá MySQL verze 8.0.32 a disponuje 76 entitami několika typů:
+Současná databáze IS využívá MySQL verze 8.0.32 a její model \ref{fig:student-er-model}
+disponuje 76 entitami, každá přidružená k některé z kategorií funcionalit, které IS disponuje.
+Tabulka 
 
-
-\begin{table}[]
+\begin{table}[H]
 \begin{tabular}{lcl}
 \hline
 \multicolumn{1}{|l|}{\textbf{Druh}}                  & \multicolumn{1}{c|}{\textbf{Počet}} & \multicolumn{1}{l|}{\textbf{Užití}}                                                                                                                                       \\ \hline
@@ -451,12 +696,173 @@ Současná databáze IS využívá MySQL verze 8.0.32 a disponuje 76 entitami n�
 \label{analysis:db-model}
 \end{table}
 
-Jednou z nejdůležitějších částí databázového modelu jsou záznamy o žácích jako jsou třeba: základní informace, opatrovníci, specifické poruchy učení a chování, zdravotní záznamy, předchozí studia a výsledky, certifikace.
+\newpage
 
-\includegraphics[width=\textwidth-18pt]{student-er-model.png}
+Jednou z nejdůležitějších částí databázového modelu jsou záznamy o žácích jako jsou třeba: základní informace,
+opatrovníci, specifické poruchy učení a chování, zdravotní záznamy, předchozí studia a výsledky, certifikace.
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{student-er-model.png}
+    \caption{Databázový model Správy žáků a hodnocení}
+    \label{fig:student-er-model}
+\end{figure}
+
+V této části ER diagramu databázového modelu lze patrně vidět, že Ječná IS je plně připraven na hodnocení
+jednotlivých částí předmětu, jako jsou typicky teorie a cvičení. Zároveň nevzniká konflikt mezi nepůlenými
+hodinami na teoretických částech a půlených tříd (tj. skupina) v cvičících částech předmětů, díky jednoznačného identifikátoru ........................................................................
 
 \section{Client-side a server-side scripting}
 
+V kontextu moderního webového vývoje se často setkáváme s pojmy client-side a server-side scripting.
+Tyto dva přístupy k vývoji a vykreslování webových aplikací mají své jedinečné charakteristiky,
+výhody a nevýhody, které je třeba zvážit při návrhu a implementaci informačního systému.
+
+\subsection*{Client-side scripting}
+
+Při CSR je odeslána minimální kostra HTML a JavaScript je načten a vykonán v prohlížeči, 
+kde poté dynamicky sestavuje a zobrazuje obsah stránky.
+
+%@startuml
+%!theme mono
+%participant Prohlížeč as Prohlížeč
+%participant Server as Server
+%participant API as API
+%participant DOM as DOM
+%Prohlížeč -> Server : HTTP Požadavek
+%Server --> Prohlížeč : Základní HTML + JS
+%activate Prohlížeč
+%Prohlížeč -> API : Asynchronní Požadavek
+%API --> Prohlížeč : Data
+%Prohlížeč -> DOM : Aktualizace DOM
+%Prohlížeč -> DOM : Vykreslení Stránky
+%deactivate Prohlížeč
+%@enduml
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{csr-schema.png}
+    \caption{Schéma principu života CSR aplikací}
+    \label{fig:csr-schema}
+\end{figure}
+
+Dle schématu \ref{fig:csr-schema} jako životního cyklu aplikace využívající 
+Client-side Rendering (CSR).
+
+\begin{enumerate}
+    \item \textbf{Iniciální HTTP Požadavek:} Klient (prohlížeč) odesílá iniciální HTTP 
+    požadavek na server. V tomto případě server odesílá pouze základní 
+    HTML kostru a JavaScriptové soubory.
+    
+    \item \textbf{Načtení JavaScriptu:} Po přijetí základní HTML kostry a 
+    JavaScriptových souborů, prohlížeč začne s načítáním a vykonáváním JavaScriptu.
+    
+    \item \textbf{Komunikace s API:} JavaScriptový kód na klientovi komunikuje s 
+    API za účelem získání potřebných dat pro vykreslení stránky.
+    
+    \item \textbf{Získání Dat:} API odpoví s potřebnými daty, která jsou následně 
+    použita pro generování HTML stránky na klientovi.
+    
+    \item \textbf{Vykreslení Stránky:} Nakonec JavaScriptový kód na klientovi 
+    vykreslí stránku na základě získaných dat a aktualizuje DOM.
+\end{enumerate}
+
+\textbf{Výhody:}
+\begin{itemize}
+    \item \textit{Responzivnost:} Aplikace založené na client-side scripting mohou rychle reagovat na
+    uživatelské interakce, což vede k plynulému uživatelskému zážitku.
+    \item \textit{Zatížení serveru:} Omezením množství požadavků na server může dojít k menšímu 
+    zatížení a nižším provozním nákladům.
+\end{itemize}
+
+\textbf{Nevýhody:}
+\begin{itemize}
+    \item \textit{Závislost na prohlížeči:} Různé prohlížeče mohou interpretovat a provádět 
+    skripty odlišně, což může vést k inkonzistencím v uživatelském zážitku.
+    \item \textit{Bezpečnostní rizika:} Klient může být vystaven různým hrozbám, 
+    např. cross-site scripting (XSS).
+\end{itemize}
+
+\subsection*{Server-side scripting}
+
+Server-side scripting odkazuje na kód, který se provádí na serveru, ještě předtím, 
+než je odpověď zaslána klientovi. Tento přístup často zahrnuje jazyky jako PHP, Python nebo Ruby.
+
+%@startuml
+%!theme mono
+%participant Prohlížeč as Prohlížeč
+%participant Server as Server
+%participant Databáze as Databáze
+%participant DOM as DOM
+%Prohlížeč -> Server : HTTP Požadavek
+%activate Server
+%Server -> Databáze : Získání dat
+%Databáze --> Server : Data
+%Server --> Prohlížeč : Kompletní HTML stránka
+%deactivate Server
+%Prohlížeč -> DOM : Vykreslení Stránky
+%@enduml
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{ssr-schema.png}
+    \caption{Životní cyklus SSR aplikace}
+    \label{fig:ssr-schema}
+\end{figure}
+
+Dle schématu \ref{fig:ssr-schema} jako životního cyklu aplikace využívající 
+Server-side Rendering (SSR).
+\begin{enumerate}
+    \item \textbf{Iniciální HTTP požadavek:} Klient (prohlížeč) odesílá iniciální
+    HTTP požadavek na server. Tento krok je prvním bodem interakce mezi klientem a serverem.
+    
+    \item \textbf{Komunikace se serverem:} Po přijetí požadavku server komunikuje
+    s databází za účelem získání potřebných dat pro vykreslení stránky. 
+    Tento krok je kritický, neboť jakékoli chyby v této fázi mohou vést k 
+    nesprávnému vykreslení stránky.
+    
+    \item \textbf{Získání dat a generování stránky:} Databáze odpoví s potřebnými daty,
+    která jsou následně použita serverem pro generování kompletní HTML stránky.
+    
+    \item \textbf{Odeslání HTML stránky:} Server odesílá kompletní HTML stránku zpět
+    do prohlížeče. Tento krok je závislý na rychlosti serveru a síťové latenci.
+    
+    \item \textbf{Vykreslení stránky:} Nakonec prohlížeč vykreslí stránku na 
+    základě přijatého HTML, čímž je aktualizován DOM.
+\end{enumerate}
+
+\textbf{Výhody:}
+\begin{itemize}
+    \item \textit{Konkrétnost:} Server-side scripting poskytuje konzistentní 
+    výstup bez ohledu na klientův prohlížeč.
+    \item \textit{SEO:} Lépe optimalizování pro vyhledávače, protože vyhledávací
+    roboti mohou snadno získat kompletní HTML stránky.
+    \item \textit{Bezpečnost:} Protože veškeré zpracování probíhá na serveru, 
+    kód je pro klienta neviditelný, což redukuje mnoho potenciálních bezpečnostních hrozeb.
+\end{itemize}
+
+\textbf{Nevýhody:}
+\begin{itemize}
+    \item \textit{Zatížení serveru:} Zpracování všech požadavků může zvýšit zatížení serveru.
+    \item \textit{Reakční čas:} Každá interakce vyžaduje komunikaci se serverem, 
+    což může zpomalit odezvu aplikace.
+\end{itemize}
+
+\subsection*{Server-side-rendering a Client-side-rendering}
+
+Z analýzy našeho informačního systému vyplývá, že vhodná kombinace obou přístupů může 
+přinést optimalizovaný a bezpečný uživatelský zážitek. V kontextu akademických aplikací
+je klíčové zajistit bezpečnost a integritu dat, zatímco je stále třeba poskytovat 
+rychlý a plynulý uživatelský zážitek.
+
+V závěru, rozhodnutí o výběru mezi client-side a server-side scripting,
+stejně jako mezi SSR a CSR, by mělo být učiněno s ohledem na specifické potřeby a omezení 
+daného projektu. V kontextu našeho informačního systému je klíčové nalézt správnou 
+rovnováhu mezi výkonem, bezpečností a uživatelským zážitkem.
+
+Ječná IS, disponuje plně Server-Side-Renderingem, kde se všechna data sestavují na straně
+PHP serveru - Externí část architektury. Dle iniciálního benchmarkingu se zjistilo, že
+některé operace umí databázový systém MySQL renderovat rychleji, než samotné PHP s rozdílem
+desítek procent. Tedy Ječná IS některé informace renderuje na již na straně databáze. 
+Konkrétním příkladem jména žáků spojená s jejich třídami.
+
+\subsection*{Konkrétní příklad}
+...
 
 
 \section{Funkce API a uživatelské rozhraní}
