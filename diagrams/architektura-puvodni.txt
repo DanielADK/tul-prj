@@ -1,0 +1,35 @@
+@startuml
+node "Externí server" {
+  database "MySQL Databáze" as MySQL
+  cloud "PHP Server" as PHP {
+    [Backend]
+    [Frontend]
+    [API]
+    [Exporter]
+  }
+}
+node "Školní část" {
+  cloud "LDAP Server" as LDAP
+  cloud "Moodle Server" as Moodle
+  cloud "Žákovská VPS" as VPS
+  cloud "Telefonní systém" as Telefony
+  cloud "Z-Ware server" as ZWare
+  cloud "Čipový server" as Cipy
+}
+cloud "Matriční úřad" as Matrika
+cloud "Evidenční software" as Evidence
+cloud "Účetní software" as Ucto
+MySQL <--> [Backend] : Obousměrná výměna dat
+[Backend] <--> [API]
+[Backend] --> [Exporter]
+[Frontend] <--> [Backend]
+Telefony <--> API
+[LDAP] --> Moodle : Synchronizační skripty
+[API] --> LDAP : Přímé napojení
+[API] --> ZWare
+LDAP --> [Školní část] : Školní počítače & MS služby
+[Exporter] --> Matrika
+[Exporter] --> Evidence
+[Exporter] --> Ucto
+[API] <--> Cipy
+@enduml
