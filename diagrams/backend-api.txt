@@ -1,0 +1,41 @@
+@startuml
+
+cloud "Web server" {
+    [Backend]
+    [API]
+}
+
+node "LDAP Server" as LDAP
+node "Telefonní Systém" as Telefony
+node "Z-Ware Systém" as ZWare
+
+[Backend] -down-> [API]
+[API] -down-> LDAP : Synchronizace\nuživatelských účtů
+[API] -down-> Telefony : Dotazování\npro přidělení linek
+[API] -down-> ZWare : Synchronizace\nčísel karet a účtů
+
+note bottom of [API]
+  API je chráněno
+  speciální URL adresou
+  a bezpečnostním klíčem
+end note
+
+note bottom of LDAP
+  LDAP server synchronizuje
+  uživatelské účty pomocí
+  periodicky spouštěných skriptů
+end note
+
+note bottom of Telefony
+  Telefonní systém zajišťuje
+  konfiguraci a správu telefonních linek
+end note
+
+note bottom of ZWare
+  Z-Ware systém spravuje
+  výdej obědů v školní jídelně
+  a synchronizuje čísla karet
+  a studentské účty
+end note
+
+@enduml

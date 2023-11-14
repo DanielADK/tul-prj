@@ -43,7 +43,7 @@
 \usepackage{bbding}
 \usepackage{graphicx}
 \usepackage{float}
-\graphicspath{ {./img} }
+\graphicspath{ {./img}{./tultex} }
 
 % příkazy specifické pro tento dokument / specific commands for this document
 \newcommand{\argument}[1]{{\ttfamily\color{\tulcolor}#1}}
@@ -178,6 +178,9 @@ Technické univerzity v~Liberci \\
 \textbf{CSR} & Client side rendering \\
 \textbf{LDAP} & Lightweight Directory Access Protocol \\
 \textbf{VPS} & Virtual Private Server \\
+\textbf{DDoS} & Distributed Denial of Service \\
+\textbf{SPU} & Specifické poruchy učení \\
+\textbf{MŠMT} & Ministerstvo školství, mládeže a tělovýchovy
 \end{abbrList}
 
 \chapter{Uvedení do problematiky a stanovení cílů práce}
@@ -635,8 +638,10 @@ Z celého odstavce tedy vyplývá, že architekura díky své diverzifikaci je �
 a škola může i bez jedné či druhé části fungovat v omezeném režimu.
 
 \section{Bezpečnost ŠIS}
-Jak vyplývá z předchozí sekce, bezpečnostní politika školy je přísná. Má to své radionální důvody:
-% Reformulovat - přísná - nemám se o co opřít
+Jak vyplývá z předchozí sekce, bezpečnost ŠIS a konzistence jeho je prioritou a tedy je
+zaujat "default-deny" přístup, který má výchozí nastavení pro jakýkoliv přístup, operaci
+nebo transakci zakázáno a povoluje explicitně ty operace nebo přístupy, které jsou
+nezbytně nutné pro funkčnost systému nebo aplikace.
 
 \subsection*{Jednosměrnost API \& matriční záznamy}  
 Centrální jednotkou IS je Externí část schématu a její databázový model. Změny ze strany jiných služeb by mohl
@@ -645,28 +650,162 @@ na žádost matričního úřadu.
 Jakmile, by žák si například změnil své jméno v některém ze svých subsystémů, matriční úřad mohl přestat
 párovat žáka v jeho občanské databázi a přestat evidovat jeho studium. V tomto případě by to mělo spoustu 
 legislativních důsledků, jak lze vidět v schématu \ref{fig:dusledky-nestudia}
-%@startmindmap
-%* Žák nově nestuduje
-%** za žáka neplatí sociální pojištění stát
-%*** žák neplatí sociální pojištění <i>(pravděpodobně)</i>
-%**** ztráta nároku na důchodové pojištění
-%**** absence nároku na podporu v nezaměstnanosti
-%**** ... 
-%** za žáka neplatí zdravotní pojištění stát
-%*** žák neplatí zdravotní pojištění <i>(pravděpodobně)</i>
-%**** omezený přístup ke zdravotní péči
-%**** ...
-%** žák je nezaměstnaný a není evidován na úřadu práce
-%*** ...
-%** žák nemůže dostat maturitní vysvědšení
-%** žák nemá možnost účast na státních či EU programech
-%@endmindmap
 
 \begin{figure}[H]
-    \includegraphics[width=\textwidth-28pt]{dusledky-nestudia.png}
-    \caption{Důsledky zanechání studia v důsledku administrativní chyby}
+    \centering
+    \includegraphics[width=\textheight-28pt, angle=90]{dusledky-nestudia.png}
+    \caption{Následky zanechání studia v důsledku administrativní chyby}
     \label{fig:dusledky-nestudia}
 \end{figure}
+
+\section{Datové toky mezi komponentami}
+\subsection*{Databáze a backend komponenty}
+Mezi databázovým serverem a backendem webového serveru dochází k obousměrné výměně
+dat. Backendová komponenta je jediná, která má přímý přístup do databázového serveru
+a tedy kontroluje veškerá data, která IS shromažďuje, ukládá či poskytuje. Tato
+vrstva na bezpečnostní funkci, zajišťuje konzistenci dat díky velkému množství
+bezpečnostních procedur. Z backendové komponenty vystupují pouze další 3 komunikační
+zdroje.
+
+\subsection*{Backend a Frontend}
+Uživatelské rozhraní (frontend) webové aplikace komunikuje s backendem přímo, aby získalo
+potřebné informace nebo poslalo uživatelské vstupy přímo ke zpracování. Frontend je
+tedy jediný způsob jediný způsob, jak přistoupit k datům uživatelsky přívětivou 
+formou - formou webové stránky. Celá webová stránka je tedy generována metodou 
+Server-Side-Rendering (SSR) - celý obsah stránky je seskládán
+PHP skriptem do čisté HTML podoby a celý odeslán webovému clientu. Tento přístup zajišťuje
+možnost manipulace s daty bez potřeby veřejného API. Pokud tedy pedagog, žák či 
+rodič chce přistoupit například ke známkám žáka, musí jedině přes tento webový client.
+
+Ředitel školy zastává názor, že veřejné API je velká bezpečnostní hrozba díky možném útokům
+žáků. Většina žáků školy studuje obor Informační technologie a jsou tedy technologicky zdatní.
+Žákovi tedy by stačilo znát veřejné API a příslušné dispozice výpočetního výkonu k DDoS útoku.
+Školní systém se po dobu útoku stane nepoužitelným a zaměstnanci školy nemohou plnohodnotně
+pracovat.
+
+Zde se dají zúčastněným IS zobrazit informace:
+\begin{itemize}
+    \item novinky školy
+    \item informace o osobě;
+    \item seznam tříd, žáků, pedagogů, nepedagogických pracovníků, kontakty;
+    \item známky;
+    \item rozvrhy;
+    \item detailní informace o SPU žáků;
+    \item maturitní témata a okruhy;
+    \item tématické plány předmětů;
+    \item čipové záznamy příchodů a odchodů;
+    \item a další...
+
+
+\end{itemize}
+Samozřejmostí je, že každá informace je řízena uživatelskými právy, tedy každý vidí pouze ty
+informace, které ze zákona musí vědět.
+
+\subsection*{Backend a Exporter}
+Velkou částí IS je též Exporter. Je napsán jako PHP skript, který získává data z backendu a generuje
+vyžadované datasety. Nejdůležitější funkcionalitou je export dat pro Ministerstvo školství, mládeže 
+a tělovýchovy (MŠMT), které spravuje matriční záznamy žáků ohledně jejich studia, jejich speciálních
+potřeb a jejich následných vazeb. Jednou z takových vazeb může být platba statního zdravotního a 
+sociálního pojištění.
+
+MŠMT pořádá 2x ročně tzv. sběr\cite{skolni-matrika}, při kterých si vyžádá od školy,
+(tedy ŠIS) snapshot ve formátu XML a se specifickým jménem a formátem o celé řadě 
+dat o žácích školy. Každá úroveň státního školství má své specifické datum odevzdání.
+Tyto informace poskytuje ministerstvo formou tabulky ve článku na svých stránkách
+\cite{msmt-terminy-predavani-dat-2023}. Výjimkou je terciální vzdělávání, které probíhá
+především na univerzitách. které se řídí dle SIMS - Sdružené informace matrik studentů.
+
+Struktura souboru je dělena do položek, druhu kódování (tvaru zápisu),
+druhu číselníku, typu dat, délce povoleného řetězce a povinnost záznamu. Uvedu výčet několika položek:
+\begin{itemize}
+    \item datum sběru,
+    \item IZO školy,
+    \item rodné číslo žáka,
+    \item pohlaví žáka,
+    \item okres trvalého bydliště žáka,
+    \item kvantifikátor státního občanství,
+    \item nejvyšší stupeň vzdělání, kterého žák dosáhl před přijetím ke vzdělávání,
+    \item ročník, ve kterém se žák vzděláván,
+    \item obor vzdělání ve střední škole,
+    \item způsob financování vzdělávání,
+    \item kód 1. cizího studovaného jazyka
+    \item ...
+\end{itemize}
+Tento výčet položek se avšak vztahuje pouze na žáky intaktní. Pro žáky se speciálními vzdělávacími
+potřebami ministertvo vydává druhou sadu struktury datového rozhraní, která odpovídá specifickým
+podmínkám těchto žáků. Tyto struktury dat jsou zvláště specifické pro každou úroveň vzdělávacího procesu,
+od mateřských škol, po vyšší odborné.
+
+Celý rejstřík položek, které vyžaduje MŠMT dále zpracovává a poskytuje pro Matriční úřad.
+
+Problematikou implementace exporteru se zkomplikovává častou aktualizací datového rozhraní
+pro předávání dat. Aktualizaci rozhraní vydává MŠMT přibližně jednou ročně, včetně aktualizace
+číselníků\cite{msmt-rozhrani-predavani-dat-2023}. Možnost implementace se ještě zhoršuje díky formátu,
+ve kterém ministerstvo poskytuje nové aktualizace. Formátem je PDF soubor ve článku na webu. Tento 
+způsob tedy potřebuje vždy zásah do implementace člověkem a nelze nativně automatizovat.
+
+Dalšími prvky, kam Exporter poskytuje data je evidenční software pro správu majetku školy a 
+účetní software. Pro účetní software IS poskytuje data jako jsou například úvazky zaměstnanců,
+pro kalkukaci výplat, příjmů a výdajů školy.
+
+\subsection*{Backend a Čipový server}
+Backend je dále propojen s čipovým serverem, který eviduje příchody a odchody zaměstnanců a
+žáků do a ze školy. Čipový server disponuje vlastní databází a poskytuje svá data pomocí API.
+Čipový server má 2 zařízení pro evidenci příchodů a odchodů. Pro příchody je před dveřmi do školy
+a pro odchody před dveřmi ze školy.  
+Čipový server eviduje čísla karet, číslo záznamového zařízení a časy záznamů. 
+Informační systém eviduje žáka a číslo jeho karty. 
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{backend-cipovy-server.png}
+    \caption{Schéma propojení záznamového systému čipových karet}
+    \label{fig:backend-cipovy-server}
+\end{figure}
+
+\subsection*{Backend a API}
+Backend systému je propojen pomocí neveřejného API s dalšími komponentami IS. Skryté API je 
+uchováno pod speciální URL adresou se specifickým klíčem. Z tohoto API čerpají interní systémy,
+především LDAP server, telefonní systém a Z-Ware.
+
+Telefony (tj. systém telefonů) se dotazuje API pro přidělení linek ve škole a zajišťuje 
+jejich konfiguraci. LDAP server se synchronizuje s API IS na základě periodicky vykonávaných
+skriptů, obvykle 1x denně, případně lze i manuálně při údržbě.
+
+Z-Ware je systém pro školní jídelnu. Ten si synchronizuje data sám, dle svého mechanismu
+(garantuje externí firma). Data, která si synchronizuje jsou: čísla karet a čipů a žákovské 
+účty, to jsou: username a heslo. Vše ostatní si řídí externí systém Z-Ware sám, včetně volby
+obědů, záznamových zařízení, platby za obědy.
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{backend-api.png}
+    \caption{Schéma připojení systémů na API}
+    \label{fig:backend-api}
+\end{figure}
+
+\subsection*{LDAP server a Moodle}
+Jednou z dalších částí je komunikace mezi LDAP serverem a Moodle serverem. Moodle je na škole
+využíván jako hlavní nástroj pro celý e-learning a tedy je velmi důležitou součástí především
+odborných předmětů, kam se umisťuje většina školních úloh nebo domáci úkolů.
+
+Systém Moodle má modul, který umí synchronizovat uživatele a autentifikovat je u LDAP serveru.
+To znamená, že pokud se uživatel (žák či zaměstnanec) chce přihlásit do Moodle, ten se 
+autentifikuje uživatele LDAP protokolem u LDAP serveru a tím udržuje sychronizované účty právě
+při události uživatele.
+Vše lze řešit pomocí administrátora Moodle serveru, který může manuálně provést zavedení 
+nových účtů a mazání starých či manuální synchronizaci.
+
+Data, která se synchronizují jsou: jména, příjmení, email a třída. Pokud uživatel nemá třídu,
+nepřiřazuje se a administrátor musí manuálně identifikovat uživatele. Vše ostatní, jako jsou 
+zápisy do kurzů si řeší uživatelé sami. Moodle disponuje i vlastním ověřováním, avšak tento
+mechanismus se používápouze  v ryze výjimečných případech, kdy chceme vytvořit účet i pro 
+externí osobu.
+
+\subsection*{LDAP server a školní počítače}
+Veškeré počítače se autentifikují u LDAP serveru na domácí doméně SPSEJECNA.CZ. Jiné účty
+na školních počítačích nejsou dovoleny z důvodu bezpečnosti.
+Účet na školním Windows počítači se pouze u LDAP serveru autentifikuje. Žákovské, nebo
+zaměstnanecké účty se ve škole nijak neliší. Jedinými synchronizovanými daty mezi školními
+počítači a serverem jsou uživatelské disky na školních serverech.
 
 \section{Databázový server a databázový model}
 Současná databáze IS využívá MySQL verze 8.0.32 a její model \ref{fig:student-er-model}
@@ -711,137 +850,6 @@ V této části ER diagramu databázového modelu lze patrně vidět, že Ječn�
 jednotlivých částí předmětu, jako jsou typicky teorie a cvičení. Zároveň nevzniká konflikt mezi nepůlenými
 hodinami na teoretických částech a půlených tříd (tj. skupina) v cvičících částech předmětů, díky jednoznačného identifikátoru ........................................................................
 
-\section{Client-side a server-side scripting}
-
-V kontextu moderního webového vývoje se často setkáváme s pojmy client-side a server-side scripting.
-Tyto dva přístupy k vývoji a vykreslování webových aplikací mají své jedinečné charakteristiky,
-výhody a nevýhody, které je třeba zvážit při návrhu a implementaci informačního systému.
-
-\subsection*{Client-side scripting}
-
-Při CSR je odeslána minimální kostra HTML a JavaScript je načten a vykonán v prohlížeči, 
-kde poté dynamicky sestavuje a zobrazuje obsah stránky.
-
-%@startuml
-%!theme mono
-%participant Prohlížeč as Prohlížeč
-%participant Server as Server
-%participant API as API
-%participant DOM as DOM
-%Prohlížeč -> Server : HTTP Požadavek
-%Server --> Prohlížeč : Základní HTML + JS
-%activate Prohlížeč
-%Prohlížeč -> API : Asynchronní Požadavek
-%API --> Prohlížeč : Data
-%Prohlížeč -> DOM : Aktualizace DOM
-%Prohlížeč -> DOM : Vykreslení Stránky
-%deactivate Prohlížeč
-%@enduml
-\begin{figure}[H]
-    \includegraphics[width=\textwidth-28pt]{csr-schema.png}
-    \caption{Schéma principu života CSR aplikací}
-    \label{fig:csr-schema}
-\end{figure}
-
-Dle schématu \ref{fig:csr-schema} jako životního cyklu aplikace využívající 
-Client-side Rendering (CSR).
-
-\begin{enumerate}
-    \item \textbf{Iniciální HTTP Požadavek:} Klient (prohlížeč) odesílá iniciální HTTP 
-    požadavek na server. V tomto případě server odesílá pouze základní 
-    HTML kostru a JavaScriptové soubory.
-    
-    \item \textbf{Načtení JavaScriptu:} Po přijetí základní HTML kostry a 
-    JavaScriptových souborů, prohlížeč začne s načítáním a vykonáváním JavaScriptu.
-    
-    \item \textbf{Komunikace s API:} JavaScriptový kód na klientovi komunikuje s 
-    API za účelem získání potřebných dat pro vykreslení stránky.
-    
-    \item \textbf{Získání Dat:} API odpoví s potřebnými daty, která jsou následně 
-    použita pro generování HTML stránky na klientovi.
-    
-    \item \textbf{Vykreslení Stránky:} Nakonec JavaScriptový kód na klientovi 
-    vykreslí stránku na základě získaných dat a aktualizuje DOM.
-\end{enumerate}
-
-\textbf{Výhody:}
-\begin{itemize}
-    \item \textit{Responzivnost:} Aplikace založené na client-side scripting mohou rychle reagovat na
-    uživatelské interakce, což vede k plynulému uživatelskému zážitku.
-    \item \textit{Zatížení serveru:} Omezením množství požadavků na server může dojít k menšímu 
-    zatížení a nižším provozním nákladům.
-\end{itemize}
-
-\textbf{Nevýhody:}
-\begin{itemize}
-    \item \textit{Závislost na prohlížeči:} Různé prohlížeče mohou interpretovat a provádět 
-    skripty odlišně, což může vést k inkonzistencím v uživatelském zážitku.
-    \item \textit{Bezpečnostní rizika:} Klient může být vystaven různým hrozbám, 
-    např. cross-site scripting (XSS).
-\end{itemize}
-
-\subsection*{Server-side scripting}
-
-Server-side scripting odkazuje na kód, který se provádí na serveru, ještě předtím, 
-než je odpověď zaslána klientovi. Tento přístup často zahrnuje jazyky jako PHP, Python nebo Ruby.
-
-%@startuml
-%!theme mono
-%participant Prohlížeč as Prohlížeč
-%participant Server as Server
-%participant Databáze as Databáze
-%participant DOM as DOM
-%Prohlížeč -> Server : HTTP Požadavek
-%activate Server
-%Server -> Databáze : Získání dat
-%Databáze --> Server : Data
-%Server --> Prohlížeč : Kompletní HTML stránka
-%deactivate Server
-%Prohlížeč -> DOM : Vykreslení Stránky
-%@enduml
-\begin{figure}[H]
-    \includegraphics[width=\textwidth-28pt]{ssr-schema.png}
-    \caption{Životní cyklus SSR aplikace}
-    \label{fig:ssr-schema}
-\end{figure}
-
-Dle schématu \ref{fig:ssr-schema} jako životního cyklu aplikace využívající 
-Server-side Rendering (SSR).
-\begin{enumerate}
-    \item \textbf{Iniciální HTTP požadavek:} Klient (prohlížeč) odesílá iniciální
-    HTTP požadavek na server. Tento krok je prvním bodem interakce mezi klientem a serverem.
-    
-    \item \textbf{Komunikace se serverem:} Po přijetí požadavku server komunikuje
-    s databází za účelem získání potřebných dat pro vykreslení stránky. 
-    Tento krok je kritický, neboť jakékoli chyby v této fázi mohou vést k 
-    nesprávnému vykreslení stránky.
-    
-    \item \textbf{Získání dat a generování stránky:} Databáze odpoví s potřebnými daty,
-    která jsou následně použita serverem pro generování kompletní HTML stránky.
-    
-    \item \textbf{Odeslání HTML stránky:} Server odesílá kompletní HTML stránku zpět
-    do prohlížeče. Tento krok je závislý na rychlosti serveru a síťové latenci.
-    
-    \item \textbf{Vykreslení stránky:} Nakonec prohlížeč vykreslí stránku na 
-    základě přijatého HTML, čímž je aktualizován DOM.
-\end{enumerate}
-
-\textbf{Výhody:}
-\begin{itemize}
-    \item \textit{Konkrétnost:} Server-side scripting poskytuje konzistentní 
-    výstup bez ohledu na klientův prohlížeč.
-    \item \textit{SEO:} Lépe optimalizování pro vyhledávače, protože vyhledávací
-    roboti mohou snadno získat kompletní HTML stránky.
-    \item \textit{Bezpečnost:} Protože veškeré zpracování probíhá na serveru, 
-    kód je pro klienta neviditelný, což redukuje mnoho potenciálních bezpečnostních hrozeb.
-\end{itemize}
-
-\textbf{Nevýhody:}
-\begin{itemize}
-    \item \textit{Zatížení serveru:} Zpracování všech požadavků může zvýšit zatížení serveru.
-    \item \textit{Reakční čas:} Každá interakce vyžaduje komunikaci se serverem, 
-    což může zpomalit odezvu aplikace.
-\end{itemize}
 
 \subsection*{Server-side-rendering a Client-side-rendering}
 
