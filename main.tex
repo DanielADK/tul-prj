@@ -591,7 +591,25 @@ příslušných vazeb:
     \label{fig:architecture-old}
 \end{figure}
 
-% 
+% Miniobsah
+% backend je množina skriptů napsaná v PHP, které se navzájem volají.
+
+% Upravit co je co -> je všechno obláček
+% Kdo za co odpovídá
+% Barvy -> co patří škole, co patří jinam
+% Zeleně -> ty, které mohu měnit
+% Červeně -> nesáhnu
+
+% Kde se software napojuje na software
+% Jak vypadá struktura funkcí -> Kdo co určuje API? Ječná nebo Z-Ware?
+% Kde se co realizuje, které inzeruji v výhodách IS
+% Co musím mít a co by chceme mít
+% Use case diagramy
+% Sequence diag
+% Jak se databáze plní ->
+% KDe jsou formuláře? pouze ve frontendu?
+% nejvyšší vrstva popisu databáze
+% Kdo db dělá? jak by byl proces přidání nové komponenty?
 
 Při pohledu na architekturu našeho ŠIS, vidím kombinaci vnějších a vnitřních služeb,
 které spolu komunikují synchronizace dat mezi všemi službami, které IS poskytuje pro studenty,
@@ -634,7 +652,7 @@ dat systému. K tomuto rozhodnutí - blokace obousměrné komunikace, vede bezpe
 by si žák, nebo zaměstnanec mohl upravit například své jméno, upravil by tím citlivý záznam, který se následně
 může propsat do matričních záznamů.
 
-Z celého odstavce tedy vyplývá, že architekura díky své diverzifikaci je částečně ubráněna proti Single Point of Failure
+Z celého odstavce tedy vyplývá, že architekura kvůli své diverzifikaci je částečně ubráněna proti Single Point of Failure
 a škola může i bez jedné či druhé části fungovat v omezeném režimu.
 
 \section{Bezpečnost ŠIS}
@@ -677,7 +695,7 @@ PHP skriptem do čisté HTML podoby a celý odeslán webovému clientu. Tento p�
 možnost manipulace s daty bez potřeby veřejného API. Pokud tedy pedagog, žák či 
 rodič chce přistoupit například ke známkám žáka, musí jedině přes tento webový client.
 
-Ředitel školy zastává názor, že veřejné API je velká bezpečnostní hrozba díky možném útokům
+Ředitel školy zastává názor, že veřejné API je velká bezpečnostní hrozba kvůli možném útokům
 žáků. Většina žáků školy studuje obor Informační technologie a jsou tedy technologicky zdatní.
 Žákovi tedy by stačilo znát veřejné API a příslušné dispozice výpočetního výkonu k DDoS útoku.
 Školní systém se po dobu útoku stane nepoužitelným a zaměstnanci školy nemohou plnohodnotně
@@ -703,7 +721,7 @@ informace, které ze zákona musí vědět.
 
 \subsection*{Backend a Exporter}
 Velkou částí IS je též Exporter. Je napsán jako PHP skript, který získává data z backendu a generuje
-vyžadované datasety. Nejdůležitější funkcionalitou je export dat pro Ministerstvo školství, mládeže 
+vyžadované datové sady. Nejdůležitější funkcionalitou je export dat pro Ministerstvo školství, mládeže 
 a tělovýchovy (MŠMT), které spravuje matriční záznamy žáků ohledně jejich studia, jejich speciálních
 potřeb a jejich následných vazeb. Jednou z takových vazeb může být platba statního zdravotního a 
 sociálního pojištění.
@@ -716,7 +734,8 @@ Tyto informace poskytuje ministerstvo formou tabulky ve článku na svých strá
 především na univerzitách. které se řídí dle SIMS - Sdružené informace matrik studentů.
 
 Struktura souboru je dělena do položek, druhu kódování (tvaru zápisu),
-druhu číselníku, typu dat, délce povoleného řetězce a povinnost záznamu. Uvedu výčet několika položek:
+druhu číselníku, typu dat, délce povoleného řetězce a povinnost záznamu.
+ Uvedu výčet několika položek: % Vybírám tyto pro rozmatinost datové sady
 \begin{itemize}
     \item datum sběru,
     \item IZO školy,
@@ -740,13 +759,16 @@ Celý rejstřík položek, které vyžaduje MŠMT dále zpracovává a poskytuje
 
 Problematikou implementace exporteru se zkomplikovává častou aktualizací datového rozhraní
 pro předávání dat. Aktualizaci rozhraní vydává MŠMT přibližně jednou ročně, včetně aktualizace
-číselníků\cite{msmt-rozhrani-predavani-dat-2023}. Možnost implementace se ještě zhoršuje díky formátu,
+číselníků\cite{msmt-rozhrani-predavani-dat-2023}. Možnost implementace se ještě zhoršuje kvůli formátu,
 ve kterém ministerstvo poskytuje nové aktualizace. Formátem je PDF soubor ve článku na webu. Tento 
 způsob tedy potřebuje vždy zásah do implementace člověkem a nelze nativně automatizovat.
 
 Dalšími prvky, kam Exporter poskytuje data je evidenční software pro správu majetku školy a 
 účetní software. Pro účetní software IS poskytuje data jako jsou například úvazky zaměstnanců,
 pro kalkukaci výplat, příjmů a výdajů školy.
+
+% Jak dobře je to napsaný? Lze nový export jednoduše dopsat?
+% Konkrétnost -> 
 
 \subsection*{Backend a Čipový server}
 Backend je dále propojen s čipovým serverem, který eviduje příchody a odchody zaměstnanců a
@@ -755,6 +777,8 @@ Backend je dále propojen s čipovým serverem, který eviduje příchody a odch
 a pro odchody před dveřmi ze školy.  
 Čipový server eviduje čísla karet, číslo záznamového zařízení a časy záznamů. 
 Informační systém eviduje žáka a číslo jeho karty. 
+
+% jak je to propojeno
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth-28pt]{backend-cipovy-server.png}
@@ -837,19 +861,53 @@ Tabulka
 
 \newpage
 
-Jednou z nejdůležitějších částí databázového modelu jsou záznamy o žácích jako jsou třeba: základní informace,
-opatrovníci, specifické poruchy učení a chování, zdravotní záznamy, předchozí studia a výsledky, certifikace.
+\subsection*{Žákovská správa}
+Centrální součástí databázového modelu je modul Žákovské správy, který slouží
+jako fundamentální základ pro shromažďování, zpracovávání a uchování
+rozmanitých údajů o studentech. Ze schématu vyplývá, že
 
+V jádru modulu stojí entita \textbf{Student}, která uchovává základní identifikační
+a osobní údaje žáků, jako jsou jména, příjmení, data narození a další. Tato entita
+je nepostradatelná pro jakékoli další operace a analýzy prováděné v rámci ŠIS. Její
+důležitost vyplývá z její role, jako prinármího spojovacího bodu pro různé aspekty
+školního života žáka.
+
+Entita rodič, zahrnuje údaje o rodičích nebo zákonných zástupcích žáků. Umožňuje 
+efektivní komunikaci mezi školou a rodinami a podporuje zapojení rodičů do školního
+života jejich dětí kvůli přihlašování do systému. Záznamy o rodičích jsou zásadní pro
+posílení rodinného zapojení ve školním vzdělávacím procesu a poskytují oporu při
+kázeňských problémech.
+
+Entita třída reprezentuje uspořádání a přiřadení studentů do konkrétních tříd a 
+studijních skupin. Tato etntita je základem pro organizaci předmětů, učitelů,
+učeben, nebo třeba zápisu známek. Propojení studentů s konkrétními třídami je 
+klíčové pro správu a plánování školních aktivit.
+
+Entity Známky a Certifikace se zaměřují na sledování a hodnocení 
+výsledků žáků. Tyto entity zahrnují informace o studijních výsledcích v
+jednotlivých předmětech. Dále entity spravují odborné či jazykové certifikace,
+které žáci mohou získat během studia a tím nechat uznat například praktickou
+maturitní zkoušku.
+
+Absence žáků je klíčovou rolí v monitorování a správě školní docházky. 
+Zaznamenává dobu neúčasti žáků na vyučování v jednotlivých dnech a na 
+předmětech, což je zásadní pro identifikaci a řešení problémů s docházkou.
+Systém absence přímo odkazuje na entitu Student prostřednictvím cizího klíče,
+což umožňuje přesné sledování a analýzu absencí každého jednotlivého žáka.
+
+Zdravotní pojištění je další z entit a obsahuje důležité informace o zdravotní
+péči a pojištění žáků. Tato entita umožňuje škole sledovat zdravotní pojištění
+žáků, což se hodí pro zajištění dalších procesů v případě zdravotních
+problémů.
+
+Diagram databázového modelu je zjednodušený snížení komplexity diagramů.
 \begin{figure}[H]
-    \includegraphics[width=\textwidth-28pt]{student-er-model.png}
-    \caption{Databázový model Správy žáků a hodnocení}
+    \includegraphics[height=\textheight-28pt]{student-er-model1.png}
+    \caption{Zjednodušený diagram databázového modelu modulu Žákovské správy}
     \label{fig:student-er-model}
 \end{figure}
 
-V této části ER diagramu databázového modelu lze patrně vidět, že Ječná IS je plně připraven na hodnocení
-jednotlivých částí předmětu, jako jsou typicky teorie a cvičení. Zároveň nevzniká konflikt mezi nepůlenými
-hodinami na teoretických částech a půlených tříd (tj. skupina) v cvičících částech předmětů, díky jednoznačného identifikátoru ........................................................................
-
+% Napsat do firem kolik škol to využívá
 
 \subsection*{Server-side-rendering a Client-side-rendering}
 
