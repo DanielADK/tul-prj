@@ -1,7 +1,7 @@
 @startuml
 node "Externí server" {
   database "MySQL Databáze" as MySQL
-  cloud "PHP Server" as PHP {
+  node "PHP Server" as PHP {
     [Backend]
     [Frontend]
     [API]
@@ -9,26 +9,27 @@ node "Externí server" {
   }
 }
 node "Školní část" {
-  cloud "LDAP Server" as LDAP
-  cloud "Moodle Server" as Moodle
-  cloud "Žákovská VPS" as VPS
+  node "LDAP Server" as LDAP
+  node "Moodle Server" as Moodle
   cloud "Telefonní systém" as Telefony
-  cloud "Z-Ware server" as ZWare
-  cloud "Čipový server" as Cipy
+  node "Z-Ware server" as ZWare
+  node "Čipový server" as Cipy
+  entity "Školní počítače & MS služby" as ŠkolníPC
+  cloud "Žákovská VPS" as VPS
 }
 cloud "Matriční úřad" as Matrika
 cloud "Evidenční software" as Evidence
 cloud "Účetní software" as Ucto
 MySQL <--> [Backend] : Obousměrná výměna dat
-[Backend] <--> [API]
-[Backend] -right-> [Exporter]
-[Backend] <-- Cipy : Dotazování čipového serveru
+[Backend] <-right-> [API]
+[Backend] -> [Exporter]
+[Backend] <- Cipy : Dotazování čipového serveru
 [Frontend] <--> [Backend]
 [LDAP] --> Moodle : Událostmi řízená synchronizace
 [API] --> Telefony
-[API] --> LDAP : Periodicky vykonávané synchronizační skripty 
+[API] -down-> LDAP : Periodicky vykonávané synchronizační skripty 
 [API] --> ZWare
-LDAP --> [Školní část] : Školní počítače & MS služby
+LDAP --> [ŠkolníPC]
 [Exporter] -right-> Matrika
 [Exporter] -right-> Evidence
 [Exporter] -right-> Ucto

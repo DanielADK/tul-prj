@@ -43,6 +43,8 @@
 \usepackage{bbding}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{lscape}
+\usepackage{nameref}
 \graphicspath{ {./img}{./tultex} }
 
 % příkazy specifické pro tento dokument / specific commands for this document
@@ -317,6 +319,8 @@ V oblasti školství v České republice je v současné době v provozu několi
 IS, které slouží k efektivnímu řízení a správě školních institucí. 
 Mezi nejrozšířenější IS pro základní a střední školy patří:
 
+% TODO: Napsat do firem kolik škol to využívá
+
 \begin{samepage}
     \begin{itemize}
         \item \textbf{Bakaláři:} Bakaláři je jeden z nejrozšířenějších školních informačních 
@@ -543,58 +547,31 @@ ve školní budově. Je důležité si ale uvědomit, že do školního IS se ne
 pouze ze školy, ale i z domova žáků, učitelů, práce rodičů, případně i ze státní správy.  
 
 Při rešerši papírové složky, do kterých je koncept a následný model současného systému dokumentován
-jsem vytvořil schéma \ref{fig:architecture-old} celkové architektury IS včetně znázornění 
+jsem vytvořil schéma \ref{fig:puvodni-architektura} celkové architektury IS včetně znázornění 
 příslušných vazeb:
 \begin{itemize}
     \item napojení LDAP \textit{(tj. napojení na školní Microsoft služby)}
     \item napojení na školní žákovská VPS
 \end{itemize}
 
-%@startuml
-%node "Externí server" {
-%  database "MySQL Databáze" as MySQL
-%  cloud "PHP Server" as PHP {
-%    [Backend]
-%    [Frontend]
-%    [API]
-%    [Exporter]
-%  }
-%}
-%node "Školní část" {
-%  cloud "LDAP Server" as LDAP
-%  cloud "Moodle Server" as Moodle
-%  cloud "Žákovská VPS" as VPS
-%  cloud "Telefonní systém" as Telefony
-%  cloud "Z-Ware server" as ZWare
-%  cloud "Čipový server" as Cipy
-%}
-%cloud "Matriční úřad" as Matrika
-%cloud "Evidenční software" as Evidence
-%cloud "Účetní software" as Ucto
-%MySQL <--> [Backend] : Obousměrná výměna dat
-%[Backend] <--> [API]
-%[Backend] --> [Exporter]
-%[Frontend] <--> [Backend]
-%Telefony <--> API
-%[LDAP] --> Moodle : Synchronizační skripty
-%[API] --> LDAP : Přímé napojení
-%[API] --> ZWare
-%LDAP --> [Školní část] : Školní počítače & MS služby
-%[Exporter] --> Matrika
-%[Exporter] --> Evidence
-%[Exporter] --> Ucto
-%[API] <--> Cipy
-%@enduml
-\begin{figure}[H]
-    \includegraphics[width=\textwidth-28pt]{architektura-puvodni.png}
-    \caption{Stávající architektura IS}
-    \label{fig:architecture-old}
-\end{figure}
+\begin{landscape}
+    \begin{figure}[H]
+        \includegraphics[width=\linewidth]{architektura-puvodni.png}
+        \caption{Stávající architektura IS}
+        \label{fig:puvodni-architektura}
+    \end{figure}
+\end{landscape}
 
-% Miniobsah
-% backend je množina skriptů napsaná v PHP, které se navzájem volají.
+Rozpis sekcí:
+\begin{enumerate}
+    \item[\ref{section:backend-a-frontend}] \nameref{section:backend-a-frontend}
+    \item[\ref{section:backend-a-exporter}] \nameref{section:backend-a-exporter}
+    \item[\ref{section:backend-a-cipovy-server}] \nameref{section:backend-a-cipovy-server}
+    \item[\ref{section:backend-a-api}] \nameref{section:backend-a-api}
+    \item[\ref{section:ldap-server-a-moodle}] \nameref{section:ldap-server-a-moodle}
+    \item[\ref{section:ldap-server-a-skolni-pocitace}] \nameref{section:ldap-server-a-skolni-pocitace}
+\end{enumerate}
 
-% Upravit co je co -> je všechno obláček
 % Kdo za co odpovídá
 % Barvy -> co patří škole, co patří jinam
 % Zeleně -> ty, které mohu měnit
@@ -635,11 +612,12 @@ Linuxové VPS jsme zvolili na základě dat spolupráce s průmyslem. Naši ško
 Přehled o jednotlivých částí a jejich propojení jsem již zmínil. Nyní je třeba analýza jednitlivých rizik architektury.
 
 \subsection*{Problematika Single Point of Failure}
+\label{section:problematika-single-point-of-failure}
 
 Jedním z největších rizik v aktuální architektuře je \textit{Single Point of Failure (SPoF)} na straně PHP serveru. 
 Pokud by tento server selhal, způsobilo by to výpadek většiny služeb, což by mělo vážné důsledky v celé škále případů. 
 
-Dle architektury z diagramu \ref{fig:architecture-old} je viditelné, že v případě kdy by selhala celá externí část,
+Dle architektury z diagramu \ref{fig:puvodni-architektura} je viditelné, že v případě kdy by selhala celá externí část,
 školní část může zcela bez problému fungovat s omezeními. LDAP server má vlastní databázový model pro ukládání dat, tedy
 přihlášení na školních počítačích na síti nebude témeř vůbec ohroženo. Jediný případ, který mně napadá, je kdyby si uživatel
 na externí části změnil heslo/některé údaje a LDAP se nestihl synchronizovat před selháním. To samé platí i pro Moodle
@@ -656,12 +634,14 @@ Z celého odstavce tedy vyplývá, že architekura kvůli své diverzifikaci je 
 a škola může i bez jedné či druhé části fungovat v omezeném režimu.
 
 \section{Bezpečnost ŠIS}
+\label{section:bezpecnost-sis}
 Jak vyplývá z předchozí sekce, bezpečnost ŠIS a konzistence jeho je prioritou a tedy je
 zaujat "default-deny" přístup, který má výchozí nastavení pro jakýkoliv přístup, operaci
 nebo transakci zakázáno a povoluje explicitně ty operace nebo přístupy, které jsou
 nezbytně nutné pro funkčnost systému nebo aplikace.
 
 \subsection*{Jednosměrnost API \& matriční záznamy}  
+\label{section:jednosmernost-api-a-matricni-zaznamy}
 Centrální jednotkou IS je Externí část schématu a její databázový model. Změny ze strany jiných služeb by mohl
 být velice nebezpečný. IS 2x ročně (1x v říjnu a 1x v květnu) generuje svůj archivační model, který poskytuje
 na žádost matričního úřadu.
@@ -669,15 +649,20 @@ Jakmile, by žák si například změnil své jméno v některém ze svých subs
 párovat žáka v jeho občanské databázi a přestat evidovat jeho studium. V tomto případě by to mělo spoustu 
 legislativních důsledků, jak lze vidět v schématu \ref{fig:dusledky-nestudia}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textheight-28pt, angle=90]{dusledky-nestudia.png}
-    \caption{Následky zanechání studia v důsledku administrativní chyby}
-    \label{fig:dusledky-nestudia}
-\end{figure}
+\begin{landscape}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{dusledky-nestudia.png}
+        \caption{Následky zanechání studia v důsledku administrativní chyby}
+        \label{fig:dusledky-nestudia}
+    \end{figure}
+\end{landscape}
 
 \section{Datové toky mezi komponentami}
+\label{section:datove-toky-mezi-komponentami}
 \subsection*{Databáze a backend komponenty}
+Backendem rozumíme množinu PHP skriptů, které obsluhují hlavní komunikaci mezi 
+jednotlivými komponentami IS.
 Mezi databázovým serverem a backendem webového serveru dochází k obousměrné výměně
 dat. Backendová komponenta je jediná, která má přímý přístup do databázového serveru
 a tedy kontroluje veškerá data, která IS shromažďuje, ukládá či poskytuje. Tato
@@ -685,7 +670,8 @@ vrstva na bezpečnostní funkci, zajišťuje konzistenci dat díky velkému mno�
 bezpečnostních procedur. Z backendové komponenty vystupují pouze další 3 komunikační
 zdroje.
 
-\subsection*{Backend a Frontend}
+\subsection{Backend a Frontend}
+\label{section:backend-a-frontend}
 Uživatelské rozhraní (frontend) webové aplikace komunikuje s backendem přímo, aby získalo
 potřebné informace nebo poslalo uživatelské vstupy přímo ke zpracování. Frontend je
 tedy jediný způsob jediný způsob, jak přistoupit k datům uživatelsky přívětivou 
@@ -693,7 +679,10 @@ formou - formou webové stránky. Celá webová stránka je tedy generována met
 Server-Side-Rendering (SSR) - celý obsah stránky je seskládán
 PHP skriptem do čisté HTML podoby a celý odeslán webovému clientu. Tento přístup zajišťuje
 možnost manipulace s daty bez potřeby veřejného API. Pokud tedy pedagog, žák či 
-rodič chce přistoupit například ke známkám žáka, musí jedině přes tento webový client.
+rodič chce přistoupit například ke známkám žáka, musí jedině přes tuto webovou stránku.
+Tento frontend slouží k manipulaci jak s jednotlivými entitami IS, tak i s dávkovými soubory,
+které je potřeba zpracovávat při hromadných akcích typu přijímací řízení nebo správa 
+maturitních zkoušek.
 
 Ředitel školy zastává názor, že veřejné API je velká bezpečnostní hrozba kvůli možném útokům
 žáků. Většina žáků školy studuje obor Informační technologie a jsou tedy technologicky zdatní.
@@ -719,12 +708,35 @@ Zde se dají zúčastněným IS zobrazit informace:
 Samozřejmostí je, že každá informace je řízena uživatelskými právy, tedy každý vidí pouze ty
 informace, které ze zákona musí vědět.
 
-\subsection*{Backend a Exporter}
-Velkou částí IS je též Exporter. Je napsán jako PHP skript, který získává data z backendu a generuje
-vyžadované datové sady. Nejdůležitější funkcionalitou je export dat pro Ministerstvo školství, mládeže 
-a tělovýchovy (MŠMT), které spravuje matriční záznamy žáků ohledně jejich studia, jejich speciálních
-potřeb a jejich následných vazeb. Jednou z takových vazeb může být platba statního zdravotního a 
-sociálního pojištění.
+\subsection{Backend a Exporter}
+\label{section:backend-a-exporter}
+V rámci ŠIS hraje klíčovou roli komponenta Exporter. Tento Exporter je implementován
+jako PHP skript s metodami, které mají za úkol získávat data z backendové části 
+systému prostřednictvím volání specifických metod. Tento přístup zajišťuje efektivní,
+flexibilní, bezpečné a deterministické zpracování a extrakci dat potřebných pro různé
+externí entity a procesy.
+
+Struktura Exporteru je záměrně navržena, aby umožňovala snadné rozšíření. Přidání
+nových exportních metod je jednoduché a nevyžaduje rozsáhlé změny v existujícím kódu.
+Každá nová metoda může být specificky přizpůsobena pro generování datových sad
+dle konkrétních požadavků a formátů požadovaných různými externími systémy nebo
+organizacemi.
+
+Tato modulárnost a adaptibilita Exporteru přestavuje značnou výhodu pro ŠIS. Umožňuje
+rychle reagovat na nové požadavky a efektivně podporovat širokou škálu operací
+a formátů dat. Výsledkem je robustný a efektivně spravovaný systém, schopný vyhovět
+různorodým potřebám. Současný exportér disponuje třemi následujícími metodami
+pro export:
+\begin{enumerate}
+    \item\label{export:matricni-urad} export pro Matriční úřad,
+    \item\label{export:evidencni-software} export pro Evidenční software,
+    \item\label{export:ucetni-software} export pro Účetní software.
+\end{enumerate}
+
+\subsubsection*{AD \ref{export:matricni-urad} - Matriční úřad}
+Export dat pro Ministerstvo školství, mládeže a tělovýchovy (MŠMT), které spravuje matriční 
+záznamy žáků ohledně jejich studia, jejich speciálních potřeb a jejich následných vazeb.
+Jednou z takových vazeb může být platba statního zdravotního a sociálního pojištění.
 
 MŠMT pořádá 2x ročně tzv. sběr\cite{skolni-matrika}, při kterých si vyžádá od školy,
 (tedy ŠIS) snapshot ve formátu XML a se specifickým jménem a formátem o celé řadě 
@@ -735,7 +747,7 @@ především na univerzitách. které se řídí dle SIMS - Sdružené informace
 
 Struktura souboru je dělena do položek, druhu kódování (tvaru zápisu),
 druhu číselníku, typu dat, délce povoleného řetězce a povinnost záznamu.
- Uvedu výčet několika položek: % Vybírám tyto pro rozmatinost datové sady
+Vybírám těchto deset prvků pro rozmanitost datové sady:
 \begin{itemize}
     \item datum sběru,
     \item IZO školy,
@@ -745,10 +757,8 @@ druhu číselníku, typu dat, délce povoleného řetězce a povinnost záznamu.
     \item kvantifikátor státního občanství,
     \item nejvyšší stupeň vzdělání, kterého žák dosáhl před přijetím ke vzdělávání,
     \item ročník, ve kterém se žák vzděláván,
-    \item obor vzdělání ve střední škole,
     \item způsob financování vzdělávání,
     \item kód 1. cizího studovaného jazyka
-    \item ...
 \end{itemize}
 Tento výčet položek se avšak vztahuje pouze na žáky intaktní. Pro žáky se speciálními vzdělávacími
 potřebami ministertvo vydává druhou sadu struktury datového rozhraní, která odpovídá specifickým
@@ -763,14 +773,26 @@ pro předávání dat. Aktualizaci rozhraní vydává MŠMT přibližně jednou 
 ve kterém ministerstvo poskytuje nové aktualizace. Formátem je PDF soubor ve článku na webu. Tento 
 způsob tedy potřebuje vždy zásah do implementace člověkem a nelze nativně automatizovat.
 
-Dalšími prvky, kam Exporter poskytuje data je evidenční software pro správu majetku školy a 
-účetní software. Pro účetní software IS poskytuje data jako jsou například úvazky zaměstnanců,
-pro kalkukaci výplat, příjmů a výdajů školy.
+\subsubsection*{AD \ref{export:evidencni-software} - Evidenční software}
+Evidenční software, který je součástí ŠIS, hraje klíčovou roli v řízení a správě fyzického
+majetku školy. Exporter zde zastává zásadní úlohu tím, že zajišťuje pravidelnou aktualizaci 
+a přenos dat týkajících se školního inventáře, což zahrnuje podrobné informace o zařízeních,
+jako jsou počítače, laboratorní vybavení, knihy a další školní zdroje. Tato data jsou 
+nezbytná pro efektivní invertarizaci a správu majetku, což umožňuje škole sledovat jeho 
+stav, umístění a plánovat případné nákupy nebo údržbu. Evidenční software tak hraje
+klíčovou roli v udržení přehledu a efektivního využívání školních zdrojů. 
 
-% Jak dobře je to napsaný? Lze nový export jednoduše dopsat?
-% Konkrétnost -> 
+\subsubsection*{AD \ref{export:ucetni-software} - Účetní software}
+V oblasti finanční správy je rovněž důležité, aby byla data týkající se zaměstnanců a jejich
+úvazků správně zpracována a integrována do Účetního softwaru. Exporter zde poskytuje potřebné
+informace pro kalkulaci výplat zaměstnanců. Tato data jsou využívána účetním softwarem pro 
+přesné výpočty mzdových nákladů, odvodů a případných příplatků.
 
-\subsection*{Backend a Čipový server}
+Všechna potřebná data pro Evidenční a Účetní software jsou Exporterem vygenerována 
+do dávkového souboru a následně nahrána do příslušného softwaru. 
+
+\subsection{Backend a Čipový server}
+\label{section:backend-a-cipovy-server}
 Backend je dále propojen s čipovým serverem, který eviduje příchody a odchody zaměstnanců a
 žáků do a ze školy. Čipový server disponuje vlastní databází a poskytuje svá data pomocí API.
 Čipový server má 2 zařízení pro evidenci příchodů a odchodů. Pro příchody je před dveřmi do školy
@@ -786,7 +808,8 @@ Informační systém eviduje žáka a číslo jeho karty.
     \label{fig:backend-cipovy-server}
 \end{figure}
 
-\subsection*{Backend a API}
+\subsection{Backend a API}
+\label{section:backend-a-api}
 Backend systému je propojen pomocí neveřejného API s dalšími komponentami IS. Skryté API je 
 uchováno pod speciální URL adresou se specifickým klíčem. Z tohoto API čerpají interní systémy,
 především LDAP server, telefonní systém a Z-Ware.
@@ -806,7 +829,9 @@ obědů, záznamových zařízení, platby za obědy.
     \label{fig:backend-api}
 \end{figure}
 
-\subsection*{LDAP server a Moodle}
+\subsection{LDAP server a Moodle}
+
+\label{section:ldap-server-a-moodle}
 Jednou z dalších částí je komunikace mezi LDAP serverem a Moodle serverem. Moodle je na škole
 využíván jako hlavní nástroj pro celý e-learning a tedy je velmi důležitou součástí především
 odborných předmětů, kam se umisťuje většina školních úloh nebo domáci úkolů.
@@ -824,7 +849,8 @@ zápisy do kurzů si řeší uživatelé sami. Moodle disponuje i vlastním ově
 mechanismus se používápouze  v ryze výjimečných případech, kdy chceme vytvořit účet i pro 
 externí osobu.
 
-\subsection*{LDAP server a školní počítače}
+\subsection{LDAP server a školní počítače}
+\label{section:ldap-server-a-skolni-pocitace}
 Veškeré počítače se autentifikují u LDAP serveru na domácí doméně SPSEJECNA.CZ. Jiné účty
 na školních počítačích nejsou dovoleny z důvodu bezpečnosti.
 Účet na školním Windows počítači se pouze u LDAP serveru autentifikuje. Žákovské, nebo
@@ -900,15 +926,6 @@ péči a pojištění žáků. Tato entita umožňuje škole sledovat zdravotní
 žáků, což se hodí pro zajištění dalších procesů v případě zdravotních
 problémů.
 
-Diagram databázového modelu je zjednodušený snížení komplexity diagramů.
-\begin{figure}[H]
-    \includegraphics[height=\textheight-28pt]{student-er-model1.png}
-    \caption{Zjednodušený diagram databázového modelu modulu Žákovské správy}
-    \label{fig:student-er-model}
-\end{figure}
-
-% Napsat do firem kolik škol to využívá
-
 \subsection*{Server-side-rendering a Client-side-rendering}
 
 Z analýzy našeho informačního systému vyplývá, že vhodná kombinace obou přístupů může 
@@ -930,10 +947,9 @@ Konkrétním příkladem jména žáků spojená s jejich třídami.
 \subsection*{Konkrétní příklad}
 ...
 
+\section{Uživatelské rozhraní}
 
-\section{Funkce API a uživatelské rozhraní}
 \section{Identifikace a analýza potřeb koncových uživatelů}
-\section{Hodnocení výhod a nevýhod in-house vývoje informačního systému}
 
 \chapter{Návrh nového systému}
 \section{Detaily nově navrženého systému}
