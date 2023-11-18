@@ -793,14 +793,16 @@ do dávkového souboru a následně nahrána do příslušného softwaru.
 
 \subsection{Backend a Čipový server}
 \label{section:backend-a-cipovy-server}
-Backend je dále propojen s čipovým serverem, který eviduje příchody a odchody zaměstnanců a
-žáků do a ze školy. Čipový server disponuje vlastní databází a poskytuje svá data pomocí API.
-Čipový server má 2 zařízení pro evidenci příchodů a odchodů. Pro příchody je před dveřmi do školy
-a pro odchody před dveřmi ze školy.  
-Čipový server eviduje čísla karet, číslo záznamového zařízení a časy záznamů. 
-Informační systém eviduje žáka a číslo jeho karty. 
+Propojení Backendu IS s čipovým serverem je důležitý prvek pro sledování přítomnosti
+zaměstnanců a studentů ve školním prostředí. Realizováno je to pomocí čipových karet žáků
+a 2 záznamových zařízení před vchodem do školy a před východem ze školy. Záznamová zařízení
+evidují do databáze čipového serveru čísla přikládaných karet. Přestože čipový 
+server je starší technologie, která byla nasazena před více než 25 lety a neobsahuje 
+moderní API rozhraní, bylo dosaženo funkčního propojení s novějším Backend systémem. 
+Toto propojení se realizuje přímým SSH napojením do serveru a poté dotazováním databáze.
 
-% jak je to propojeno
+IS si eviduje čísla vydaných karet a já má v databázi přiřazena k jednotlivým osobám,
+Díky této vazbě je IS schopen spárovat příchody a odchody s konkrétní osobou.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth-28pt]{backend-cipovy-server.png}
@@ -830,11 +832,10 @@ obědů, záznamových zařízení, platby za obědy.
 \end{figure}
 
 \subsection{LDAP server a Moodle}
-
 \label{section:ldap-server-a-moodle}
 Jednou z dalších částí je komunikace mezi LDAP serverem a Moodle serverem. Moodle je na škole
 využíván jako hlavní nástroj pro celý e-learning a tedy je velmi důležitou součástí především
-odborných předmětů, kam se umisťuje většina školních úloh nebo domáci úkolů.
+odborných předmětů, kam učitelé umisťují většinu školních úloh nebo domáci úkolů.
 
 Systém Moodle má modul, který umí synchronizovat uživatele a autentifikovat je u LDAP serveru.
 To znamená, že pokud se uživatel (žák či zaměstnanec) chce přihlásit do Moodle, ten se 
