@@ -1,26 +1,30 @@
 @startuml
 node "Externí server" {
-  database "MySQL Databáze" as MySQL
+  node "Souborový systém" as SouborovySystem #back:lightgreen
+  database "MySQL Databáze" as MySQL #back:lightgreen
   node "PHP Server" as PHP {
-    [Backend]
-    [Frontend]
-    [API]
-    [Exporter]
+    [Backend] #back:lightgreen
+    [Frontend] #back:lightgreen
+    [API] #back:lightgreen
+    [Exporter] #back:lightgreen
   }
 }
 node "Školní část" {
-  node "LDAP Server" as LDAP
-  node "Moodle Server" as Moodle
-  cloud "Telefonní systém" as Telefony
-  node "Z-Ware server" as ZWare
-  node "Čipový server" as Cipy
-  entity "Školní počítače & MS služby" as ŠkolníPC
-  cloud "Žákovská VPS" as VPS
+  node "LDAP Server" as LDAP #back:lightcoral
+  node "Moodle Server" as Moodle #back:lightgreen
+  cloud "Telefonní systém" as Telefony #back:lightgreen
+  node "Z-Ware server" as ZWare #back:lightcoral
+  node "Čipový server" as Cipy #back:lightcoral
+  entity "Školní počítače & MS služby" as ŠkolníPC 
+  cloud "Žákovská VPS" as VPS #back:lightgreen
 }
-cloud "Matriční úřad" as Matrika
-cloud "Evidenční software" as Evidence
-cloud "Účetní software" as Ucto
+cloud "Matriční úřad" as Matrika #back:lightcoral
+cloud "Evidenční software" as Evidence #back:lightcoral
+cloud "Účetní software" as Ucto #back:lightcoral
+actor "Prostředník" as Clovek
 MySQL <--> [Backend] : Obousměrná výměna dat
+SouborovySystem <-- [Backend] : Ovládání souborového systému příkazy
+SouborovySystem --> [Frontend] : Přístup do souborového systému pomocí HTTP protokolu
 [Backend] <-right-> [API]
 [Backend] -> [Exporter]
 [Backend] <- Cipy : Dotazování čipového serveru
@@ -30,7 +34,8 @@ MySQL <--> [Backend] : Obousměrná výměna dat
 [API] -down-> LDAP : Periodicky vykonávané synchronizační skripty 
 [API] --> ZWare
 LDAP --> [ŠkolníPC]
-[Exporter] -right-> Matrika
-[Exporter] -right-> Evidence
-[Exporter] -right-> Ucto
+[Exporter] --> Clovek
+Clovek -right-> Matrika
+Clovek -right-> Evidence
+Clovek -right-> Ucto
 @enduml
