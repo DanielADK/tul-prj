@@ -1,0 +1,32 @@
+@startuml
+left to right direction
+
+actor "Žák" as Zak
+actor "Zákonný zástupce" as Rodic
+actor "Ředitel" as Reditel
+actor "CERMAT" as CERMAT
+
+rectangle {
+  usecase "Podá přihlášku" as UC1
+  usecase "3x pro školo-obor" as UC2
+  usecase "Určuje kapacitu" as UC3
+  usecase "Spáruje školu a uchazeče" as UC4
+  usecase "Seřadí uchazeče" as UC5
+  usecase "Rozhodne o přijetí" as UC6
+  usecase "Zpracuje rozhodnutí" as UC7
+  usecase "Přijetí uchazeče" as UC8
+
+}
+
+Zak .. Rodic
+Rodic --> UC1
+CERMAT --> UC4
+CERMAT --> UC6
+Reditel --> UC3
+Reditel --> UC5
+Reditel --> UC7
+
+UC1 ..> UC2 : <<include>>
+UC3 ..> UC2 : <<include>>
+UC7 --> UC8 : <<include>>
+@enduml

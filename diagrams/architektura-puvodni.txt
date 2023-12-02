@@ -12,15 +12,15 @@ node "Externí server" {
 node "Školní část" {
   node "LDAP Server" as LDAP #back:lightcoral
   node "Moodle Server" as Moodle #back:lightgreen
-  cloud "Telefonní systém" as Telefony #back:lightgreen
+  node "Telefonní ústředna" as Telefony #back:lightcoral
   node "Z-Ware server" as ZWare #back:lightcoral
   node "Čipový server" as Cipy #back:lightcoral
   entity "Školní počítače & MS služby" as ŠkolníPC 
-  cloud "Žákovská VPS" as VPS #back:lightgreen
+  node "Žákovská VPS" as VPS #back:lightgreen
 }
-cloud "Matriční úřad" as Matrika #back:lightcoral
-cloud "Evidenční software" as Evidence #back:lightcoral
-cloud "Účetní software" as Ucto #back:lightcoral
+node "MŠMT" as Matrika #back:lightcoral
+node "Evidence majetku" as Evidence #back:lightcoral
+node "Mzdový a personální software" as Ucto #back:lightcoral
 actor "Prostředník" as Clovek
 MySQL <--> [Backend] : Obousměrná výměna dat
 SouborovySystem <-- [Backend] : Ovládání souborového systému příkazy

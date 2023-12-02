@@ -1,22 +1,19 @@
 @startuml
-
 cloud "Backend Systém" {
     [Backend Server]
 }
 
 node "Čipový Server" {
-    database "Databáze Čipového Serveru"
-    [API Čipového Serveru]
+    database "Databáze Čipového Serveru" as Databaze
     node "Zařízení pro Příchody" as Prichody
     node "Zařízení pro Odchody" as Odchody
 }
 
-[Backend Server] <-left- [API Čipového Serveru] : Získává\ndata
-[API Čipového Serveru] <-down- "Databáze Čipového Serveru" : Získává\ndata
-Prichody -up-> "Databáze Čipového Serveru" : Ukládá\npříchody
-Odchody -up-> "Databáze Čipového Serveru" : Ukládá\nodchody
+[Backend Server] <-down- Databaze : Získává\ndata
+Prichody -up-> Databaze : Ukládá\npříchody
+Odchody -up-> Databaze : Ukládá\nodchody
 
-note right of Prichody
+note left of Prichody
   Zařízení pro evidenci příchodů
   Umístěno před dveřmi do školy
 end note
@@ -25,5 +22,4 @@ note right of Odchody
   Zařízení pro evidenci odchodů
   Umístěno před dveřmi ze školy
 end note
-
 @enduml

@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+
+actor "Žák" as Zak
+actor "Učitel" as Ucitel
+actor "PPP/SPC" as PPPSPC
+actor "Škola" as Skola
+
+rectangle {
+  usecase "Žádá o vyšetření" as UC1
+  usecase "NFN kód" as UC2
+  usecase "Vydá posudek pro školu" as UC3
+  usecase "Snaha upravit vzdělávání" as UC4
+  usecase "Vydá posudek pro žáka" as UC5
+  usecase "Přinese posudek pro školu" as UC6
+  usecase "Zadá posudek pro IS" as UC7
+  usecase "Čte informaci o posudku" as UC8
+  usecase "Čte celý dokument" as UC9
+  usecase "Hlídá expiraci" as UC10
+  usecase "Dohodne znění posudku" as UC11
+  usecase "Upravuje přístup ke vzdělávání" as UC12
+}
+Zak --> UC1
+Zak --> UC6
+Ucitel --> UC8
+Ucitel --> UC12
+UC8 ..> UC9 : <<include>>
+Skola --> UC7
+Skola --> UC10
+Skola --> UC11
+PPPSPC --> UC11
+PPPSPC --> UC3
+PPPSPC --> UC4
+UC3 .. UC4 : <<include>>
+UC3 .. UC2 : <<extend>>
+
+@enduml

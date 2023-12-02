@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+
+actor "Zástupce ředitele" as Zastupce
+actor "Žák" as Zak
+
+rectangle {
+  usecase "Doloží certifikát" as UC1
+  usecase "Zadá certifikát do IS" as UC2
+  usecase "Ověří pravost certifikátu" as UC3
+  usecase "Zobrazí si certifikát" as UC4
+  usecase "Exportuje certifikát do IS-CERMAT (CERTIS)" as UC5
+}
+Zak -up-> UC1
+Zak -up-> UC4
+Zastupce --> UC2
+UC2 . UC3 : <<include>>
+Zastupce --> UC5
+
+@enduml

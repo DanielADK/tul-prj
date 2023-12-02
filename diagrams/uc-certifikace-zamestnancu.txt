@@ -1,0 +1,19 @@
+@startuml
+left to right direction
+
+actor "Učitel" as Ucitel
+actor "Ředitel" as Reditel
+actor "Veřejnost" as Verejnost
+actor "Žák" as Zak
+
+rectangle {
+  usecase "CRUD svých certifikací" as UC1
+  usecase "R certifikací" as UC2
+  usecase "Export pro výroční zprávu a DVPP plán" as UC3
+}
+Zak -left-|> Verejnost
+Ucitel --> UC1
+Verejnost -up-> UC2
+Reditel --> UC3
+
+@enduml

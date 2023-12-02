@@ -1,36 +1,9 @@
 \documentclass[FM,Proj]{tulthesis}
 
-% 1) odhad stavů 2) odhad náročnosti 3) rešerše stávajících systémů -> klíčové fce
-
-
-% tento dokument používá balíky specifické pro XeLaTeX a lze jej přeložit
-% jen XeLaTeXem, nemáte-li instalována použitá (komerční) písma, změňte
-% nebo vymažte příkazy \set...font na následujících řádcích
-
-% Autor šablony: Pavel Satrapa: http://www.nti.tul.cz/~satrapa/vyuka/latex-tul/
-
-% Autor komentářů, jejich překladů do EN, nastavení BibLaTeXu a aplikace ČSN ISO 690: Jan Koprnický
-% http://www.fm.tul.cz/personal/jan.koprnicky
-
-% ENGLISH EXPLANATION
-% \documentclass[FM,Dis,EN,fonts,bw]{tulthesis} % black and white typing, dissertation thesis at FM, written in English with using of TUL Mono font
-% this document uses packages specific for XeLaTeX and it is possible to 
-% compile it by XeLaTeX only, if you haven't installed used (commercial) fonts
-% change them or erase commands \set...font in following rows
-% settings: FM (faculty: FS, FT, FP, EF, FA, FM, FZS a CXI), Dis (type of thesis: BP, DP, Teze, Autoref, Hab, SP, Proj), EN (written in English language), fonts (activation of TUL fonts), bw (black and white)
-
-% Autor of the template tulthesis: Pavel Satrapa: http://www.nti.tul.cz/~satrapa/vyuka/latex-tul/
-
-% Autor of several comments and their translation into English, BibLaTeX settings and CSN ISO 960 citation standard setting: Jan Koprnický
-% http://www.fm.tul.cz/personal/jan.koprnicky
-
-% poslední změna / last modification 12. 5. 2023
-
 \newcommand{\verze}{2.0}
 
 \usepackage{polyglossia}
 \setdefaultlanguage{czech} % comment when English is preferred
-%\setdefaultlanguage{english} % comment when Czech is preferred
 
 
 \usepackage{makeidx}
@@ -58,7 +31,7 @@
 \sloppy
 
 % deklarace pro titulní stránku / title page declaration
-\TULtitle{Návrh a analýza procesu modernizace školního informačního systému pro střední školu}{}
+\TULtitle{Analýza pro proces modernizace školního informačního systému pro střední školu}{}
 \TULauthor{Daniel Adámek}
 
 % pro bakalářské, diplomové a disertační práce / for bachelor, master theses and dissertation
@@ -112,9 +85,16 @@
 %\ThesisStart{zadani-a-prohlaseni.pdf}
 
 \begin{abstractCZ}
-Cílem této práce analýza současného informačního systému střední průmyslové školy, včetně popisu jeho provozu, databázového modelu, client-side scripting, server-side scripting, funkcí API a uživatelského rozhraní. Následuje analýza a porovnání komerčních a open source řešení dostupných na trhu, včetně zhodnocení výhod a nevýhod in-house vývoje informačního systému. Práce dále zahrnuje identifikaci a analýzu potřeb koncových uživatelů - zaměstnanců školy i žáků, kteří budou systém používat pro zápis známek a další agendu.
-
-Na základě získaných informací a provedených analýz bude formulován návrh informačního systému, včetně procesu modernizace, který bude reflektovat identifikované potřeby uživatelů a moderní trendy v IT. Práce tak přispěje k lepšímu pochopení a řešení problémů současného informačního systému ve školství a poskytne návrhy na jeho zlepšení a modernizaci.
+Tato práce se zabývá podrobnou analýzou současného informačního systému používaného
+na střední průmyslové škole. Hlavním cílem je poskytnout ucelený pohled na provoz
+systému, včetně popisu implementovaných funkcionalit, toku dat, synchronizačních 
+mechanismů, API funkcí, uživatelského rozhraní, legislativních požadavků a 
+bezpečnostních přístupů. V práci je kladen důraz na identifikaci silných a 
+slabých stránek současného systému a na porovnání s komerčními řešeními dostupnými
+na trhu. Dále se práce věnuje zhodnocení výhod a nevýhod vývoje vlastního informačního
+systému (in-house) ve srovnání s nákupem a implementací komerčního softwaru. Cílem 
+je poskytnout doporučení pro zlepšení stávajícího systému nebo pro výběr 
+vhodného komerčního řešení.
 \end{abstractCZ}
 
 \begin{keywordsCZ}
@@ -124,9 +104,16 @@ informační systém, analýza, in-house vývoj, školství
 \vspace{2cm}
 
 \begin{abstractEN}
-The aim of this thesis is to analyze the current information system of a secondary industrial school, including a description of its operation, database model, client-side scripting, server-side scripting, API functions and user interface. This is followed by an analysis and comparison of commercial and open source solutions available on the market, including an evaluation of the advantages and disadvantages of in-house information system development. The work also includes the identification and analysis of the needs of the end users - school staff and students who will use the system to record grades and other agendas.
-
-On the basis of the information obtained and the analyses carried out, a proposal for the information system will be formulated, including the modernisation process, which will reflect the identified needs of the users and modern trends in IT. The work will thus contribute to a better understanding and solution of the problems of the current information system in education and provide suggestions for its improvement and modernization.
+This thesis conducts a thorough analysis of the current information system
+used at a secondary technical school. The primary aim is to provide a comprehensive 
+overview of the system's operation, including a detailed description of the implemented 
+functionalities, data flow, synchronization mechanisms, API functions, user interface, 
+legislative requirements, and security approaches. The study focuses on identifying 
+the strengths and weaknesses of the current system and comparing it with commercial 
+solutions available in the market. Additionally, the thesis assesses the advantages 
+and disadvantages of developing an in-house information system versus purchasing and 
+implementing a commercial software solution. The goal is to provide recommendations 
+for improving the existing system or for selecting a suitable commercial solution.
 \end{abstractEN}
 
 \begin{keywordsEN}
@@ -177,13 +164,21 @@ Technické univerzity v~Liberci \\
 \textbf{ŠIS} & Školní informační systém \\
 \textbf{SŘBD} & Systém řízení báze dat \\
 \textbf{SSR} & Server side rendering \\
-\textbf{CSR} & Client side rendering \\
 \textbf{LDAP} & Lightweight Directory Access Protocol \\
 \textbf{VPS} & Virtual Private Server \\
 \textbf{DDoS} & Distributed Denial of Service \\
+\textbf{CRUD} & Create Read Update Delete \\
+\textbf{DVPP} & Další vzdělávání pedagogických pracovníků \\
+\textbf{OVM} & Orgán veřejné moci \\
+\textbf{IZO} & Identifikační znak organizace \\
 \textbf{SPU} & Specifické poruchy učení \\
 \textbf{MŠMT} & Ministerstvo školství, mládeže a tělovýchovy \\
-\textbf{PPP} & Pedagogicko-psychologická poradna
+\textbf{PPP} & Pedagogicko-psychologická poradna \\
+\textbf{SPC} & Speciálně pedagogické centrum \\
+\textbf{NFN} & Normovaná finanční náročnost \\
+\textbf{PaM} & Pracovníci a mzdy \\
+\textbf{CERMAT} & Centrum pro zjišťování výsledků vzdělávání  \\
+\textbf{JPZ} & Jednotné přijímací zkoušky
 \end{abbrList}
 
 \chapter{Uvedení do problematiky a stanovení cílů práce}
@@ -303,24 +298,22 @@ Nejdříve avšak je třeba se věnovat, pokud chceme podrobněji analyzovat IS 
 a jejich návrh, definici základních problémů samotné problematiky. Definicí 
 informačního systému je obecně:
 \\\\
-\textit{,,Informačním systémem obecně nazýváme organizaci údajů vhodnou pro systémové 
+\textit{Informačním systémem obecně nazýváme organizaci údajů vhodnou pro systémové 
 zpracování dat: pro jejich sběr, uložení a uchování, zpracování, vyhledávání a vydávání 
-informací o nich, to vše pro rozhodování v běžné praxi."}\cite{Sarmanova2008ISaDS}
+informací o nich, to vše pro rozhodování v běžné praxi.}\cite{Sarmanova2008ISaDS}
 \\\\
 Pro automatizované informační systémy:
 \\\\
-\textit{,,Informačním systémem automatizovaným (realizovaném na počítači) rozumíme programový 
+\textit{Informačním systémem automatizovaným (realizovaném na počítači) rozumíme programový 
 celek, řešící rozsáhlejší oblast aplikační, naprogramovaný obvykle v jednom SŘBD s 
 vhodně navrženými datovými strukturami tak, aby všechny aplikační úlohy k nim měly optimální 
 přístup. Řeší uložení, uchování, zpracování a vyhledávání informací a umožňuje jejich 
-formátování do uživatelsky přívětivého tvaru."}\cite{Sarmanova2008ISaDS}
+formátování do uživatelsky přívětivého tvaru.}\cite{Sarmanova2008ISaDS}
 
 \section{Obecný přehled o informačních systémech v oblasti školství}
 V oblasti školství v České republice je v současné době v provozu několik školních 
 IS, které slouží k efektivnímu řízení a správě školních institucí. 
 Mezi nejrozšířenější IS pro základní a střední školy patří:
-
-% TODO: Napsat do firem kolik škol to využívá
 
 \begin{samepage}
     \begin{itemize}
@@ -382,47 +375,49 @@ které by moderní školní IS měl mít. K těmto funkcionalitám patří:
 \begin{itemize}
     \item \textbf{Správa žákovské agendy:} Systém by měl umožňovat snadné přidávání, úpravu a vyhledávání záznamů o žácích.
     
-    \item \textbf{Organizace přijímacího řízení:} Systém by měl umožňovat organizaci přijímacího řízení vše od 
-    žádosti o studium, přes přijímací zkoušky organizované společností \textbf{CERMAT - Centrum pro zjišťování 
-    výsledků vzdělávání}, po konečné zavedení žáka do systému.
+    \item \textbf{Integrace přijímacího řízení:} Systém by měl umožňovat organizaci přijímacího řízení vše
+    od porání přihlášky po konečné zavedení žáka do systému.
     
-    \item \textbf{Správa dokumentů vydávaných školou:} Každý dokument vydaný školou musí mít své tzv. Jednací číslo.
-    Ty generuje spisová služba dle 499/2004 Sb. Zákona o archivnictví a spisové službě. Do dokumentů, které musí mít
-    své jednací číslo spadá například vysvědčení, pochvala třídního učitele či ředitele školy.
+    \item \textbf{Integrace spisových služeb:} Každý dokument vydaný orgánem veřejné moci (OVM) musí mít své tzv. 
+    Jednací číslo. Ty generuje spisová služba dle 499/2004 Sb. Zákona o archivnictví a spisové službě. Do dokumentů, 
+    které musí mít své jednací číslo spadá například pochvala či dutka, třídního učitele či ředitele školy.
 
     \item \textbf{Správa hodnocení:} Učitelé musí mít možnost snadno zadávat a upravovat známky, 
     a žáci by je měli snadno nalézt.
 
-    \item \textbf{Správa SPU žáků:} Škola musí přizpůsobovat podmínky výuky všem žákům se specifickými poruchami učení
+    \item \textbf{Digitální evidence SPU:} Škola musí přizpůsobovat podmínky výuky všem žákům se specifickými poruchami učení
     nebo chování (SPU). Tyto posudky a celou agendu žáků s SPU spravuje školní výchovný poradce či školní psycholog.
-    Informační systém by měl obsahovat posudky žáků z pedagogicko-psychologických poraden k nahlédnutí všem pedagogům, 
-    kteří žáka vyučují, pro správné přizpůsobení podmínek.
+    Informační systém by měl obsahovat posudky žáků z pedagogicko-psychologických poraden (PPP) nebo speciálních pedagogických
+    center k nahlédnutí všem pedagogům, kteří žáka vyučují, pro správné přizpůsobení podmínek výuky. Též tato evidence
+    slouží k správě podpůrných opatření, tedy kódy tzv. normované finanční náročnosti (NFN), sloužící k výkazu zvýšené náročnosti
+    pedagogické činnosti.
 
     \item \textbf{Suplování:} Systém pro správu mimořádných akcí, které nejsou v řádném rozvhu třídy/skupiny/učitele.
     
     \item \textbf{Zamlouvání učeben:} Systém pro správu volných učeben pro mimoškolní akce, jako jsou kroužky, komerční
-    akce, či doučování.
+    akce či doučování.
     
     \item \textbf{Správa žákovských skupin:} Některé předměty, jako jsou ty jazykové nebo třeba odborné, se dělí na skupiny pro 
     kontaktnější a názornější výuku.
     
-    \item \textbf{Centrální evidence závad:} Systém pro snadnou evidenci závad k vyřešení.
+    \item \textbf{Centrální hlášení závad:} Systém pro snadné hlášení závad ve škole.
 
     \item \textbf{Správa absencí:} Automatizovaný systém pro zaznamenávání absence žáků, s možností notifikace rodičů.
     
     \item \textbf{Dokumentový management:} Úložiště pro školní dokumenty, jako jsou rozvrhy, plány a interní materiály.
     
-    \item \textbf{Certifikace a kvalifikace:} Sekce, kde lze evidovat různé certifikáty a kvalifikace, které žák získal.
+    \item \textbf{Certifikace:} Sekce, kde lze evidovat různé certifikace, které žák či učitel získal.
 
     \item \textbf{Elektronická třídní kniha:} Systém pro správu elektronické třídnice, kde se uchovávají například data 
     o absenci žáků a probírané látce.
 
-    \item \textbf{Správa tématických plánů:} Škola může disponovat konkrétní konkretizaci ŠVP, tedy tématických plánů,
+    \item \textbf{Správa vzdělávacích plánů:} Škola může disponovat konkrétní konkretizaci ŠVP, tedy vzdělávacích plánů,
     které plánují jednotlivé hodiny.
     
     \item \textbf{Offline režim:} Možnost pokračovat v práci i v případě, když je internetové připojení nedostupné.
 
-    \item \textbf{Matriční záznamy:} Systém pro správu a aktualizaci dat o studujících žácích s matričním úřadem.
+    \item \textbf{Matriční záznamy:} Systém pro správu a aktualizaci dat o studujících žácích s Ministerstvem školství,
+    mládeže a tělovýchovy (MŠMT).
 
     \item \textbf{Responzivní design:} Vzhled webové aplikace přizpůsobený více druhům zařízení jako jsou laptopy,
     tak i pro tablety, chytré telefony i televize, či hodinky.
@@ -441,25 +436,25 @@ Pro efektivní srovnání funkcionalit různých ŠIS využiji tabulkovou formu.
 které z dostupných systémů nabízí funkce, jež jsou pro danou školní instituci klíčové.
 
 \renewcommand{\arraystretch}{1.5}
-\begin{table}[h]
+\begin{table}[H]
     \begin{tabular}{lcccc}
     \hline
     \multicolumn{1}{|l|}{\textbf{FUNKCIONALITA/IS}}     & \multicolumn{1}{c|}{\textbf{Ječná IS}}                 & \multicolumn{1}{l|}{\textbf{Bakaláři}}        & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Škola\\ OnLine\end{tabular}}} & \multicolumn{1}{l|}{\textbf{EduPage}}                  \\ \hline
     \multicolumn{1}{|l|}{Správa žákovské agendy}        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
-    \multicolumn{1}{|l|}{Organizace přijímacího řízení} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                               & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} \\ \hline
-    \multicolumn{1}{|l|}{Správa spisových dokumentů}    & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                               & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} \\ \hline
+    \multicolumn{1}{|l|}{Integrace přijímacího řízení}  & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                               & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} \\ \hline
+    \multicolumn{1}{|l|}{Integrace spisových služeb}    & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                               & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} \\ \hline
     \multicolumn{1}{|l|}{Správa hodnocení}              & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
-    \multicolumn{1}{|l|}{Správa SPU žáků}               & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
+    \multicolumn{1}{|l|}{Digitální evidence SPU}        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
     \multicolumn{1}{|l|}{Suplování}                     & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
     \multicolumn{1}{|l|}{Zamlouvání učeben}             & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
     \multicolumn{1}{|l|}{Správa žákovských skupin}      & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
-    \multicolumn{1}{|l|}{Centrální evidence závad}      & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
+    \multicolumn{1}{|l|}{Centrální hlášení závad}       & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
     \multicolumn{1}{|l|}{Správa absencí}                & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
     \multicolumn{1}{|l|}{Dokumentový management}        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
     \multicolumn{1}{|l|}{Certifikace a kvalifikace}     & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
     \multicolumn{1}{|l|}{Elektronická třídnice}         & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
     \multicolumn{1}{|l|}{Správa tématických plánů}      & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
-    \multicolumn{1}{|l|}{Offline režim}                 & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
+    \multicolumn{1}{|l|}{Offline režim}                 & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}                                        & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}}          \\ \hline
     \multicolumn{1}{|l|}{Matriční záznamy}              & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
     \multicolumn{1}{|l|}{Responzivní design}            & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
     \multicolumn{1}{|l|}{Mobilní aplikace}              & \multicolumn{1}{c|}{{\color[HTML]{CB0000} \XSolid}} & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}                                        & \multicolumn{1}{c|}{{\color[HTML]{009901} \CheckmarkBold}}          \\ \hline
@@ -467,11 +462,11 @@ které z dostupných systémů nabízí funkce, jež jsou pro danou školní ins
 
     \end{tabular}
     \caption{Tabulkový soupis funcionalit jednodlivých ŠIS}
-    \label{analysis:funcionality}
+    \label{table:functionality}
 \end{table}
 
 \section{Hlavní poznatky tabulkového soupisu}
-V první řadě je z tabukolvého přehledu \ref{analysis:functionality} patrné, že IS Bakaláři
+V první řadě je z tabulkového přehledu \ref{table:functionality} patrné, že IS Bakaláři
 vede v počtu funkcionalit, které jsou dostupné pro uživatele s počtem 12 a tím má náskok 2
 body. Na dalším, druhém, místě se vyskytují systémy Ječná IS a Škola OnLine každý s počtem 10. 
 Oproti tomu systém EduPage má pouze 8. Tento
@@ -488,7 +483,7 @@ být rozhodující faktor pro školy s určitými specializovanými potřebami.
 
 V dnešní době, kdy je přístup k informacím očekáván kdykoliv
 a odkudkoliv, nabývají na významu také funkce jako responzivní 
-design a mobilní aplikace. Jak je patrné z tabulky \ref{analysis:functionality},
+design a mobilní aplikace. Jak je patrné z tabulky \ref{table:functionality},
 všechny zmiňované systémy kromě Ječná IS nabízejí responzivní design a mobilní
 aplikaci, což z nich činí více vhodné kandidáty pro školy, které chtějí
 být flexibilní ve výběru zařízení pro přístup k systému.
@@ -565,6 +560,11 @@ příslušných vazeb:
         \label{fig:puvodni-architektura}
     \end{figure}
 \end{landscape}
+
+Schéma mapuje klíčové komponenty a jejich vzájemné vztahy. Prvním bodem je sekce věnovaná
+propojení \ref{section:backend-a-frontend} \nameref{section:backend-a-frontend}, 
+které představuje interakci mezi serverovou logikou a uživatelským rozhraním. Těsně spjatý
+s touto částí je vztah mezi \ref{section:backend-a-exporter} \nameref{section:backend-a-exporter}.
 
 Rozpis sekcí:
 \begin{enumerate}
@@ -733,13 +733,13 @@ a formátů dat. Výsledkem je robustný a efektivně spravovaný systém, schop
 různorodým potřebám. Současný exportér disponuje třemi následujícími metodami
 pro export:
 \begin{enumerate}
-    \item\label{export:matricni-urad} export pro Matriční úřad,
-    \item\label{export:evidencni-software} export pro Evidenční software,
-    \item\label{export:ucetni-software} export pro Účetní software.
+    \item\label{export:msmt} export pro MŠMT,
+    \item\label{export:evidencni-software} export pro Evidence majetku,
+    \item\label{export:ucetni-software} export pro Mzdový a personální software.
 \end{enumerate}
 
-\subsubsection*{AD \ref{export:matricni-urad} - Matriční úřad}
-Export dat pro Ministerstvo školství, mládeže a tělovýchovy (MŠMT), které spravuje matriční 
+\subsubsection*{AD \ref{export:msmt} - MŠMT}
+Export dat pro MŠMT, které spravuje matriční 
 záznamy žáků ohledně jejich studia, jejich speciálních potřeb a jejich následných vazeb.
 Jednou z takových vazeb může být platba statního zdravotního a sociálního pojištění.
 
@@ -750,7 +750,14 @@ Tyto informace poskytuje ministerstvo formou tabulky ve článku na svých strá
 \cite{msmt-terminy-predavani-dat-2023}. Výjimkou je terciální vzdělávání, které probíhá
 především na univerzitách. které se řídí dle SIMS - Sdružené informace matrik studentů.
 
-Struktura souboru je dělena do položek, druhu kódování (tvaru zápisu),
+Snapshot je rozdělen do 3 souborů:
+\begin{itemize}
+    \item* soubor dat \textbf{a} se žáky s SPU,
+    \item* soubor dat \textbf{b} o podpůrných opatřeních poskytovaných školou žákům,
+    \item* soubor s intaktními žáky.
+\end{itemize}
+
+Struktura souborů je dělena do položek, druhu kódování (tvaru zápisu),
 druhu číselníku, typu dat, povolené délce řetězce a povinnost záznamu.
 Vybírám těchto deset prvků pro rozmanitost datové sady:
 \begin{itemize}
@@ -765,13 +772,23 @@ Vybírám těchto deset prvků pro rozmanitost datové sady:
     \item způsob financování vzdělávání,
     \item kód 1. cizího studovaného jazyka
 \end{itemize}
-Počet položek pro intaktní žáky je 47\cite{msmt-rozhrani-predavani-dat-2023}. Pro žáky se 
-speciálními vzdělávacími potřebami ministertvo vydává druhou sadu struktury datového 
-rozhraní, která odpovídá specifickým podmínkám těchto žáků a počet položek v současné době
-je 54\cite{msmt-rozhrani-predavani-dat-2023}. Tyto struktury dat jsou zvláště specifické 
-pro každou úroveň vzdělávacího procesu, od mateřských škol, po vyšší odborné.
 
-Celý rejstřík položek, které vyžaduje MŠMT dále zpracovává a poskytuje pro Matriční úřad.
+Struktury souborů dat jsou zvláště specifické pro každou úroveň vzdělávacího procesu, 
+od mateřských škol, po vyšší odborné. Naší kategorií je formát pro střední školy.
+Počet položek v souboru dat o žácích s SPU 47 \cite{msmt-rozhrani-predavani-dat-2023},
+v souboru s podpůrnými opatřeními poskytovaných školou žákům je 24 
+\cite{msmt-rozhrani-predavani-dat-2023} a v posledním souboru pro žáky intaktní počet položek
+je roven 47 \cite{msmt-rozhrani-predavani-dat-2023}.
+
+Všechna tato data prochází anonymizací a tedy MŠMT nemá přesné informace o konkrétních žácích.
+..........................................................
+..........................................................
+..........................................................
+..........................................................
+..........................................................
+..........................................................
+
+Celý rejstřík položek, které vyžaduje MŠMT dále zpracovává pro finanční výkazy a statistiky.
 
 Problematikou implementace exporteru se zkomplikovává častou aktualizací datového rozhraní
 pro předávání dat. Aktualizaci rozhraní vydává MŠMT přibližně jednou ročně, včetně aktualizace
@@ -779,7 +796,7 @@ pro předávání dat. Aktualizaci rozhraní vydává MŠMT přibližně jednou 
 ve kterém ministerstvo poskytuje nové aktualizace. Formátem je PDF soubor ve článku na webu. Tento 
 způsob tedy potřebuje vždy zásah do implementace člověkem a nelze nativně automatizovat.
 
-\subsubsection*{AD \ref{export:evidencni-software} - Evidenční software}
+\subsubsection*{AD \ref{export:evidencni-software} - Evidence majetku}
 Evidenční software, který je součástí ŠIS, hraje klíčovou roli v řízení a správě fyzického
 majetku školy. Exporter zde zastává zásadní úlohu tím, že zajišťuje pravidelnou aktualizaci 
 a přenos dat týkajících se školního inventáře, což zahrnuje podrobné informace o zařízeních,
@@ -788,13 +805,13 @@ nezbytná pro efektivní invertarizaci a správu majetku, což umožňuje škole
 stav, umístění a plánovat případné nákupy nebo údržbu. Evidenční software tak hraje
 klíčovou roli v udržení přehledu a efektivního využívání školních zdrojů. 
 
-\subsubsection*{AD \ref{export:ucetni-software} - Účetní software}
+\subsubsection*{AD \ref{export:ucetni-software} - Mzdový a personální software (PaM)}
 V oblasti finanční správy je rovněž důležité, aby byla data týkající se zaměstnanců a jejich
 úvazků správně zpracována a integrována do Účetního softwaru. Exporter zde poskytuje potřebné
 informace pro kalkulaci výplat zaměstnanců. Tato data jsou využívána účetním softwarem pro 
 přesné výpočty mzdových nákladů, odvodů a případných příplatků.
 
-Všechna potřebná data pro Evidenční a Účetní software jsou Exporterem vygenerována 
+Všechna potřebná data pro software k Evidenci majetku a PaM jsou Exporterem vygenerována 
 do dávkového souboru a následně nahrána do příslušného softwaru. 
 
 \subsection{Backend a Čipový server}
@@ -822,7 +839,7 @@ Backend systému je propojen pomocí neveřejného API s dalšími komponentami 
 uchováno pod speciální URL adresou se specifickým klíčem. Z tohoto API čerpají interní systémy,
 především LDAP server, telefonní systém a Z-Ware.
 
-Telefony (tj. systém telefonů) se dotazuje API pro přidělení linek ve škole a zajišťuje 
+Telefony (tj. systém telefonů) se dotazuje API pro synchronizaci linek ve škole a zajišťuje 
 jejich konfiguraci. LDAP server se synchronizuje s API IS na základě periodicky vykonávaných
 skriptů, obvykle 1x denně, případně lze i manuálně při údržbě.
 
@@ -864,6 +881,14 @@ na školních počítačích nejsou dovoleny z důvodu bezpečnosti.
 zaměstnanecké účty se ve škole nijak neliší. Jedinými synchronizovanými daty mezi školními
 počítači a serverem jsou uživatelské disky na školních serverech.
 
+% Národní standard spisové e. služby
+% cermat není orgán veřejné moci -> nemá povinnost mít spisovku nesplňuji NSSS
+% Pochvala, dutka -> musí mít jednací číslo
+% Musí být zadáno do spisové služby
+
+% Katalogový list žáka -> matrika ve škole, neodesílá se
+% identifátor subjektu vzdělávání IDSV -> do 2030
+
 \section{Aplikace funkcionalit v informačním systému}
 V rámci implementace IS, který je specificky navržen pro potřeby konkrétního školního prostředí,
 byla začleněna řada klíčových funkcionalit, které jsou zásadní pro efektivní a plynulý provoz
@@ -878,12 +903,24 @@ prostřednictvím záznamů v databázi, zpracovávání pomocí komponenty Back
 Frontendové prostředí. Tyto komponenty jsou vyznačeny v diagramu zeleně, což ukazuje na jejich
 spravovatelnost a přizpůsobitelnost dle potřeb školy.
 
-\subsection*{Organizace přijímacího řízení}
-Funkcionalita organizace přijímacího řízení poskytuje nástroje pro správu přijímacích procesů,
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{uc-sprava-zakovske-agendy.png}
+    \caption{Use Case diagram Správy žákovské agendy}
+    \label{fig:uc-sprava-zakovske-agendy}
+\end{figure}
+
+\subsection*{Integrace přijímacího řízení}
+Funkcionalita integrace přijímacího řízení poskytuje nástroje pro správu přijímacích procesů,
 včetně přihlášek, evidence uchazečů, evaluace přijatých, přiřazení a vytvoření nových účtů.
 V našem IS je tato funkce podporována, což umožňuje škole ušetřit mnoho administrativní zátěže.
 Tato funcionalita je implementována v Frontendu formou formuláře, kde se dále zpracovává v 
 Backendu a ukládá v databázi.
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{uc-integrace-prijimaciho-rizeni.png}
+    \caption{Use Case diagram Integrace přijímacího řízení}
+    \label{fig:uc-integrace-prijimaciho-rizeni}
+\end{figure}
 
 \subsection*{Správa hodnocení}
 Správa hodnocení umožňuje učitelům zaznamenávat, sledovat a analyzovat výsledky žáků. Tato
@@ -892,26 +929,53 @@ V našem IS je tato functionalita implementována jako jedna ze základních pol
 implementována formou tabulek a formulářů na straně Frontendu, zpracováván v Backendu a
 ukládán v databázi.
 
-\subsection*{Správa SPU žáků}
+% UC DIAGRAM CHYBÍ
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{uc-digitalni-evidence-spu.png}
+    \caption{Use Case diagram Digitální evidence SPU}
+    \label{fig:uc-digitalni-evidence-spu}
+\end{figure}
+
+\subsection*{Digitální evidence SPU}
 Správa specifických poruch učení (SPU) žáků je součástí IS. Tato funkcionalita umožňuje
-výchovným poradkyním evidovat zprávy ze zdravotních ústavů. Jedním a nejčastějším 
-příkladem takové instituce je Pedagogicko-psychologická poradna (PPP). Tyto informace
+výchovným poradkyním evidovat zprávy ze zdravotních ústavů: Pedagogicko-psychologické poradny 
+(PPP) nebo Speciálního pedagogického centra (SPC). Tyto informace
 jsou zpracovány výchovnými poradkyněmi a ve zkrácené formě včetně doporučení úpravy
 výuky jsou zpřístupněny pedagogům, kteří daného žáka vyučují. Toto je klíčové pro
 správné a efektivní fungování inkluzivního a adaptivního vzdělávacího prostředí.
 Implementace je pomocí Frontendu, Backendu pro zpracování a databáze pro ukládání.
 
-\subsection*{Centrální evidence závad}
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{uc-digitalni-evidence-spu.png}
+    \caption{Use Case diagram Digitální evidence SPU}
+    \label{fig:uc-digitalni-evidence-spu}
+\end{figure}
+
+\subsection*{Centrální hlášení závad}
 Ječná IS zahrnuje funkcionalitu pro centrální evidenci závad ve škole, který umožňuje
 žákům a zaměstnancům hlásit a spravovat technické problémy nebo závady ve škole.
 Implementován je pomocí služeb Microsoftu, tedy veřejný email, který ukládá informace
 a distribuuje mezi správce školní sítě a vedení školy.
+
+% UC DIAGRAM CHYBÍ
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{uc-digitalni-evidence-spu.png}
+    \caption{Use Case diagram Digitální evidence SPU}
+    \label{fig:uc-digitalni-evidence-spu}
+\end{figure}
 
 \subsection*{Správa absencí}
 Funkcionalita správy absencí zajišťuje přehled o docházce studentů a umožňuje identifikaci
 a řešení problémů s absencemi. Tato funkcionalita je v IS plně podporována je jedna ze 
 základních položek. Implementována je pomocí tabulek a formulářů na Frontendu, spravována 
 Backendem a ukládána do databáze.
+
+% UC DIAGRAM CHYBÍ
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{uc-digitalni-evidence-spu.png}
+    \caption{Use Case diagram Digitální evidence SPU}
+    \label{fig:uc-digitalni-evidence-spu}
+\end{figure}
 
 \subsection*{Dokumentový management}
 Dokumentový management v našem systému plní funkci úložiště veřejných dokumentů
@@ -934,8 +998,8 @@ Implementován je pomocí Backendu, který uděluje práva uživatelům IS a man
 s daty. Vše je zobrazováno ve Frontendu pomocí seznamu souborů file-systému, kde
 se stahují všechny dokumenty HTTP protokolem na přímou žádost o stažení dokumentu.
 
-\subsection*{Certifikace a kvalifikace}
-Funkcionalita certifikace a kvalifikace v Ječná IS umožňuje sledování a správu 
+\subsection*{Certifikace}
+Funkcionalita certifikace v Ječná IS umožňuje sledování a správu 
 certifikací a kvalifikací získaných žáky nebo personálem. Tato funkce je důležitá
 pro dokumentaci a uznání úspěchů, kterými jsou odborné certifikáty. Díky této 
 správě lze jednoduše zjistit, jací žáci mají složenou odbornou zkoušku, 
@@ -943,12 +1007,25 @@ která by žákům mohla zajistit odpuštění praktické části zkoušky matur
 Funcionalita je implementována pomocí tabulek na Frontendu, zpracováním na Backendu
 a ukládáním v databázi.
 
-\subsection*{Správa tématických plánů}
+% UC DIAGRAM CHYBÍ
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{uc-digitalni-evidence-spu.png}
+    \caption{Use Case diagram Digitální evidence SPU}
+    \label{fig:uc-digitalni-evidence-spu}
+\end{figure}
+
+\subsection*{Správa vzdělávacích plánů}
 Správa tématických plánů  je zásadní pro organizaci a plánování vzdělávacího obsahu.
 Tato funkcionalita umožňuje učitelům vytvářet, upravovat a spravovat tématické plány
 pro různé předměty. Efektivní správa těchto plánů podporuje jasnou evidenci vyučovaných
 témat týden po týdnu pro celý školní rok. Implementace je realizována pomocí tabulek
 na Frontendu, zpracování na Backendu a ukládáním v databázi.
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{uc-sprava-vzdelavacich-planu.png}
+    \caption{Use Case diagram Správy vzdělávacích plánů}
+    \label{fig:uc-sprava-vzdelavacich-planu}
+\end{figure}
 
 \subsection*{Matriční záznamy}
 Důležitost evidence a exportu matričních záznamů je již vysvětlena v sekci 

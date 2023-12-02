@@ -1,0 +1,12 @@
+@startuml
+left to right direction
+actor Učitel
+actor Žák
+actor "Administrativní Pracovník"
+
+rectangle "Správa Žákovské Agendy" {
+  Učitel -- (Nahlížení k žákovským informacím)
+  Žák -- (Přístup ke svým informacím)
+  "Administrativní Pracovník" -- (Správa žákových údajů)
+}
+@enduml
