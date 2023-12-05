@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+
+actor "Žák" as Zak
+actor "Zaměstnanec" as Zamestnanec
+actor "Specializovaný zaměstnanec" as Spravce
+actor "Vedení školy" as Vedeni
+
+rectangle {
+  usecase "Hlásí závadu" as UC1
+  usecase "Přijímá hlášení závad" as UC2
+  usecase "Spravuje závady" as UC3
+  usecase "Sleduje stav závad" as UC5
+}
+
+
+Spravce -|> Zamestnanec
+Vedeni -|> Zamestnanec
+Zak -down-> UC1
+Zamestnanec -down-> UC1
+Spravce -right-> UC2
+Spravce -right-> UC3
+Vedeni -down-> UC5
+UC1 .. UC2 : <<extend>>
+@enduml

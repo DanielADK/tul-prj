@@ -1,0 +1,24 @@
+@startuml
+left to right direction
+
+actor "Žák" as Zak
+actor "Zákonný zástupce" as Rodic
+actor "Třídní učitel" as Ucitel
+actor "Zástupce ředitele" as Zastupce
+
+rectangle {
+  usecase "Zadává absenci žáka" as UC1
+  usecase "Zobrazí absenci žáka" as UC2
+  usecase "Kontroluje zápis absencí" as UC3
+  usecase "Generuje vysvědčení" as UC4
+
+}
+
+Rodic -|> Zak
+Ucitel -down-> UC1
+Zak -up-> UC2
+Zastupce -up-> UC2
+Zastupce -up-> UC3
+Zastupce -up-> UC4
+
+@enduml

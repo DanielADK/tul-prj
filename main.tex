@@ -561,33 +561,26 @@ příslušných vazeb:
     \end{figure}
 \end{landscape}
 
-Schéma mapuje klíčové komponenty a jejich vzájemné vztahy. Prvním bodem je sekce věnovaná
-propojení \ref{section:backend-a-frontend} \nameref{section:backend-a-frontend}, 
-které představuje interakci mezi serverovou logikou a uživatelským rozhraním. Těsně spjatý
-s touto částí je vztah mezi \ref{section:backend-a-exporter} \nameref{section:backend-a-exporter}.
-
-Rozpis sekcí:
-\begin{enumerate}
-    \item[\ref{section:backend-a-frontend}] \nameref{section:backend-a-frontend}
-    \item[\ref{section:backend-a-exporter}] \nameref{section:backend-a-exporter}
-    \item[\ref{section:backend-a-cipovy-server}] \nameref{section:backend-a-cipovy-server}
-    \item[\ref{section:backend-a-api}] \nameref{section:backend-a-api}
-    \item[\ref{section:ldap-server-a-moodle}] \nameref{section:ldap-server-a-moodle}
-    \item[\ref{section:ldap-server-a-skolni-pocitace}] \nameref{section:ldap-server-a-skolni-pocitace}
-\end{enumerate}
+Schéma mapuje klíčové komponenty a jejich vzájemné vztahy. Propojení \ref{section:backend-a-frontend}
+\nameref{section:backend-a-frontend}, které představuje interakci mezi serverovou logikou a uživatelským
+rozhraním. Těsně spjatý s touto částí je vztah mezi \ref{section:backend-a-exporter} 
+\nameref{section:backend-a-exporter}, jenž se zaměřuje na export dat z backendového zpracování. 
+Následuje \ref{section:backend-a-cipovy-server} \nameref{section:backend-a-cipovy-server}, což je klíčový 
+vztah pro řízení příchodů a odchodů žáků do školy. Další, důležitým vztahem je \ref{section:backend-a-api} 
+\nameref{section:backend-a-api}, které umožňuje integraci s dalšími systémy a aplikacemi. 
+\ref{section:ldap-server-a-moodle} \nameref{section:ldap-server-a-moodle} přestavují spojení mezi 
+autentizačním serverem a e-learningovou platformou, a nakonec \ref{section:ldap-server-a-skolni-pocitace} 
+\nameref{section:ldap-server-a-skolni-pocitace}, sloužící pro správu přihlašovacích údajů do školních počítačů.
+\\
 
 % Kdo za co odpovídá
 
-% Kde se software napojuje na software
-% Kde se co realizuje, které inzeruji v výhodách IS
 % Co musím mít a co by chceme mít
-% Use case diagramy
 % Sequence diag
-% Jak se databáze plní ->
 % nejvyšší vrstva popisu databáze
 % Kdo db dělá? jak by byl proces přidání nové komponenty?
 
-Při pohledu na architekturu našeho ŠIS, vidím kombinaci vnějších a vnitřních služeb,
+Při pohledu na architekturu tohoto ŠIS, lze vidět kombinaci vnějších a vnitřních služeb,
 které spolu komunikují synchronizace dat mezi všemi službami, které IS poskytuje pro studenty,
 rodiče, pedagogy i nepedagogické zaměstnance.
 
@@ -595,7 +588,7 @@ V diagramu jsou komponenty, které škola spravuje a může je přizpůsobit sv�
 zvýrazněny zeleně. Naopak, červeně jsou označeny ty komponenty, které disponují vlastním
 komunikačním rozhraním a IS musí být upraven tak, aby umožnil jejich automatickou správu.
 
-Začněme tím, jak je konfigurován náš externí server.
+Začněme tím, jak je konfigurován externí server.
 Na externím serveru se nalézá relační databáze \textit{MySQL}, která slouží k uložení všech  
 strukturovaných dat. Tato databáze je napojena na \textit{Backend} část, což je místo, kde probíhá
 většina zpracování a řízení dat mezi databází a uživatelským rozhraním. Na tomto serveru je také
@@ -646,21 +639,10 @@ nezbytně nutné pro funkčnost systému nebo aplikace.
 
 \subsection*{Jednosměrnost API \& matriční záznamy}  
 \label{section:jednosmernost-api-a-matricni-zaznamy}
-Centrální jednotkou IS je Externí část schématu a její databázový model. Změny ze strany jiných služeb by mohl
-být velice nebezpečný. IS 2x ročně (1x v říjnu a 1x v květnu) generuje svůj archivační model, který poskytuje
-na žádost matričního úřadu.
-Jakmile, by žák si například změnil své jméno v některém ze svých subsystémů, matriční úřad mohl přestat
-párovat žáka v jeho občanské databázi a přestat evidovat jeho studium. V tomto případě by to mělo spoustu 
-legislativních důsledků, jak lze vidět v schématu \ref{fig:dusledky-nestudia}
-
-\begin{landscape}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\linewidth]{dusledky-nestudia.png}
-        \caption{Následky zanechání studia v důsledku administrativní chyby}
-        \label{fig:dusledky-nestudia}
-    \end{figure}
-\end{landscape}
+Centrální jednotkou IS je Externí část schématu, její databázový model a Backend komponenta. Změny ze strany 
+jiných služeb by byl těžce kontrolovatelný a náročný ochranu. IS na žádost MŠMT generuje archivační snapshot
+svých matričních záznamů o žácích. Jakmile, by žák si například změnil své jméno v některém ze svých subsystémů,
+mohla by nastat synchronizační chyba na kterou systém není přípraven a generování dat pro MŠMT by nebyl korektní.
 
 \section{Datové toky mezi komponentami}
 \label{section:datove-toky-mezi-komponentami}
@@ -929,11 +911,10 @@ V našem IS je tato functionalita implementována jako jedna ze základních pol
 implementována formou tabulek a formulářů na straně Frontendu, zpracováván v Backendu a
 ukládán v databázi.
 
-% UC DIAGRAM CHYBÍ
 \begin{figure}[H]
-    \includegraphics[width=\textwidth-28pt]{uc-digitalni-evidence-spu.png}
-    \caption{Use Case diagram Digitální evidence SPU}
-    \label{fig:uc-digitalni-evidence-spu}
+    \includegraphics[width=\textwidth-28pt]{uc-sprava-hodnoceni.png}
+    \caption{Use Case diagram Správa hodnocení}
+    \label{fig:uc-sprava-hodnoceni}
 \end{figure}
 
 \subsection*{Digitální evidence SPU}
@@ -957,11 +938,10 @@ Ječná IS zahrnuje funkcionalitu pro centrální evidenci závad ve škole, kte
 Implementován je pomocí služeb Microsoftu, tedy veřejný email, který ukládá informace
 a distribuuje mezi správce školní sítě a vedení školy.
 
-% UC DIAGRAM CHYBÍ
 \begin{figure}[H]
-    \includegraphics[width=\textwidth-28pt]{uc-digitalni-evidence-spu.png}
-    \caption{Use Case diagram Digitální evidence SPU}
-    \label{fig:uc-digitalni-evidence-spu}
+    \includegraphics[width=\textwidth-28pt]{uc-centralni-hlaseni-zavad.png}
+    \caption{Use Case diagram Centrální hlášení závad}
+    \label{fig:uc-centralni-hlaseni-zavad}
 \end{figure}
 
 \subsection*{Správa absencí}
@@ -970,12 +950,14 @@ a řešení problémů s absencemi. Tato funkcionalita je v IS plně podporován
 základních položek. Implementována je pomocí tabulek a formulářů na Frontendu, spravována 
 Backendem a ukládána do databáze.
 
-% UC DIAGRAM CHYBÍ
 \begin{figure}[H]
-    \includegraphics[width=\textwidth-28pt]{uc-digitalni-evidence-spu.png}
-    \caption{Use Case diagram Digitální evidence SPU}
-    \label{fig:uc-digitalni-evidence-spu}
+    \includegraphics[width=\textwidth-28pt]{uc-sprava-absenci.png}
+    \caption{Use Case diagram Správa absencí}
+    \label{fig:uc-sprava-absenci}
 \end{figure}
+
+% TODO
+LZE SI VŠIMMOUt, že rodič nemůže omlouvat absenci v systému
 
 \subsection*{Dokumentový management}
 Dokumentový management v našem systému plní funkci úložiště veřejných dokumentů
@@ -1007,11 +989,16 @@ která by žákům mohla zajistit odpuštění praktické části zkoušky matur
 Funcionalita je implementována pomocí tabulek na Frontendu, zpracováním na Backendu
 a ukládáním v databázi.
 
-% UC DIAGRAM CHYBÍ
 \begin{figure}[H]
-    \includegraphics[width=\textwidth-28pt]{uc-digitalni-evidence-spu.png}
-    \caption{Use Case diagram Digitální evidence SPU}
-    \label{fig:uc-digitalni-evidence-spu}
+    \includegraphics[width=\textwidth-28pt]{uc-certifikace-zaku.png}
+    \caption{Use Case diagram Certifikace žáků}
+    \label{fig:uc-certifikace-zaku}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{uc-certifikace-zamestnancu.png}
+    \caption{Use Case diagram Certifikace zaměstnanců}
+    \label{fig:uc-certifikace-zamestnancu}
 \end{figure}
 
 \subsection*{Správa vzdělávacích plánů}
@@ -1070,19 +1057,11 @@ Databázi spravuje jediný člověk a tím je současný správce IS, ředitel �
 \subsection*{Konkrétní příklad}
 ...
 
-\section{Uživatelské rozhraní}
-
 \section{Identifikace a analýza potřeb koncových uživatelů}
-
-\chapter{Návrh nového systému}
-\section{Detaily nově navrženého systému}
-\section{Zapojení potřeb uživatelů a moderních trendů v IT}
-\section{Proces modernizace}
 
 \chapter{Diskuse}
 \section{Porovnání výsledků s původními hypotézami a otázkami výzkumu}
 \section{Interpretace výsledků}
-\section{Diskuze omezení výzkumu a možností dalšího vývoje}
 
 \chapter{Závěr}
 \section{Shrnutí klíčových zjištění}

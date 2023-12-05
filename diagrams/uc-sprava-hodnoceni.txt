@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+
+actor "Žák" as Zak
+actor "Zákonný zástupce" as Rodic
+actor "Učitel" as Ucitel
+
+rectangle {
+  usecase "Zadá známku" as UC1
+  usecase "Zobrazí známku" as UC2
+  usecase "Zadá váhu známky" as UC3
+  usecase "Zadá popis známky" as UC4
+}
+
+note top of UC1
+  Nutnost kontroly varování o známce
+  + 5?, N?
+end note
+
+Ucitel -down-> UC1
+Rodic -|> Zak
+Zak -down-> UC2
+UC1 .. UC3 : <<extend>>
+UC1 .. UC4 : <<extend>>
+@enduml
