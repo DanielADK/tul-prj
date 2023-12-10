@@ -1,0 +1,20 @@
+@startuml
+actor Zak as "Žák"
+actor Ucitel as "Učitel"
+actor PPPSPC as "PPP/SPC"
+entity Skola as "Škola"
+
+Zak -> PPPSPC: Žádá o vyšetření
+PPPSPC -> Skola: Snaha upravit vzdělávání
+PPPSPC -> Skola: Dohodne znění posudku
+PPPSPC -> Zak: Vydá posudek pro žáka
+PPPSPC -> Zak: Vydá posudek pro školu
+Zak -> Skola: Přinese posudek do školy
+
+Skola -> Ucitel: Zadá posudek do IS
+Skola -> Skola: Hlídá expiraci
+Skola -> Skola: Upravuje přístup ke vzdělávání
+
+Ucitel -> Ucitel: Čte zpracované informace o posudku
+Ucitel -> Ucitel: Čte celý posudek
+@enduml

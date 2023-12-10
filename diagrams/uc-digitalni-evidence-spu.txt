@@ -12,9 +12,9 @@ rectangle {
   usecase "Vydá posudek pro školu" as UC3
   usecase "Snaha upravit vzdělávání" as UC4
   usecase "Vydá posudek pro žáka" as UC5
-  usecase "Přinese posudek pro školu" as UC6
-  usecase "Zadá posudek pro IS" as UC7
-  usecase "Čte informaci o posudku" as UC8
+  usecase "Přinese posudek do školy" as UC6
+  usecase "Zadá posudek do IS" as UC7
+  usecase "Čte zpracované informace o posudku" as UC8
   usecase "Čte celý dokument" as UC9
   usecase "Hlídá expiraci" as UC10
   usecase "Dohodne znění posudku" as UC11

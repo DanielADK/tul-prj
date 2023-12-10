@@ -1,0 +1,21 @@
+@startuml
+actor Zak as "Uchazeč"
+actor Rodic as "Zákonný zástupce"
+actor Reditel as "Ředitel"
+entity CERMAT as "CERMAT"
+
+Reditel -> Reditel: Určuje kapacitu školo-oboru
+
+Rodic -> CERMAT: Podá přihlášku
+
+CERMAT -> CERMAT: Spáruje školu a uchazeče
+Reditel -> CERMAT: Poskytne informace o kapacitě a uchazečích
+
+Zak -> Zak: Vykoná JPZ
+CERMAT -> Reditel: Rozhodne o přijetí
+
+Reditel -> CERMAT: Seřadí uchazeče
+
+Reditel -> Reditel: Zpracuje rozhodnutí o přijetí
+Reditel -> Rodic: Informuje o přijetí uchazeče
+@enduml

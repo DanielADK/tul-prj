@@ -1,0 +1,20 @@
+@startuml
+participant "Škola" as Skola
+participant "PPP/SPC" as PPPSPC
+participant "MŠMT" as MSMT
+
+' Proces zahájení
+Skola -> MSMT: Poskytne anonymizovaná data o žácích s posudky
+PPPSPC -> MSMT: Poskytne anonymizovaná data o vydaných posudcích
+
+' Kontrolní součty a ověření
+MSMT -> MSMT: Spočítá počet žáků s posudkem a jejich platnost ze školních dat
+MSMT -> MSMT: Spočítá počet žáků s posudkem a jejich platnost z dat PPP/SPC
+MSMT -> MSMT: Porovná počty posudků ze školy a z PPP/SPC 
+
+' Vyjednávání oprav dat
+alt neshoda počtů
+    MSMT -> Skola: Vyjednává opravu dat
+end
+
+@enduml

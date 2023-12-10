@@ -556,7 +556,7 @@ příslušných vazeb:
     \begin{figure}[H]
         \includegraphics[width=\linewidth]{architektura-puvodni.png}
         \caption{Stávající architektura IS. Zelené komponenty jsou
-        spravovány školou, červené externí službou}
+        spravovány školou, červené externí službou.}
         \label{fig:puvodni-architektura}
     \end{figure}
 \end{landscape}
@@ -571,7 +571,7 @@ vztah pro řízení příchodů a odchodů žáků do školy. Další, důležit
 \ref{section:ldap-server-a-moodle} \nameref{section:ldap-server-a-moodle} přestavují spojení mezi 
 autentizačním serverem a e-learningovou platformou, a nakonec \ref{section:ldap-server-a-skolni-pocitace} 
 \nameref{section:ldap-server-a-skolni-pocitace}, sloužící pro správu přihlašovacích údajů do školních počítačů.
-\\
+
 
 % Kdo za co odpovídá
 
@@ -579,6 +579,8 @@ autentizačním serverem a e-learningovou platformou, a nakonec \ref{section:lda
 % Sequence diag
 % nejvyšší vrstva popisu databáze
 % Kdo db dělá? jak by byl proces přidání nové komponenty?
+
+\subsection*{Popis architektury stávajícího systému}
 
 Při pohledu na architekturu tohoto ŠIS, lze vidět kombinaci vnějších a vnitřních služeb,
 které spolu komunikují synchronizace dat mezi všemi službami, které IS poskytuje pro studenty,
@@ -689,8 +691,6 @@ informačních stránek:
     \item detailní informace o SPU žáků;
     \item tématické plány předmětů;
     \item žákovské dlouhodobé práce.
-
-
 \end{itemize}
 Samozřejmostí je, že každá informace je řízena uživatelskými právy, tedy každý vidí pouze ty
 informace, které ze zákona musí vědět.
@@ -715,12 +715,12 @@ a formátů dat. Výsledkem je robustný a efektivně spravovaný systém, schop
 různorodým potřebám. Současný exportér disponuje třemi následujícími metodami
 pro export:
 \begin{enumerate}
-    \item\label{export:msmt} export pro MŠMT,
-    \item\label{export:evidencni-software} export pro Evidence majetku,
-    \item\label{export:ucetni-software} export pro Mzdový a personální software.
+    \item \nameref{section:export-pro-msmt},
+    \item \nameref{section:export-pro-evidenci-majetku},
+    \item \nameref{section:export-pro-evidenci-pam}.
 \end{enumerate}
 
-\subsubsection*{AD \ref{export:msmt} - MŠMT}
+\subsubsection{Export pro MŠMT}\label{section:export-pro-msmt}
 Export dat pro MŠMT, které spravuje matriční 
 záznamy žáků ohledně jejich studia, jejich speciálních potřeb a jejich následných vazeb.
 Jednou z takových vazeb může být platba statního zdravotního a sociálního pojištění.
@@ -734,51 +734,63 @@ především na univerzitách. které se řídí dle SIMS - Sdružené informace
 
 Snapshot je rozdělen do 3 souborů:
 \begin{itemize}
-    \item* soubor dat \textbf{a} se žáky s SPU,
-    \item* soubor dat \textbf{b} o podpůrných opatřeních poskytovaných školou žákům,
-    \item* soubor s intaktními žáky.
+    \item soubor dat \textbf{a} se žáky s SPU,
+    \item soubor dat \textbf{b} o podpůrných opatřeních poskytovaných školou žákům,
+    \item soubor s intaktními žáky.
 \end{itemize}
 
 Struktura souborů je dělena do položek, druhu kódování (tvaru zápisu),
 druhu číselníku, typu dat, povolené délce řetězce a povinnost záznamu.
 Vybírám těchto deset prvků pro rozmanitost datové sady:
 \begin{itemize}
-    \item datum sběru,
-    \item IZO školy,
-    \item rodné číslo žáka,
-    \item pohlaví žáka,
-    \item okres trvalého bydliště žáka,
-    \item kvantifikátor státního občanství,
-    \item nejvyšší stupeň vzdělání, kterého žák dosáhl před přijetím ke vzdělávání,
-    \item ročník, ve kterém se žák vzděláván,
-    \item způsob financování vzdělávání,
-    \item kód 1. cizího studovaného jazyka
+    \item datum sběru;
+    \item IZO školy;
+    \item rodné číslo žáka;
+    \item pohlaví žáka;
+    \item okres trvalého bydliště žáka;
+    \item kvantifikátor státního občanství;
+    \item nejvyšší stupeň vzdělání, kterého žák dosáhl před přijetím ke vzdělávání;
+    \item ročník, ve kterém se žák vzděláván;
+    \item způsob financování vzdělávání;
+    \item kód 1. cizího studovaného jazyka.
 \end{itemize}
 
 Struktury souborů dat jsou zvláště specifické pro každou úroveň vzdělávacího procesu, 
 od mateřských škol, po vyšší odborné. Naší kategorií je formát pro střední školy.
-Počet položek v souboru dat o žácích s SPU 47 \cite{msmt-rozhrani-predavani-dat-2023},
+Počet položek v souboru dat o žácích s SPU 54 \cite{msmt-rozhrani-predavani-dat-2023},
 v souboru s podpůrnými opatřeními poskytovaných školou žákům je 24 
 \cite{msmt-rozhrani-predavani-dat-2023} a v posledním souboru pro žáky intaktní počet položek
 je roven 47 \cite{msmt-rozhrani-predavani-dat-2023}.
 
-Všechna tato data prochází anonymizací a tedy MŠMT nemá přesné informace o konkrétních žácích.
-..........................................................
-..........................................................
-..........................................................
-..........................................................
-..........................................................
-..........................................................
+Všechna tato data prochází anonymizací na straně školy a tedy MŠMT nemá přesné informace o konkrétních 
+žácích, přesto MŠMT musí ověřovat správnost vydaných posudků z PPP nebo SPC. Z dat školy spočítá počet 
+zadaných žáků s posudky a konkrétní specifikací a jejich platnost. PPP/SPC tato data, také anonymizovaně 
+poskytuje MŠMT. MŠMT vykonává tzv. \textbf{kontrolní součty}, tedy porovnává počet žáků s vydanými posudky
+od PPP/SPC pro danou školu a počet žáků, které škola poskytuje. Pokud se tyto počty neshodují, MŠMT
+vyjednává opravu dat.
 
-Celý rejstřík položek, které vyžaduje MŠMT dále zpracovává pro finanční výkazy a statistiky.
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{seq-kontrolni-soucty.png}
+    \caption{Sequence diagram procesu verifikace dat s SPU}
+    \label{fig:seq-kontrolni-soucty}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{act-proces-kontrolnich-souctu.png}
+    \caption{Diagram aktivit procesu ověření kontrolních součtů}
+    \label{fig:act-proces-kontrolnich-souctu}
+\end{figure}
+
+MŠMT dále zpracovává data o všech žácích pro statistické účely a financování. 
 
 Problematikou implementace exporteru se zkomplikovává častou aktualizací datového rozhraní
 pro předávání dat. Aktualizaci rozhraní vydává MŠMT přibližně jednou ročně, včetně aktualizace
-číselníků\cite{msmt-rozhrani-predavani-dat-2023}. Možnost implementace se ještě zhoršuje kvůli formátu,
-ve kterém ministerstvo poskytuje nové aktualizace. Formátem je PDF soubor ve článku na webu. Tento 
-způsob tedy potřebuje vždy zásah do implementace člověkem a nelze nativně automatizovat.
+číselníků \cite{msmt-rozhrani-predavani-dat-2023}. Možnost implementace se ještě zhoršuje kvůli formátu,
+ve kterém ministerstvo poskytuje nové aktualizace. Formátem je PDF soubor ve článku na webu, tedy
+neexistuje žádný XML soubor, udávající strukturu. Tento způsob tedy potřebuje vždy zásah do implementace
+člověkem a je třeba kontaktovat MŠMT, aby konkrétně specifikovalo strukturu.
 
-\subsubsection*{AD \ref{export:evidencni-software} - Evidence majetku}
+\subsubsection{Export pro Evidenci majetku} \label{section:export-pro-evidenci-majetku} 
 Evidenční software, který je součástí ŠIS, hraje klíčovou roli v řízení a správě fyzického
 majetku školy. Exporter zde zastává zásadní úlohu tím, že zajišťuje pravidelnou aktualizaci 
 a přenos dat týkajících se školního inventáře, což zahrnuje podrobné informace o zařízeních,
@@ -787,7 +799,7 @@ nezbytná pro efektivní invertarizaci a správu majetku, což umožňuje škole
 stav, umístění a plánovat případné nákupy nebo údržbu. Evidenční software tak hraje
 klíčovou roli v udržení přehledu a efektivního využívání školních zdrojů. 
 
-\subsubsection*{AD \ref{export:ucetni-software} - Mzdový a personální software (PaM)}
+\subsubsection{Export pro Mzdový a personální software (PaM)} \label{section:export-pro-evidenci-pam}
 V oblasti finanční správy je rovněž důležité, aby byla data týkající se zaměstnanců a jejich
 úvazků správně zpracována a integrována do Účetního softwaru. Exporter zde poskytuje potřebné
 informace pro kalkulaci výplat zaměstnanců. Tato data jsou využívána účetním softwarem pro 
@@ -803,11 +815,15 @@ zaměstnanců a studentů ve školním prostředí. Realizováno je to pomocí �
 a 2 záznamových zařízení před vchodem do školy a před východem ze školy. Záznamová zařízení
 evidují do databáze čipového serveru čísla přikládaných karet. Přestože čipový 
 server je starší technologie, která byla nasazena před více než 25 lety a neobsahuje 
-moderní API rozhraní, bylo dosaženo funkčního propojení s novějším Backend systémem. 
-Toto propojení se realizuje přímým SSH napojením do serveru a poté dotazováním databáze.
+žádné API rozhraní. Aby bylo dosaženo funkčního propojení s novějším Backend systémem,
+propojení se realizuje přímým SSH napojením do serveru a poté vybíráním dat ze souborů,
+kam systém data ukládá.
 
-IS si eviduje čísla vydaných karet a já má v databázi přiřazena k jednotlivým osobám,
-Díky této vazbě je IS schopen spárovat příchody a odchody s konkrétní osobou.
+IS si eviduje čísla vydaných karet a ta má v databázi přiřazena k jednotlivým osobám,
+Díky této vazbě je IS schopen spárovat příchody a odchody s konkrétní osobou. IS si avšak žádná
+data nestahuje a vždy se přímo dotazuje. Hlavním přístupovým bodem k datům z příchodů 
+a odchodů je webová stránka. Tedy pokud se uživatel dotáže na složitější strukturu dat, typu:
+výpis příchodů a odchodů celé třídy, načítání stránky trvá i vyšší jednotky sekund.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth-28pt]{backend-cipovy-server.png}
@@ -864,7 +880,7 @@ zaměstnanecké účty se ve škole nijak neliší. Jedinými synchronizovanými
 počítači a serverem jsou uživatelské disky na školních serverech.
 
 % Národní standard spisové e. služby
-% cermat není orgán veřejné moci -> nemá povinnost mít spisovku nesplňuji NSSS
+% cermat není orgán veřejné moci -> nemá povinnost mít spisovku nesplňuji NSESSS
 % Pochvala, dutka -> musí mít jednací číslo
 % Musí být zadáno do spisové služby
 
@@ -904,6 +920,12 @@ Backendu a ukládá v databázi.
     \label{fig:uc-integrace-prijimaciho-rizeni}
 \end{figure}
 
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{seq-integrace-prijimaciho-rizeni.png}
+    \caption{Sequence diagram Integrace přijímacího řízení}
+    \label{fig:seq-integrace-prijimaciho-rizeni}
+\end{figure}
+
 \subsection*{Správa hodnocení}
 Správa hodnocení umožňuje učitelům zaznamenávat, sledovat a analyzovat výsledky žáků. Tato
 funkcionalita je zásadní pro posyktování zpětné vazby žákům a pro monitorování jejich výkonu.
@@ -917,11 +939,17 @@ ukládán v databázi.
     \label{fig:uc-sprava-hodnoceni}
 \end{figure}
 
+Škola v informačním systému, zakládá 2 další hodnotící stupně kromě standardních 
+v českém školství (hodnotící stupně 1-5). Těmito známkami jsou: \textbf{N?} 
+a \textbf{5?}. Tyto známky se udávají do systému jako výchovná opatřední,
+avšak na vysvědčení psána nikdy není. Známky jsou udávány jako varování za 
+zaostávání ve studiu (\textbf{5?}) či varování na neklasifikaci (\textbf{N?}).
+
 \subsection*{Digitální evidence SPU}
 Správa specifických poruch učení (SPU) žáků je součástí IS. Tato funkcionalita umožňuje
-výchovným poradkyním evidovat zprávy ze zdravotních ústavů: Pedagogicko-psychologické poradny 
-(PPP) nebo Speciálního pedagogického centra (SPC). Tyto informace
-jsou zpracovány výchovnými poradkyněmi a ve zkrácené formě včetně doporučení úpravy
+výchovným poradkyním evidovat zprávy ze zdravotních ústavů: Pedagogicko-psychologické 
+poradny (PPP) nebo Speciálního pedagogického centra (SPC). Tyto informace
+jsou zpracovány výchovnými poradkyněmi a ve zpracované formě včetně doporučení úpravy
 výuky jsou zpřístupněny pedagogům, kteří daného žáka vyučují. Toto je klíčové pro
 správné a efektivní fungování inkluzivního a adaptivního vzdělávacího prostředí.
 Implementace je pomocí Frontendu, Backendu pro zpracování a databáze pro ukládání.
@@ -930,6 +958,16 @@ Implementace je pomocí Frontendu, Backendu pro zpracování a databáze pro ukl
     \includegraphics[width=\textwidth-28pt]{uc-digitalni-evidence-spu.png}
     \caption{Use Case diagram Digitální evidence SPU}
     \label{fig:uc-digitalni-evidence-spu}
+\end{figure}
+
+Právem každé školy je kontrola znění posudku. Škola kontrolu vyžaduje, aby se předešlo
+nedorozuměním ve špatném výkladu a spravedlivému, praktickému přizpůsobení výuky
+v konzultaci pracovníka vydavatele posudku s odborníky v oboru.
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{seq-digitalni-evidence-spu.png}
+    \caption{Sequence diagram Digitální evidence SPU}
+    \label{fig:seq-digitalni-evidence-spu}
 \end{figure}
 
 \subsection*{Centrální hlášení závad}
@@ -956,17 +994,19 @@ Backendem a ukládána do databáze.
     \label{fig:uc-sprava-absenci}
 \end{figure}
 
-% TODO
-LZE SI VŠIMMOUt, že rodič nemůže omlouvat absenci v systému
+V diagramu je znázorněno, že absenci žáka zadává třídní učitel a žák s zákonným zástupcem
+si absenci mohou zobrazit. V IS není nijak implementováno, že by zákonný zástupce mohl
+absenci omluvit. Toto je řešeno papírovým omluvným listem z důvodu bezpečnosti. Dle zkušeností
+je velmi snadné pro žáky přistoupit k účtu zákonného zástupce a omluvit se sám, což není žádané.
 
 \subsection*{Dokumentový management}
 Dokumentový management v našem systému plní funkci úložiště veřejných dokumentů
 a dokumentů pro školu. Dělí se na následující sekce:
 \begin{itemize}
-    \item pro veřejnost,
-    \item pro žáky a rodiče,
-    \item pro vedení,
-    \item pro zaměstnance,
+    \item pro veřejnost;
+    \item pro žáky a rodiče;
+    \item pro vedení;
+    \item pro zaměstnance;
     \item fotografie z akcí.
 \end{itemize}
 Do jednotlivých sekcí mohou ukládat soubory pouze zaměstnanci, kteří mají k
@@ -997,7 +1037,8 @@ a ukládáním v databázi.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth-28pt]{uc-certifikace-zamestnancu.png}
-    \caption{Use Case diagram Certifikace zaměstnanců}
+    \caption{Use Case diagram Certifikace zaměstnanců. CRUD = Create, Read, 
+             Update, Delete}
     \label{fig:uc-certifikace-zamestnancu}
 \end{figure}
 
@@ -1010,9 +1051,15 @@ na Frontendu, zpracování na Backendu a ukládáním v databázi.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth-28pt]{uc-sprava-vzdelavacich-planu.png}
-    \caption{Use Case diagram Správy vzdělávacích plánů}
+    \caption{Use Case diagram Správy vzdělávacích plánů. VP = Vzdělávací plán}
     \label{fig:uc-sprava-vzdelavacich-planu}
 \end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{seq-sprava-vzdelavacich-planu.png}
+    \caption{Sequence diagram Správy vzdělávacích plánů. VP = Vzdělávací plán}
+    \label{fig:seq-sprava-vzdelavacich-planu}
+\end{figure} 
 
 \subsection*{Matriční záznamy}
 Důležitost evidence a exportu matričních záznamů je již vysvětlena v sekci 
@@ -1040,8 +1087,8 @@ Tabulka
 \multicolumn{1}{|l|}{Správa školních akcí}           & \multicolumn{1}{c|}{4}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Elektronické přihlašování na akce \\ pořádané školou\end{tabular}}                                                         \\ \hline
 \multicolumn{1}{|l|}{Správa maturitních zkoušek}     & \multicolumn{1}{c|}{8}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Data, účasti, místnosti, přepis \\ místností, maturitní projekty\end{tabular}}                                             \\ \hline
 \multicolumn{1}{|l|}{Správa přijímacího řízení}      & \multicolumn{1}{c|}{2}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Identifikační údaje, kola, ukončené\\ vzdělání, studijní výsledky\end{tabular}}                                            \\ \hline
-\multicolumn{1}{|l|}{Spolupráce s průmyslem}       & \multicolumn{1}{c|}{2}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Nabídky prací pro žáky, \\ spolupráce s průmyslem\end{tabular}}                                                            \\ \hline
-\multicolumn{1}{|l|}{Číselníky MŠMT a NUTS}                 & \multicolumn{1}{c|}{15}             & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Číselníky pro předávání \\ individuálních údajů ze školních\\ matrik státní správě, nomenklatura \\územních statistických jednotek\end{tabular}}                           \\ \hline
+\multicolumn{1}{|l|}{Spolupráce s průmyslem}         & \multicolumn{1}{c|}{2}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Nabídky prací pro žáky, \\ spolupráce s průmyslem\end{tabular}}                                                            \\ \hline
+\multicolumn{1}{|l|}{Číselníky MŠMT a NUTS}          & \multicolumn{1}{c|}{15}             & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Číselníky pro předávání \\ individuálních údajů ze školních\\ matrik státní správě, nomenklatura \\územních statistických jednotek\end{tabular}}                           \\ \hline
 \multicolumn{1}{|l|}{Ostatní}                        & \multicolumn{1}{c|}{6}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Číselné kódy zemí, anonymizační\\ číselníky, variabilní symboly bank \\bezpečnostní evidence\end{tabular}}                                         \\ \hline
 \multicolumn{1}{r}{\textbf{SUMA}}                    & 74                                  &                                                                                                                                                                          
 \end{tabular}
@@ -1054,13 +1101,8 @@ Tabulka
 Databázi spravuje jediný člověk a tím je současný správce IS, ředitel školy.
 
 
-\subsection*{Konkrétní příklad}
-...
-
-\section{Identifikace a analýza potřeb koncových uživatelů}
-
 \chapter{Diskuse}
-\section{Porovnání výsledků s původními hypotézami a otázkami výzkumu}
+\section{Porovnání výsledků s původními hypotézami a otázkami práce}
 \section{Interpretace výsledků}
 
 \chapter{Závěr}

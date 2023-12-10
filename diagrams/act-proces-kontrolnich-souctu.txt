@@ -1,0 +1,26 @@
+@startuml
+start
+
+repeat 
+:Získání dat ze školy a PPP/SPC;
+note left
+  Ze školy: ID 123456, 123457, ...
+  Z PPP/SPC: ID 987654, 987655, ...
+end note
+
+:Kontrolní součty v MŠMT;
+note left
+  Porovnání množin posudků s různými speficikami
+end note
+
+if (Shoda kontrolních součtů?) then (ano)
+  :Data jsou konzistentní;
+  stop
+else (ne)
+  :Identifikovat rozdíly;
+  :Vyjednávání oprav dat;
+  -> :Získání certifikátů;
+endif
+
+repeat while (Data nejsou konzistentní)
+@enduml
