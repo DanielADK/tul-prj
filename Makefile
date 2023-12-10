@@ -27,7 +27,7 @@ clean-diagrams:
 	rm -f $(TARGETS)
 
 spellcheck:
-	aspell --lang=cs --home-dir=. --personal=./dictionary.txt -t -c $(FILE) || true; \
+	aspell --lang=cs --home-dir=. --personal=./dictionary.txt -t -c $(FILE).tex || true; \
 
 compile:
 	xelatex $(FILE)

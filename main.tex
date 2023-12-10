@@ -376,11 +376,11 @@ které by moderní školní IS měl mít. K těmto funkcionalitám patří:
     \item \textbf{Správa žákovské agendy:} Systém by měl umožňovat snadné přidávání, úpravu a vyhledávání záznamů o žácích.
     
     \item \textbf{Integrace přijímacího řízení:} Systém by měl umožňovat organizaci přijímacího řízení vše
-    od porání přihlášky po konečné zavedení žáka do systému.
+    od podání přihlášky po konečné zavedení žáka do systému.
     
     \item \textbf{Integrace spisových služeb:} Každý dokument vydaný orgánem veřejné moci (OVM) musí mít své tzv. 
     Jednací číslo. Ty generuje spisová služba dle 499/2004 Sb. Zákona o archivnictví a spisové službě. Do dokumentů, 
-    které musí mít své jednací číslo spadá například pochvala či dutka, třídního učitele či ředitele školy.
+    které musí mít své jednací číslo spadá například pochvala či důtka, třídního učitele či ředitele školy.
 
     \item \textbf{Správa hodnocení:} Učitelé musí mít možnost snadno zadávat a upravovat známky, 
     a žáci by je měli snadno nalézt.
@@ -392,7 +392,7 @@ které by moderní školní IS měl mít. K těmto funkcionalitám patří:
     slouží k správě podpůrných opatření, tedy kódy tzv. normované finanční náročnosti (NFN), sloužící k výkazu zvýšené náročnosti
     pedagogické činnosti.
 
-    \item \textbf{Suplování:} Systém pro správu mimořádných akcí, které nejsou v řádném rozvhu třídy/skupiny/učitele.
+    \item \textbf{Suplování:} Systém pro správu mimořádných akcí, které nejsou v řádném rozvrhu třídy/skupiny/učitele.
     
     \item \textbf{Zamlouvání učeben:} Systém pro správu volných učeben pro mimoškolní akce, jako jsou kroužky, komerční
     akce či doučování.
@@ -461,7 +461,7 @@ které z dostupných systémů nabízí funkce, jež jsou pro danou školní ins
     \multicolumn{1}{r}{\textbf{SUMA}}                   & 10                                                     & \multicolumn{1}{l}{12}                                 & \multicolumn{1}{l}{10}                                                               & \multicolumn{1}{l}{8}                                  \\ \hline
 
     \end{tabular}
-    \caption{Tabulkový soupis funcionalit jednodlivých ŠIS}
+    \caption{Tabulkový soupis funkcionalit jednotlivých ŠIS}
     \label{table:functionality}
 \end{table}
 
@@ -595,7 +595,7 @@ Na externím serveru se nalézá relační databáze \textit{MySQL}, která slou
 strukturovaných dat. Tato databáze je napojena na \textit{Backend} část, což je místo, kde probíhá
 většina zpracování a řízení dat mezi databází a uživatelským rozhraním. Na tomto serveru je také
 \textit{Frontend}, který je zodpovědný za vizuální prezentaci dat studentům, rodičům, pedagogickým i
-nepegogickým zaměstnancům prostřednictvím webového prohlížeče. Na posledním bodu, máme zde \textit{API},
+nepedagogickým zaměstnancům prostřednictvím webového prohlížeče. Na posledním bodu, máme zde \textit{API},
 které slouží jako hlavní komunikační kanál mezi zmíněným backendem a dalšími službami,
 jako je Moodle nebo LDAP.
 
@@ -608,7 +608,7 @@ jako jsou třeba webové aplikace (tj. konfigurace webových serverů), nebo dal
 Linuxové VPS jsme zvolili na základě dat spolupráce s průmyslem. Naši školní partneři se vyjádřili,
 že všichni, až na výjimky v počtu několika jedinců, využívají Linuxové servery pro svůj firemní záměr. 
 
-Přehled o jednotlivých částí a jejich propojení jsem již zmínil. Nyní je třeba analýza jednitlivých rizik architektury.
+Přehled o jednotlivých částí a jejich propojení jsem již zmínil. Nyní je třeba analýza jednotlivých rizik architektury.
 
 \subsection*{Problematika Single Point of Failure}
 \label{section:problematika-single-point-of-failure}
@@ -618,7 +618,7 @@ Pokud by tento server selhal, způsobilo by to výpadek většiny služeb, což 
 
 Dle architektury z diagramu \ref{fig:puvodni-architektura} je viditelné, že v případě kdy by selhala celá externí část,
 školní část může zcela bez problému fungovat s omezeními. LDAP server má vlastní databázový model pro ukládání dat, tedy
-přihlášení na školních počítačích na síti nebude témeř vůbec ohroženo. Jediný případ, který mně napadá, je kdyby si uživatel
+přihlášení na školních počítačích na síti nebude téměř vůbec ohroženo. Jediný případ, který mně napadá, je kdyby si uživatel
 na externí části změnil heslo/některé údaje a LDAP se nestihl synchronizovat před selháním. To samé platí i pro Moodle
 server, který si drží vlastní databázi uživatelů a dalších svých entit pro svou práci.
 Třetí entitou ve školní části jsou \textit{Žákovská VPS}, avšak ty nejsou nijak propojena s IS.
@@ -629,7 +629,7 @@ dat systému. K tomuto rozhodnutí - blokace obousměrné komunikace, vede bezpe
 by si žák, nebo zaměstnanec mohl upravit například své jméno, upravil by tím citlivý záznam, který se následně
 může propsat do matričních záznamů.
 
-Z celého odstavce tedy vyplývá, že architekura kvůli své diverzifikaci je částečně ubráněna proti Single Point of Failure
+Z celého odstavce tedy vyplývá, že architektura kvůli své diverzifikaci je částečně ubráněna proti Single Point of Failure
 a škola může i bez jedné či druhé části fungovat v omezeném režimu.
 
 \section{Bezpečnost ŠIS}
@@ -709,7 +709,7 @@ Každá nová metoda může být specificky přizpůsobena pro generování dato
 dle konkrétních požadavků a formátů požadovaných různými externími systémy nebo
 organizacemi.
 
-Tato modulárnost a adaptibilita Exporteru přestavuje značnou výhodu pro ŠIS. Umožňuje
+Tato modulárnost a adaptabilita Exporteru přestavuje značnou výhodu pro ŠIS. Umožňuje
 rychle reagovat na nové požadavky a efektivně podporovat širokou škálu operací
 a formátů dat. Výsledkem je robustný a efektivně spravovaný systém, schopný vyhovět
 různorodým potřebám. Současný exportér disponuje třemi následujícími metodami
@@ -723,7 +723,7 @@ pro export:
 \subsubsection{Export pro MŠMT}\label{section:export-pro-msmt}
 Export dat pro MŠMT, které spravuje matriční 
 záznamy žáků ohledně jejich studia, jejich speciálních potřeb a jejich následných vazeb.
-Jednou z takových vazeb může být platba statního zdravotního a sociálního pojištění.
+Jednou z takových vazeb může být platba státního zdravotního a sociálního pojištění.
 
 MŠMT pořádá 2x ročně tzv. sběr\cite{skolni-matrika}, při kterých si vyžádá od školy,
 (tedy ŠIS) snapshot ve formátu XML a se specifickým jménem a formátem o celé řadě 
@@ -795,7 +795,7 @@ Evidenční software, který je součástí ŠIS, hraje klíčovou roli v říze
 majetku školy. Exporter zde zastává zásadní úlohu tím, že zajišťuje pravidelnou aktualizaci 
 a přenos dat týkajících se školního inventáře, což zahrnuje podrobné informace o zařízeních,
 jako jsou počítače, laboratorní vybavení, knihy a další školní zdroje. Tato data jsou 
-nezbytná pro efektivní invertarizaci a správu majetku, což umožňuje škole sledovat jeho 
+nezbytná pro efektivní inventarizaci a správu majetku, což umožňuje škole sledovat jeho 
 stav, umístění a plánovat případné nákupy nebo údržbu. Evidenční software tak hraje
 klíčovou roli v udržení přehledu a efektivního využívání školních zdrojů. 
 
@@ -856,11 +856,11 @@ obědů, záznamových zařízení, platby za obědy.
 \label{section:ldap-server-a-moodle}
 Jednou z dalších částí je komunikace mezi LDAP serverem a Moodle serverem. Moodle je na škole
 využíván jako hlavní nástroj pro celý e-learning a tedy je velmi důležitou součástí především
-odborných předmětů, kam učitelé umisťují většinu školních úloh nebo domáci úkolů.
+odborných předmětů, kam učitelé umisťují většinu školních úloh nebo domácí úkolů.
 
 Systém Moodle má modul, který umí synchronizovat uživatele a autentifikovat je u LDAP serveru.
 To znamená, že pokud se uživatel (žák či zaměstnanec) chce přihlásit do Moodle, ten se 
-autentifikuje uživatele LDAP protokolem u LDAP serveru a tím udržuje sychronizované účty právě
+autentifikuje uživatele LDAP protokolem u LDAP serveru a tím udržuje synchronizované účty právě
 při události uživatele.
 Vše lze řešit pomocí administrátora Moodle serveru, který může manuálně provést zavedení 
 nových účtů a mazání starých či manuální synchronizaci.
@@ -868,7 +868,7 @@ nových účtů a mazání starých či manuální synchronizaci.
 Data, která se synchronizují jsou: jména, příjmení, email a třída. Pokud uživatel nemá třídu,
 nepřiřazuje se a administrátor musí manuálně identifikovat uživatele. Vše ostatní, jako jsou 
 zápisy do kurzů si řeší uživatelé sami. Moodle disponuje i vlastním ověřováním, avšak tento
-mechanismus se používápouze  v ryze výjimečných případech, kdy chceme vytvořit účet i pro 
+mechanismus se používá pouze  v ryze výjimečných případech, kdy chceme vytvořit účet i pro 
 externí osobu.
 
 \subsection{LDAP server a školní počítače}
@@ -895,7 +895,7 @@ zahrnuje různé komponenty, každý se specifickými úkoly a odpovědnostmi. N
 hlavní funkcionality a Ječná IS a jejich implementace v rámci systému.
 
 \subsection*{Správa žákovské agendy}
-Správa žákovské agendy v IS zahrnuje shromažďování, zpravovávání a uchovávání žákovských
+Správa žákovské agendy v IS zahrnuje shromažďování, spravování a uchovávání žákovských
 záznamů, včetně osobních údajů, výsledků studia a docházky. Tato funkcionalita je realizována
 prostřednictvím záznamů v databázi, zpracovávání pomocí komponenty Backend a úpravy skrze
 Frontendové prostředí. Tyto komponenty jsou vyznačeny v diagramu zeleně, což ukazuje na jejich
@@ -911,7 +911,7 @@ spravovatelnost a přizpůsobitelnost dle potřeb školy.
 Funkcionalita integrace přijímacího řízení poskytuje nástroje pro správu přijímacích procesů,
 včetně přihlášek, evidence uchazečů, evaluace přijatých, přiřazení a vytvoření nových účtů.
 V našem IS je tato funkce podporována, což umožňuje škole ušetřit mnoho administrativní zátěže.
-Tato funcionalita je implementována v Frontendu formou formuláře, kde se dále zpracovává v 
+Tato funkcionalita je implementována v Frontendu formou formuláře, kde se dále zpracovává v 
 Backendu a ukládá v databázi.
 
 \begin{figure}[H]
@@ -928,8 +928,8 @@ Backendu a ukládá v databázi.
 
 \subsection*{Správa hodnocení}
 Správa hodnocení umožňuje učitelům zaznamenávat, sledovat a analyzovat výsledky žáků. Tato
-funkcionalita je zásadní pro posyktování zpětné vazby žákům a pro monitorování jejich výkonu.
-V našem IS je tato functionalita implementována jako jedna ze základních položek a je 
+funkcionalita je zásadní pro poskytovaní zpětné vazby žákům a pro monitorování jejich výkonu.
+V našem IS je tato funkcionalita implementována jako jedna ze základních položek a je 
 implementována formou tabulek a formulářů na straně Frontendu, zpracováván v Backendu a
 ukládán v databázi.
 
@@ -941,7 +941,7 @@ ukládán v databázi.
 
 Škola v informačním systému, zakládá 2 další hodnotící stupně kromě standardních 
 v českém školství (hodnotící stupně 1-5). Těmito známkami jsou: \textbf{N?} 
-a \textbf{5?}. Tyto známky se udávají do systému jako výchovná opatřední,
+a \textbf{5?}. Tyto známky se udávají do systému jako výchovná opatření,
 avšak na vysvědčení psána nikdy není. Známky jsou udávány jako varování za 
 zaostávání ve studiu (\textbf{5?}) či varování na neklasifikaci (\textbf{N?}).
 
@@ -1026,7 +1026,7 @@ certifikací a kvalifikací získaných žáky nebo personálem. Tato funkce je 
 pro dokumentaci a uznání úspěchů, kterými jsou odborné certifikáty. Díky této 
 správě lze jednoduše zjistit, jací žáci mají složenou odbornou zkoušku, 
 která by žákům mohla zajistit odpuštění praktické části zkoušky maturitní.
-Funcionalita je implementována pomocí tabulek na Frontendu, zpracováním na Backendu
+Funkcionalita je implementována pomocí tabulek na Frontendu, zpracováním na Backendu
 a ukládáním v databázi.
 
 \begin{figure}[H]
@@ -1070,7 +1070,7 @@ pro získávání dat.
 
 \section{Databázový server a databázový model}
 Současná databáze IS využívá MySQL verze 8.0.32 a její model celkem disponuje 76 entitami,
-každá přidružená k některé z kategorií funcionalit, které IS disponuje.
+každá přidružená k některé z kategorií funkcionalit, které IS disponuje.
 Tabulka 
 
 \begin{table}[H]
