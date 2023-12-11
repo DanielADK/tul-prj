@@ -1103,7 +1103,103 @@ Databázi spravuje jediný člověk a tím je současný správce IS, ředitel �
 
 \chapter{Diskuse}
 \section{Porovnání výsledků s původními hypotézami a otázkami práce}
-\section{Interpretace výsledků}
+Analýza současného stavu ŠIS ukázala, že in-house vývoj poskytuje vysokou míru 
+komplexnosti a integrace kritických funkcí. Tyto funkce, které jsou zásadní pro 
+efektivní správu školy, nejsou vždy plně pokryty dostupnými komerčními systémy.
+Ekonomická kalkulace přechodu na jiný systém by proto měla zahrnovat nejenom náklady 
+na pořízení nového systému, ale také potenciální ztrátu specifických funkcionalit,
+které současný IS poskytuje.
+
+Přechod na komerční ŠIS by mohl přinést významné náklady spojené s migrací dat,
+školením personálu a adaptací na nový systém. Navíc ztráta klíčových funkcí
+by mohla mít negativní dopad na provoz školy, jako například ztížení administrativních
+procesů, nebo snížení efektivity komunikace mezi zaměstnanci a studenty.
+
+\section{Ekonomická kalkulace a diskuze}
+\subsection{Přechod na systém Bakaláři}
+Za předpokladu přechodu na systém Bakaláři je třeba započítat náklady na migraci dat,
+školení personálu, upravení subsystémů, které by byly jednorázové. Dále je třeba 
+započítat náklady na licenci, která se platí ročně.
+
+\begin{table}[H]
+    \begin{tabular}{lccccc}
+    \multicolumn{1}{c}{\textbf{Druh nákladu}}                                                & \textbf{\begin{tabular}[c]{@{}c@{}}Personál \\ {[}osoba{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Doba \\ {[}h{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Člověko-\\ hodiny\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Cena\\ práce\\ {[}Kč/hod{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Skutečná \\ cena {[}Kč{]}\end{tabular}} \\ \hline
+    \textbf{Migrace dat}                                                                     & 3                                                                        & 40                                                               & 120                                                                & 500.45 {[}1{]}                                                               & 60054.00                                                                   \\
+    \textbf{\begin{tabular}[c]{@{}l@{}}Rekonfigurace školních \\ subsystémů\end{tabular}}                                                  & 5                                                                        & 40                                                               & 200                                                                & 292.76 {[}2{]}                                                               & 58552.00                                                                   \\
+    \textbf{Školení pedagogů}                                                                & 72                                                                       & 8                                                                & 576                                                                & 292.76 {[}2{]}                                                               & 168629.76                                                                  \\
+    \textbf{\begin{tabular}[c]{@{}l@{}}Školení specializovaných \\ zaměstnanců\end{tabular}} & 34                                                                       & 8                                                                & 272                                                                & 292.76 {[}2{]}                                                               & 79630.72                                                                   \\
+    \textbf{Školení vedení školy}                                                            & 6                                                                        & 8                                                                & 48                                                                 & 292.76 {[}2{]}                                                               & 14052.48                                                                   \\ \hline
+    \textbf{SOUČET}                                                                          & 117                                                                      & 80                                                               & 1928                                                               & \multicolumn{1}{l}{}                                                         & \multicolumn{1}{l}{380918.96}                                             
+    \end{tabular}
+\end{table}
+
+\begin{table}[]
+    \begin{tabular}{lcccc}
+    \multicolumn{1}{c}{\textbf{Druh nákladu}}                                                & \textbf{\begin{tabular}[c]{@{}c@{}}Personál \\ {[}osoba{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Doba \\ {[}h{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Cena\\ práce\\ {[}Kč/hod{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Skutečná \\ cena {[}Kč{]}\end{tabular}} \\ \hline
+    \textbf{Migrace dat}                                                                     & 3                                                                        & 40                                                               & 445.09 {[}1{]}                                                               & 53410.8                                                                    \\
+    \textbf{Rekonfigurace školních systémů}                                                  & 5                                                                        & 40                                                               & 292.76 {[}2{]}                                                               & 58552.00                                                                   \\
+    \textbf{Školení pedagogů}                                                                & 72                                                                       & 8                                                                & 292.76 {[}2{]}                                                               & 168629.76                                                                  \\
+    \textbf{\begin{tabular}[c]{@{}l@{}}Školení specializovaných \\ zaměstnanců\end{tabular}} & 29                                                                       & 8                                                                & 292.76 {[}2{]}                                                               & 67920.32                                                                   \\
+    \textbf{Školení vedení školy}                                                            & 6                                                                        & 8                                                                & 292.76 {[}2{]}                                                               & 14052.48                                                                   \\ \hline
+    \textbf{SOUČET}                                                                          & 117                                                                      & 80                                                               & \multicolumn{1}{l}{}                                                         & \multicolumn{1}{l}{362565.36}                                             
+    \end{tabular}
+    
+    \caption{Tabulka ekonomické kalkukace přechodu na systém Bakaláři. Výpočet hodnot
+    [1] a [2] je uveden v odstavci pod tabulkou.}
+    \label{analysis:ekonomicka-kalkulace-prechod-bakalari}
+
+\end{table}
+
+% https://www.platy.cz/platy/informacni-technologie/databazovy-administrator
+% (44294+98135)/2 = 71214.5
+% 160hod/mo -> 71214.5/160 = 445.09
+
+% https://www.mesec.cz/clanky/platy-ucitelu-narust/
+% 46843/160 = 292.76
+
+V této kalkulaci předpokládáme, že migrace dat proběhne v rámci 40 hodin 3 zaměstnanců,
+kterým bude vyplácen průměrná mzda v oboru IT, který se pohybuje od 45 360 Kč do
+114 784 Kč \cite{platy-it}. Pro výpočet průměrné hodinové mzdy použijeme průměr těchto
+hodnot a pro přepočet na hodinovou mzdu vydělíme průměrnou měsíční mzdu počtem hodin,
+tj. 160.
+
+\begin{samepage}
+Pro výpočet je použit vzorec
+$$\frac{MIN\ CENA + MAX\ CENA}{2*POCET\ HODIN} = CENA\ PRACE$$
+
+Což při aplikaci je:
+$$\frac{45\,360 + 114\,784}{2*160} = 500.45$$
+\end{samepage}
+
+Cena průměrné hodinové mzdy učitele je vypočtena z průměrné mzdy učitele, tedy 46 843 Kč
+\cite{platy-skolstvi}, která je přepočtena na hodinovou mzdu vydělenou počtem pracovních
+hodin v měsíci.
+
+\begin{samepage}
+    Pro výpočet je použit vzorec
+    $$\frac{MESICNI\ MZDA}{POCET\ HODIN} = CENA\ PRACE$$
+    
+    Což při aplikaci je:
+    $$\frac{46\,843}{160} = 292.76$$
+\end{samepage}
+
+Počet osob na migraci dat je odhadnut na 3. K rekonfiguraci jsou započteni koordinátoři 
+ICT, správce sítě a jeden člen vedení školy s technickou způsobilostí a přehledem o IS.
+Počet pedagogů je zadán na základě výroční zprávy školy ze školního roku 2022/2023 
+\cite{spsejecna-vyrocni-zprava-2022-2023}, tedy 72. Specializovaní zaměstnanci se 
+skládají z třídních učitelů (22), metodiků prevence (1), výchovných poradců (2), 
+koordinátoři ICT (2), koordinátorů ŠVP (1), správci sítě (1) o celkovém počtu 29.
+Počet členů vedení školy je 6, tedy ředitel, 3x zástupce ředitele a 2x výchovné poradkyně.
+
+V celé kalkulaci předpokládáme, že migrace dat bude prováděna externě, mimo pracovníky
+školy. Toto je z důvodu, že škola nemá dostatek kapacit pro provádění této činnosti.
+Rekonfigurace školních systémů je v rámci správce ICT či správce sítě a tedy 
+předpokládáme průměrnou mzdu pedagogického pracovníka pro jednoduchost výpočtu.
+To samé platí pro specializovaných zaměstnanců a vedení školy.
+
+V tabulce \ref{analysis:ekonomicka-kalkulace-prechod-bakalari} jsou uvedeny výsledky 
+ekonomické kalkulace přechodu na systém Bakaláři. Celkové náklady činí 
+362 918.96 Kč.
 
 \chapter{Závěr}
 \section{Shrnutí klíčových zjištění}
