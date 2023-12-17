@@ -1,0 +1,14 @@
+@startuml
+agent "Suplování" as suplovani
+agent "Správa žákovských skupin" as skupiny
+agent "Elektronická třídnice" as eltridnice
+agent "Generátor úvazků" as genuvazku
+agent "Generovaný rozvrh" as genrozvrh
+
+eltridnice ..^ genuvazku
+eltridnice ..^ genrozvrh
+genrozvrh  ..^ suplovani
+eltridnice ..^ skupiny
+suplovani  ..^ skupiny
+
+@enduml

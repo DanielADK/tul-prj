@@ -18,6 +18,9 @@
 \usepackage{float}
 \usepackage{lscape}
 \usepackage{nameref}
+\usepackage[format=plain,
+            labelfont=it,
+            textfont=it]{caption}
 \graphicspath{ {./img}{./tultex} }
 
 % příkazy specifické pro tento dokument / specific commands for this document
@@ -1072,36 +1075,35 @@ pro získávání dat.
 
 \section{Databázový server a databázový model}
 Současná databáze IS využívá MySQL verze 8.0.32 a její model celkem disponuje 76 entitami,
-každá přidružená k některé z kategorií funkcionalit, které IS disponuje.
-Tabulka 
+každá přidružená k některé z kategorií funkcionalit, které IS disponuje. Jediným správcem 
+databáze v současné době je současný správce IS, ředitel školy. 
+Veškerá dokumentace je již vytvořena a udržována ve formě papírového spisu a elektronických
+dat v budově školy.
 
-\begin{table}[H]
-\begin{tabular}{lcl}
-\hline
-\multicolumn{1}{|l|}{\textbf{Druh}}                  & \multicolumn{1}{c|}{\textbf{Počet}} & \multicolumn{1}{l|}{\textbf{Užití}}                                                                                                                                       \\ \hline
-\multicolumn{1}{|l|}{Žákovská správa}                & \multicolumn{1}{c|}{16}             & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Identifikační údaje, rodiče, absence,\\ třídy, skupiny, certifikace, zdravotní\\ záznamy, specifické potřeby\end{tabular}} \\ \hline
-\multicolumn{1}{|l|}{Zaměstnanecká správa}           & \multicolumn{1}{c|}{5}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Identifikační údaje, typ úvazku,\\ třídnictví, kabinet\end{tabular}}                                                       \\ \hline
-\multicolumn{1}{|l|}{Správa rozvrhů}                 & \multicolumn{1}{c|}{3}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Úvazky zaměstnanců, rozvrhy \\ učeben, rozvrhy tříd\end{tabular}}                                                          \\ \hline
-\multicolumn{1}{|l|}{Správa budovy}                  & \multicolumn{1}{c|}{2}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Kabinety, učebny, technické místnosti,\\ kanceláře, správa kanceláří\end{tabular}}                                         \\ \hline
-\multicolumn{1}{|l|}{Správa předmětů}                & \multicolumn{1}{c|}{5}              & \multicolumn{1}{l|}{Předměty, akreditace, tématické plány}                                                                                                                \\ \hline
-\multicolumn{1}{|l|}{Správa souborového systému}     & \multicolumn{1}{c|}{3}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Soubory k novinkám, certifikáty,\\ administrativní dokumenty\end{tabular}}                                                  \\ \hline
-\multicolumn{1}{|l|}{Správa informací pro veřejnost} & \multicolumn{1}{c|}{3}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Novinky, informace k přijímacímu \\ řízení, školní akce\end{tabular}}                                                      \\ \hline
-\multicolumn{1}{|l|}{Správa školních akcí}           & \multicolumn{1}{c|}{4}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Elektronické přihlašování na akce \\ pořádané školou\end{tabular}}                                                         \\ \hline
-\multicolumn{1}{|l|}{Správa maturitních zkoušek}     & \multicolumn{1}{c|}{8}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Data, účasti, místnosti, přepis \\ místností, maturitní projekty\end{tabular}}                                             \\ \hline
-\multicolumn{1}{|l|}{Správa přijímacího řízení}      & \multicolumn{1}{c|}{2}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Identifikační údaje, kola, ukončené\\ vzdělání, studijní výsledky\end{tabular}}                                            \\ \hline
-\multicolumn{1}{|l|}{Spolupráce s průmyslem}         & \multicolumn{1}{c|}{2}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Nabídky prací pro žáky, \\ spolupráce s průmyslem\end{tabular}}                                                            \\ \hline
-\multicolumn{1}{|l|}{Číselníky MŠMT a NUTS}          & \multicolumn{1}{c|}{15}             & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Číselníky pro předávání \\ individuálních údajů ze školních\\ matrik státní správě, nomenklatura \\územních statistických jednotek\end{tabular}}                           \\ \hline
-\multicolumn{1}{|l|}{Ostatní}                        & \multicolumn{1}{c|}{6}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Číselné kódy zemí, anonymizační\\ číselníky, variabilní symboly bank \\bezpečnostní evidence\end{tabular}}                                         \\ \hline
-\multicolumn{1}{r}{\textbf{SUMA}}                    & 74                                  &                                                                                                                                                                          
-\end{tabular}
-\caption{Evidence druhů entit v relačním modelu databáze}
-\label{analysis:db-model}
-\end{table}
+%\begin{table}[H]
+%\begin{tabular}{lcl}
+%\hline
+%\multicolumn{1}{|l|}{\textbf{Druh}}                  & \multicolumn{1}{c|}{\textbf{Počet}} & \multicolumn{1}{l|}{\textbf{Užití}}                                                                                                                                       \\ \hline
+%\multicolumn{1}{|l|}{Žákovská správa}                & \multicolumn{1}{c|}{16}             & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Identifikační údaje, rodiče, absence,\\ třídy, skupiny, certifikace, zdravotní\\ záznamy, specifické potřeby\end{tabular}} \\ \hline
+%\multicolumn{1}{|l|}{Zaměstnanecká správa}           & \multicolumn{1}{c|}{5}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Identifikační údaje, typ úvazku,\\ třídnictví, kabinet\end{tabular}}                                                       \\ \hline
+%\multicolumn{1}{|l|}{Správa rozvrhů}                 & \multicolumn{1}{c|}{3}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Úvazky zaměstnanců, rozvrhy \\ učeben, rozvrhy tříd\end{tabular}}                                                          \\ \hline
+%\multicolumn{1}{|l|}{Správa budovy}                  & \multicolumn{1}{c|}{2}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Kabinety, učebny, technické místnosti,\\ kanceláře, správa kanceláří\end{tabular}}                                         \\ \hline
+%\multicolumn{1}{|l|}{Správa předmětů}                & \multicolumn{1}{c|}{5}              & \multicolumn{1}{l|}{Předměty, akreditace, tématické plány}                                                                                                                \\ \hline
+%\multicolumn{1}{|l|}{Správa souborového systému}     & \multicolumn{1}{c|}{3}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Soubory k novinkám, certifikáty,\\ administrativní dokumenty\end{tabular}}                                                  \\ \hline
+%\multicolumn{1}{|l|}{Správa informací pro veřejnost} & \multicolumn{1}{c|}{3}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Novinky, informace k přijímacímu \\ řízení, školní akce\end{tabular}}                                                      \\ \hline
+%\multicolumn{1}{|l|}{Správa školních akcí}           & \multicolumn{1}{c|}{4}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Elektronické přihlašování na akce \\ pořádané školou\end{tabular}}                                                         \\ \hline
+%\multicolumn{1}{|l|}{Správa maturitních zkoušek}     & \multicolumn{1}{c|}{8}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Data, účasti, místnosti, přepis \\ místností, maturitní projekty\end{tabular}}                                             \\ \hline
+%\multicolumn{1}{|l|}{Správa přijímacího řízení}      & \multicolumn{1}{c|}{2}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Identifikační údaje, kola, ukončené\\ vzdělání, studijní výsledky\end{tabular}}                                            \\ \hline
+%\multicolumn{1}{|l|}{Spolupráce s průmyslem}         & \multicolumn{1}{c|}{2}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Nabídky prací pro žáky, \\ spolupráce s průmyslem\end{tabular}}                                                            \\ \hline
+%\multicolumn{1}{|l|}{Číselníky MŠMT a NUTS}          & \multicolumn{1}{c|}{15}             & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Číselníky pro předávání \\ individuálních údajů ze školních\\ matrik státní správě, nomenklatura \\územních statistických jednotek\end{tabular}}                           \\ \hline
+%\multicolumn{1}{|l|}{Ostatní}                        & \multicolumn{1}{c|}{6}              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Číselné kódy zemí, anonymizační\\ číselníky, variabilní symboly bank \\bezpečnostní evidence\end{tabular}}                                         \\ \hline
+%\multicolumn{1}{r}{\textbf{SUMA}}                    & 74                                  &                                                                                                                                                                          
+%\end{tabular}
+%\caption{Evidence druhů entit v relačním modelu databáze}
+%label{analysis:db-model}
+%\end{table}
 
-\newpage
-
-Databázi spravuje jediný člověk a tím je současný správce IS, ředitel školy.
-
+%top\newpage
 
 \chapter{Diskuse}
 \section{Porovnání výsledků s původními hypotézami a otázkami práce}
@@ -1124,97 +1126,200 @@ Za předpokladu přechodu na systém Bakaláři je třeba započítat náklady n
 započítat náklady na licenci, která se platí ročně.
 
 \begin{table}[H]
-    \begin{tabular}{lccccc}
-    \multicolumn{1}{c}{\textbf{Druh nákladu}}                                                & \textbf{\begin{tabular}[c]{@{}c@{}}Personál \\ {[}osoba{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Doba \\ {[}h{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Člověko-\\ hodiny\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Cena\\ práce\\ {[}Kč/hod{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Skutečná \\ cena {[}Kč{]}\end{tabular}} \\ \hline
-    \textbf{Migrace dat}                                                                     & 3                                                                        & 40                                                               & 120                                                                & 500.45 {[}1{]}                                                               & 60054.00                                                                   \\
-    \textbf{\begin{tabular}[c]{@{}l@{}}Rekonfigurace školních \\ subsystémů\end{tabular}}                                                  & 5                                                                        & 40                                                               & 200                                                                & 292.76 {[}2{]}                                                               & 58552.00                                                                   \\
-    \textbf{Školení pedagogů}                                                                & 72                                                                       & 8                                                                & 576                                                                & 292.76 {[}2{]}                                                               & 168629.76                                                                  \\
-    \textbf{\begin{tabular}[c]{@{}l@{}}Školení specializovaných \\ zaměstnanců\end{tabular}} & 34                                                                       & 8                                                                & 272                                                                & 292.76 {[}2{]}                                                               & 79630.72                                                                   \\
-    \textbf{Školení vedení školy}                                                            & 6                                                                        & 8                                                                & 48                                                                 & 292.76 {[}2{]}                                                               & 14052.48                                                                   \\ \hline
-    \textbf{SOUČET}                                                                          & 117                                                                      & 80                                                               & 1928                                                               & \multicolumn{1}{l}{}                                                         & \multicolumn{1}{l}{380918.96}                                             
+    \centering
+    \begin{tabular}{lccc}
+    \multicolumn{1}{c}{\textbf{Druh nákladu}}                                                           & \begin{tabular}[c]{@{}c@{}}Délka výkonu \\ {[}den{]}\end{tabular} & Man-day              & \begin{tabular}[c]{@{}c@{}}Skutečná \\ cena\end{tabular} \\ \hline
+    \textbf{Migrace dat}                                                                                & 5                                                                 & 12000                & 60000                                                    \\
+    \textbf{Rekonfigurace školních subsystémů}                                                          & 5                                                                 & 2500                 & 12500                                                    \\
+    \textbf{Lektor pro školení pedagogů}                                                                & 1                                                                 & 2500                 & 2500                                                     \\
+    \textbf{\begin{tabular}[c]{@{}l@{}}Lektor pro školení \\ specializovaných zaměstnanců\end{tabular}} & 1                                                                 & 2500                 & 2500                                                     \\
+    \textbf{Lektor pro školení vedení školy}                                                            & 1                                                                 & 2500                 & 2500                                                     \\ \hline
+    \textbf{SOUČET}                                                                                     & 13                                                                & \multicolumn{1}{l}{} & 80000                                                   
     \end{tabular}
-\end{table}
 
-\begin{table}[]
-    \begin{tabular}{lcccc}
-    \multicolumn{1}{c}{\textbf{Druh nákladu}}                                                & \textbf{\begin{tabular}[c]{@{}c@{}}Personál \\ {[}osoba{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Doba \\ {[}h{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Cena\\ práce\\ {[}Kč/hod{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Skutečná \\ cena {[}Kč{]}\end{tabular}} \\ \hline
-    \textbf{Migrace dat}                                                                     & 3                                                                        & 40                                                               & 445.09 {[}1{]}                                                               & 53410.8                                                                    \\
-    \textbf{Rekonfigurace školních systémů}                                                  & 5                                                                        & 40                                                               & 292.76 {[}2{]}                                                               & 58552.00                                                                   \\
-    \textbf{Školení pedagogů}                                                                & 72                                                                       & 8                                                                & 292.76 {[}2{]}                                                               & 168629.76                                                                  \\
-    \textbf{\begin{tabular}[c]{@{}l@{}}Školení specializovaných \\ zaměstnanců\end{tabular}} & 29                                                                       & 8                                                                & 292.76 {[}2{]}                                                               & 67920.32                                                                   \\
-    \textbf{Školení vedení školy}                                                            & 6                                                                        & 8                                                                & 292.76 {[}2{]}                                                               & 14052.48                                                                   \\ \hline
-    \textbf{SOUČET}                                                                          & 117                                                                      & 80                                                               & \multicolumn{1}{l}{}                                                         & \multicolumn{1}{l}{362565.36}                                             
-    \end{tabular}
-    
-    \caption{Tabulka ekonomické kalkukace přechodu na systém Bakaláři. Výpočet hodnot
-    [1] a [2] je uveden v odstavci pod tabulkou.}
+    \caption{Tabulka ekonomické kalkulace přechodu na systém Bakaláři. 
+    Délky úkonů a ceny práce (Man-day) jsou odhadnuty.}
     \label{analysis:ekonomicka-kalkulace-prechod-bakalari}
-
 \end{table}
+
+Z tabulky \ref{analysis:ekonomicka-kalkulace-prechod-bakalari} práce je možné vyčíst,
+že celková cena přechodu na IS bakaláři by byla 80 000 Kč. Do této částky nespadá 
+přeprogramování subsystémů, které na současném IS běží, pouze rekonfiguraci.
 
 % https://www.platy.cz/platy/informacni-technologie/databazovy-administrator
 % (44294+98135)/2 = 71214.5
 % 160hod/mo -> 71214.5/160 = 445.09
-
 % https://www.mesec.cz/clanky/platy-ucitelu-narust/
 % 46843/160 = 292.76
+% V této kalkulaci předpokládáme, že migrace dat proběhne v rámci 40 hodin 3 zaměstnanců,
+% kterým bude vyplácen průměrná mzda v oboru IT, který se pohybuje od 45 360 Kč do
+% 114 784 Kč \cite{platy-it}. Pro výpočet průměrné hodinové mzdy použijeme průměr těchto
+% hodnot a pro přepočet na hodinovou mzdu vydělíme průměrnou měsíční mzdu počtem hodin,
+% tj. 160.
+% 
+% \begin{samepage}
+% Pro výpočet je použit vzorec
+% $$\frac{MIN\ CENA + MAX\ CENA}{2*POCET\ HODIN} = CENA\ PRACE$$
+% 
+% Což při aplikaci je:
+% $$\frac{45\ 360 + 114\ 784}{2*160} = 500,45$$
+% \end{samepage}
+% 
+% Cena průměrné hodinové mzdy učitele je vypočtena z průměrné mzdy učitele, tedy 46 843 Kč
+% \cite{platy-skolstvi}, která je přepočtena na hodinovou mzdu vydělenou počtem pracovních
+% hodin v měsíci.
+% 
+% \begin{samepage}
+%     Pro výpočet je použit vzorec
+%     $$\frac{MESICNI\ MZDA}{POCET\ HODIN} = CENA\ PRACE$$
+%     
+%     Což při aplikaci je:
+%     $$\frac{46\ 843}{160} = 292,76$$
+% \end{samepage}
+% 
+% Počet osob na migraci dat je odhadnut na 3. K rekonfiguraci jsou započteni koordinátoři 
+% ICT, správce sítě a jeden člen vedení školy s technickou způsobilostí a přehledem o IS.
+% Počet pedagogů je zadán na základě výroční zprávy školy ze školního roku 2022/2023 
+% \cite{spsejecna-vyrocni-zprava-2022-2023}, tedy 72. Specializovaní zaměstnanci se 
+% aktuálně skládají z 22 třídních učitelů, metodikovi prevence, 2 výchovných poradců, 
+% 2 koordinátorů ICT, koordinátorovi ŠVP, správci sítě o celkovém počtu 29.
+% Počet členů vedení školy je 6: ředitel školy, 3 zástupci ředitele a 2 výchovné poradkyně.
+% 
+% V celé kalkulaci předpokládáme, že migrace dat bude prováděna externě, mimo pracovníky
+% školy. Toto je z důvodu, že škola nemá dostatek kapacit pro provádění této činnosti.
+% Rekonfigurace školních systémů je v rámci správce ICT či správce sítě a tedy 
+% předpokládáme průměrnou mzdu pedagogického pracovníka pro jednoduchost výpočtu.
+% To samé platí pro specializovaných zaměstnanců a vedení školy.
 
-V této kalkulaci předpokládáme, že migrace dat proběhne v rámci 40 hodin 3 zaměstnanců,
-kterým bude vyplácen průměrná mzda v oboru IT, který se pohybuje od 45 360 Kč do
-114 784 Kč \cite{platy-it}. Pro výpočet průměrné hodinové mzdy použijeme průměr těchto
-hodnot a pro přepočet na hodinovou mzdu vydělíme průměrnou měsíční mzdu počtem hodin,
-tj. 160.
-
-\begin{samepage}
-Pro výpočet je použit vzorec
-$$\frac{MIN\ CENA + MAX\ CENA}{2*POCET\ HODIN} = CENA\ PRACE$$
-
-Což při aplikaci je:
-$$\frac{45\ 360 + 114\ 784}{2*160} = 500,45$$
-\end{samepage}
-
-Cena průměrné hodinové mzdy učitele je vypočtena z průměrné mzdy učitele, tedy 46 843 Kč
-\cite{platy-skolstvi}, která je přepočtena na hodinovou mzdu vydělenou počtem pracovních
-hodin v měsíci.
-
-\begin{samepage}
-    Pro výpočet je použit vzorec
-    $$\frac{MESICNI\ MZDA}{POCET\ HODIN} = CENA\ PRACE$$
-    
-    Což při aplikaci je:
-    $$\frac{46\ 843}{160} = 292,76$$
-\end{samepage}
-
-Počet osob na migraci dat je odhadnut na 3. K rekonfiguraci jsou započteni koordinátoři 
-ICT, správce sítě a jeden člen vedení školy s technickou způsobilostí a přehledem o IS.
-Počet pedagogů je zadán na základě výroční zprávy školy ze školního roku 2022/2023 
-\cite{spsejecna-vyrocni-zprava-2022-2023}, tedy 72. Specializovaní zaměstnanci se 
-aktuálně skládají z 22 třídních učitelů, metodikovi prevence, 2 výchovných poradců, 
-2 koordinátorů ICT, koordinátorovi ŠVP, správci sítě o celkovém počtu 29.
-Počet členů vedení školy je 6: ředitel školy, 3 zástupci ředitele a 2 výchovné poradkyně.
-
-V celé kalkulaci předpokládáme, že migrace dat bude prováděna externě, mimo pracovníky
-školy. Toto je z důvodu, že škola nemá dostatek kapacit pro provádění této činnosti.
-Rekonfigurace školních systémů je v rámci správce ICT či správce sítě a tedy 
-předpokládáme průměrnou mzdu pedagogického pracovníka pro jednoduchost výpočtu.
-To samé platí pro specializovaných zaměstnanců a vedení školy.
-
-V tabulce \ref{analysis:ekonomicka-kalkulace-prechod-bakalari} jsou uvedeny výsledky 
-ekonomické kalkulace přechodu na systém Bakaláři. Celkové náklady činí 
-362 918,96 Kč.
+% V tabulce \ref{analysis:ekonomicka-kalkulace-prechod-bakalari} jsou uvedeny výsledky 
+% ekonomické kalkulace přechodu na systém Bakaláři. Celkové jednorázové náklady činí 
+% 362 918,96 Kč.
 
 \subsection{Zachování současného IS}
-Další variantou jak s IS pokračovat je zanechání současného systému a doprogramování nových 
-klíčových funcionalit, bez kterých se moderní systém neobejde. V tom případě je třeba vybrat
-funkcionality, které chybí oproti referenčnímu systému Bakaláři a vyhodnotit, zda-li je
-pro dnešní požadavky klíčová a vyhodnotit jejich závislosti, které budou třeba implementovat.
+V rámci uvažování o budoucím směřování Ječná IS stojí za zvážení varianta udržení stávajícího 
+systému s cíleným doplněním nových funkcionalit. Tento přístup vyžaduje evaluaci a porovnání 
+stávajícího systému s referenčními systémy, zejména s IS Bakaláři, a stanovení priorit 
+v kontextu aktuálních a budoucích požadavků školního prostředí.
 
+V následující tabulce jsou prezentovány prioritní oblasti pro doplnění nebo vylepšení
+ve stávajícím IS, s ohledem na jejich kritický význam pro efektivní fungování školy.
 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|c|}
+    \hline
+    \textbf{FUNKCIONALITA/IS}  & \textbf{Ječná IS} \\ \hline
+    Integrace spisových služeb & \ccrossmark        \\ \hline
+    Suplování                  & \textbf{3}        \\ \hline
+    Zamlouvání učeben          & \ccrossmark        \\ \hline
+    Správa žákovských skupin   & \textbf{4}        \\ \hline
+    Elektronická třídnice      & \textbf{2}        \\ \hline
+    Offline režim              & \ccrossmark        \\ \hline
+    Responzivní design         & \textbf{1}        \\ \hline
+    Mobilní aplikace           & \ccrossmark        \\ \hline
+    \end{tabular}
+    \caption{Neimplementované požadavky v Ječná IS proti IS Bakaláři. 
+    Čísla označují prioritu, kde 1 je nejvyšší.}
+    \label{analysis:priorities}
+\end{table}
 
+Po důkladné analýze a porovnání stávajícího informačního systému Ječná IS 
+s referenčním systémem Bakaláři, byly identifikovány klíčové funkcionality,
+které absentují v současném systému Ječná IS nebo nedostatečně rozvinuté.
+Tabulka \ref{analysis:priorities} poskytuje přehled těchto funkcionalit 
+a jejich stanovených priorit, což je zásadní pro určení směru budoucího
+rozvoje IS. Prioritizace těchto funkcí reflektuje nejen aktuální požadavky
+a potřeby školního prostředí, ale také zohledňuje potenciál pro zvýšení 
+efektivity a celkové funkčnosti systému.
+
+V následujícím dependency diagramu je podrobně ilustrována síť závislostí
+a vzájemných vztahů mezi funkcionalitami, které jsou nezbytné pro úspěšnou
+implementaci elektronické třídnice v IS Ječná. Diagram nejenže zobrazuje 
+logické propojení mezi jednotlivými funkcemi, ale také slouží jako vizuální 
+reprezentace důvodů stanovení jejich priorit. Elektronická třídnice zde 
+figuruje jako základní prvek, jehož efektivní fungování je závislé na 
+úspěšné integraci dalších funkcí, jako jsou suplování a správa žákovských skupin. 
+Diagram poskytuje hlubší porozumění proč konkrétní funkce byly prioritizovány.
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth-28pt]{dep-eltridnice.png}
+    \caption{Dependency diagram funkcionalit}
+    \label{fig:dep-eltridnice}
+\end{figure}
+
+Následuje rozbor jednotlivých funkcionalit, které jsou byly vyhodnoceny jako prioritní:
+\begin{itemize}
+    \item \textbf{Responzivní design:} Vzhledem k rostoucí diverzifikaci zařízení používaných
+    jak studenty, tak učiteli, se responzivní design jeví jako zásadní pro zajištění univerzální
+    přístupnosti IS. Tento prvek je klíčový pro implementaci dalších potřebných funkcionalit z
+    hlediska efektivity. Nové prvky v IS již budou v novém vzhledu a nebude poté potřeba 
+    redesignovat nedávno implementované.
+
+    \item \textbf{Elektronická třídnice:} Digitalizace třídních záznamů a administrativních 
+    procesů je nezbytná pro zefektivnění vzdělávacího procesu a pro poskytují aktuálních informací
+    přímo na webu, nikoliv v papírových sešitech.
+
+    \item \textbf{Suplování:} Efektivní řešení pro suplování je klíčové pro implementaci 
+    elektronické třídnice. Nelze evidovat odučené učivo v nekonzistentních a nesprávných datech.
+
+    \item \textbf{Správa žákovských skupin:} Žákovské skupiny jsou podmnožinou tříd. Jejich 
+    správa žákovských skupin je opět nutná pro elektronickou třídnici pro zajištění správnosti
+    a konzistence záznamů. Také podporuje individualizovaný přístup k výuce a umožňuje 
+    efektivnější alokaci vzdělávacích zdrojů.
+\end{itemize}
+
+Další dvě funkcionality nebyly nativně vyhodnoceny jako priority, protože jsou součástí 
+funkcionality: Elektronická třídnice.
+\begin{itemize}
+    \item \textbf{Generátor úvazků:} V současné době je třeba od všech pedagogů získat data
+    o zájmu velikosti úvazku (počet odučených hodin za týden) a žádostí o úpravu rozvrhu na 
+    další školní rok. Tato data jsou ručně kontrolována a evidována. Následně se přiřazují 
+    předměty, třídy a hodiny jednotlivým učitelům na získaných dat o úvazku základě kompetencí
+    pedagoga. Toto by bylo avšak možné automatizovat a úvazky na základě získaných generovat.
+
+    \item \textbf{Generovaný rozvrh:} Nyní se rozvrh ručně vytvoří v dedikovaném programu a 
+    následně se nahraje do IS. Pro elektronickou třídnici bude třeba vytvořit rozvrh na každý 
+    den unikátní, který bude odpovídat týdennímu, navrženému rozvrhu a změnám v suplování.
+\end{itemize}
 
 \chapter{Závěr}
 \section{Shrnutí klíčových zjištění}
+Tato práce představuje komplexní analýzu ŠIS Ječná a jeho potenciální modernizace. Z analýzy
+vyplývá, že zachování a rozšíření stávajícího systému Ječná IS je nejvýhodnější variantou. 
+Klíčová zjištění jsou následující:
+
+\begin{itemize}
+    \item unikátní vlastnosti Ječná IS: systém nabízí řadu specifických funkcí, 
+    které jsou na míru vytvořené školním potřebám, a které nejsou v plné míře obsaženy 
+    v konkurenčních systémech;
+    \item nutnost modernizace: přestože systém vykazuje unikátní charakteristiky, 
+    je zřejmé, že vyžaduje modernizaci, zejména ve smyslu rozvoje responzivního designu,
+    a integrace nových klíčových funkcí, jako je suplování a správa žákovských skupin či
+    elektronická třídnice;
+    \item ekonomická efektivita: analýza ukázala, že i přes počáteční investici do 
+    modernizace, je zachování a rozšíření stávajícího Ječná IS ekonomicky efektivnější 
+    oproti úplnému přechodu na nový systém, vzhledem k zachování unikátních funkcí a 
+    minimalizaci potřeby školení personálu.
+\end{itemize}
+
 \section{Závěrečné úvahy a doporučení pro budoucí praxi a práce}
+Na základě zjištění vyplývající z analýzy je možné pokračovat v návrhu rozvoje a 
+modernizace stávajícího systému Ječná IS. Tento proces by měl zahrnovat:
+
+\begin{itemize}
+    \item doplnění chybějících funkcí: zaměřit se na rozvoj a implementaci prioritních funkcí,
+    které zvyšují efektivitu a uživatelský komfort, a které jsou klíčové pro moderní 
+    školní prostředí;
+    \item zaměření na mobilní technologie: rozvíjet responzivní design, aby systém lépe 
+    vyhovoval současným trendům a potřebám uživatelů;
+    \item budoucí výzkum a vývoj: v dalších pracích se zaměřit na návrh a implementaci 
+    nových inovativních řešení, které budou reagovat na neustále se měnící technologické 
+    a vzdělávací trendy.
+\end{itemize}
+
+Tato práce poskytla základ pro další diskuzi a rozvoj v oblasti školních informačních systémů 
+a ukázala, že cesta modernizace stávajícího systému je životaschopnou a efektivní strategií 
+pro budoucí rozvoj.
 
 \chapter{Reference}
 \printbibliography[heading=none]
