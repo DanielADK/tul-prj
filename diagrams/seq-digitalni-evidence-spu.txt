@@ -13,8 +13,8 @@ Zak -> Skola: Přinese posudek do školy
 
 Skola -> Ucitel: Zadá posudek do IS
 Skola -> Skola: Hlídá expiraci
-Skola -> Skola: Upravuje přístup ke vzdělávání
+Skola -> Skola: Upravuje přístup\nke vzdělávání
 
-Ucitel -> Ucitel: Čte zpracované informace o posudku
+Ucitel -> Ucitel: Čte zpracované informace\no posudku
 Ucitel -> Ucitel: Čte celý posudek
 @enduml

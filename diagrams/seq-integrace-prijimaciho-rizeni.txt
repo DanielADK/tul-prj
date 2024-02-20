@@ -9,7 +9,7 @@ Reditel -> Reditel: Určuje kapacitu školo-oboru
 Rodic -> CERMAT: Podá přihlášku
 
 CERMAT -> CERMAT: Spáruje školu a uchazeče
-Reditel -> CERMAT: Poskytne informace o kapacitě a uchazečích
+Reditel -> CERMAT: Poskytne informace\no kapacitě a uchazečích
 
 Zak -> Zak: Vykoná JPZ
 CERMAT -> Reditel: Rozhodne o přijetí
